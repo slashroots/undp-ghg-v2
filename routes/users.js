@@ -39,7 +39,7 @@ passport.use(new LocalStrategy({
   },
   function(req, username, password, done) {
     User.findOne({
-        us_username: username
+        us_email_address: username
       }, 'us_username ' +
       'us_user_first_name us_user_last_name us_email_address us_contact ' +
       'us_user_role us_state us_password',
@@ -93,8 +93,13 @@ router.post('/user', function(req, res, next) {
     }
   });
 });
-// User.findOne({us_username: 'matjames007'}, function(err, user) {
-//   console.log(err, user);
-// });
+
+/**
+kill the session
+**/
+router.get('/logout', function(req, res, next) {
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = router;
