@@ -16,4 +16,9 @@ router.get('/home', function(req, res, next) {
   }
 });
 
+/*registration page*/
+router.get('/user-flow/registration', function(req, res, next) {
+  res.render('user-flow/registration', { title: 'Greenhouse Gas Database' });
+});
+
 module.exports = router;
