@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-mongoose.connect("mongodb://localhost:27017/undp-ghg");
-//mongoose.connect(process.env.MONGODB_URI);
+//mongoose.connect("mongodb://localhost:27017/undp-ghg");
+mongoose.connect(process.env.MONGODB_URI);
 
 
 /**
