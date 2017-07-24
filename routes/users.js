@@ -40,7 +40,7 @@ passport.use(new LocalStrategy({
   function(req, username, password, done) {
     User.findOne({
         us_email_address: username
-      }, 'us_username ' +
+      },
       'us_user_first_name us_user_last_name us_email_address us_contact ' +
       'us_user_role us_state us_password',
       function(err, user) {
@@ -74,6 +74,20 @@ passport.serializeUser(function(user, done) {
 });
 passport.deserializeUser(function(user, done) {
   done(null, user);
+});
+
+
+router.post('/user-registration', function(req, res, next) {
+  var user = new User(req.body);
+  user.us_activation_token = common.getRandomToken();
+  user.save(function(err) {
+    console.log(err);
+    if (err) {
+      next(err);
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 

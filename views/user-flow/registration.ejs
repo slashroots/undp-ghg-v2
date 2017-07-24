@@ -48,23 +48,24 @@
       </div>
       <div class="contentcol createnew w-col w-col-8">
         <div class="w-form">
-          <form data-name="Email Form" data-redirect="/error-message" id="email-form" name="email-form" redirect="/error-message">
+          <form data-name="Email Form" action="/user-registration" method="post" id="reg-form" name="email-form" redirect="/error-message">
             <div class="createnew form-flex"><img class="field-icon" src="/images/User-Icon.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="First-Name">First Name</label><input class="text-field w-input" data-ix="showlabel" data-name="First Name" id="First-Name" maxlength="256" name="First-Name" placeholder="First Name" type="text"></div>
+              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="First-Name">First Name</label><input class="text-field w-input" data-ix="showlabel" data-name="First Name" id="us_user_first_name" maxlength="256" name="us_user_first_name" placeholder="First Name" type="text"></div>
             </div>
             <div class="createnew form-flex"><img class="field-icon hidden" src="/images/Mail-Icon_hidden.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Last-Name">Last Name</label><input class="text-field w-input" data-ix="showlabel" data-name="Last Name" id="Last-Name" maxlength="256" name="Last-Name" placeholder="Last Name" type="text"></div>
+              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Last-Name">Last Name</label><input class="text-field w-input" data-ix="showlabel" data-name="Last Name" id="us_user_last_name" maxlength="256" name="us_user_last_name" placeholder="Last Name" type="text"></div>
             </div>
             <div class="createnew form-flex"><img class="field-icon" src="/images/Mail-Icon.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Email-2">Email</label><input class="text-field w-input" data-ix="showlabel" data-name="Email" id="Email-2" maxlength="256" name="Email" placeholder="Email" type="email"></div>
+              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Email-2">Email</label><input class="text-field w-input" data-ix="showlabel" data-name="Email" id="Email-2" maxlength="256" name="us_email_address" placeholder="Email" type="us_email_address"></div>
             </div>
             <div class="form-flex password"><img class="field-icon" src="/images/Password-Icon.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Password">Password</label><input class="text-field w-input" data-ix="showlabel" data-name="Password" id="Password" maxlength="256" name="Password" placeholder="Password" type="text">
+              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Password">Password</label><input class="text-field w-input" data-ix="showlabel" data-name="Password" id="us_password" maxlength="256" name="us_password" placeholder="Password" type="text">
                 <div class="help-text">Passwords must be 8 characters or longer, with at least 1 capital letter.</div>
               </div>
             </div>
             <div class="button-flex"><a class="show" href="#">Show Password</a></div>
-            <div class="button-flex createnew w-clearfix"><a class="cancel-button w-button" href="undp-ghg.html">Cancel</a><input class="submit-button w-button" data-wait="Sending Link..." type="submit" value="Send Link"></div>
+            <div class="button-flex createnew w-clearfix"><a class="cancel-button w-button" href="/">Cancel</a>
+              <input class="submit-button w-button" data-wait="Sending Link..." href="javascript:{}" onclick="document.getElementById('reg-form').submit();" type="submit" value="Send Link"></div>
           </form>
           <div class="w-form-done">
             <div>Thank you! Your submission has been received!</div>

@@ -12,7 +12,10 @@ router.get('/home', function(req, res, next) {
   if(!req.user) {
     res.redirect('/');
   } else {
-    res.render('index', { title: 'Greenhouse Gas Database' });
+    res.render('index', {
+      title: 'Greenhouse Gas Database',
+      user: req.user
+    });
   }
 });
 
