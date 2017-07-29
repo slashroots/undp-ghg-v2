@@ -9,6 +9,7 @@ var passport = require('passport');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var api = require('./routes/data-api/router-api');
 var db = require('./model/db.js');
 
 var app = express();
@@ -29,7 +30,7 @@ app.use(passport.session());
 
 app.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/home',
+    successRedirect: '/home/',
     failureRedirect: '/'
   })
 );
@@ -44,6 +45,7 @@ app.use(logger('dev'));
 
 app.use('/', index);
 app.use('/', users);
+app.use('/', api);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

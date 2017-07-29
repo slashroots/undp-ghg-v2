@@ -1,0 +1,29 @@
+{
+  "name": "undp-ghg-v2",
+  "description": "UNDP Greenhouse Gases Database v2",
+  "main": "",
+  "authors": [
+    "Matthew Budram <matjames007@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Greenhouse"
+  ],
+  "homepage": "https://github.com/slashroots/undp-ghg-v2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.6.5",
+    "angular-resource": "^1.6.5",
+    "angular": "^1.6.5",
+    "html5shiv": "^3.7.3",
+    "jquery": "^3.2.1"
+  }
+}

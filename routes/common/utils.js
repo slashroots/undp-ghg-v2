@@ -7,3 +7,51 @@ var Crypto = require('crypto');
 exports.getRandomToken = function() {
     return Crypto.randomBytes(64).toString('hex');
 };
+
+exports.ADMIN = 'admin';
+exports.MANAGER = 'manager';
+exports.REPORTER = 'reporter';
+exports.SECTOR_EXPERT = 'sector';
+
+hasPermissions = function(req, res, next, access) {
+  if (req.isAuthenticated()) {
+    if (access == req.user.us_user_role) {
+      return next();
+    } else {
+      var error = new Error("Authorization Necessary " +
+        "- Must have " + access + " permissions");
+      error.status = 401;
+      return next(error);
+    }
+  } else {
+    var error = new Error("Authentication Necessary - Protected Resource");
+    error.status = 401;
+    return next(error);
+  }
+};
+
+exports.isAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    var error = new Error("Authentication Necessary - Protected Resource");
+    error.status = 401;
+    return next(error);
+  }
+};
+
+exports.isAdmin = function(req, res, next) {
+  return hasPermissions(req, res, next, exports.ADMIN);
+};
+
+exports.isManager = function(req, res, next) {
+  return hasPermissions(req, res, next, exports.MANAGER);
+};
+
+exports.isReporter = function(req, res, next) {
+  return hasPermissions(req, res, next, exports.REPORTER);
+};
+
+exports.isSectorExpert = function(req, res, next) {
+  return hasPermissions(req, res, next, exports.SECTOR_EXPERT);
+};

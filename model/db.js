@@ -30,4 +30,34 @@ var UserSchema = new Schema({
     us_activation_token: {type: String, required: true}
 });
 
+/**
+  * Category that conforms to the IPCC model
+  **/
+var CategorySchema = new Schema({
+  ca_code: {type: String, required: true},
+  ca_code_name: {type: String, required: true},
+  ca_code_parent: {type: Schema.Types.ObjectId, required: false},
+  ca_code_definition: {type: String, required: false}
+});
+
+/**
+  * The grouping of each Sector
+  */
+var SectorSchema = new Schema({
+  se_name: {type: String, required: true},
+  se_description: {type: String, required: true},
+  se_name_short_code: {type: String, required: true}
+});
+
+/**
+  * Gases Managed by the Database
+  */
+var GasSchema = new Schema({
+  ga_gas_name: {type: String, required: true},
+  ga_chem_formula: {type: String, required: true}
+});
+
 exports.User = mongoose.model('User', UserSchema);
+exports.Category = mongoose.model('Category', CategorySchema);
+exports.Gases = mongoose.model('Gas', GasSchema);
+exports.Sector = mongoose.model('Sector', SectorSchema);

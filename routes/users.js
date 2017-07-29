@@ -76,12 +76,13 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-
+/**
+User Registration form submission
+**/
 router.post('/user-registration', function(req, res, next) {
   var user = new User(req.body);
   user.us_activation_token = common.getRandomToken();
   user.save(function(err) {
-    console.log(err);
     if (err) {
       next(err);
     } else {
