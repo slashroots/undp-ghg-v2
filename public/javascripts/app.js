@@ -1,4 +1,4 @@
-var app = angular.module("undp-ghg-v2", ["ngRoute"]);
+var app = angular.module("undp-ghg-v2", ["ngRoute", "undp-ghg-v2.services"]);
 
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');

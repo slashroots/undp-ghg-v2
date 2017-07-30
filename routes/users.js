@@ -92,6 +92,14 @@ router.post('/user-registration', function(req, res, next) {
 });
 
 
+/**
+  * Send currently authenticated user to the requester.
+  */
+router.get('/user', function(req, res, next) {
+  res.send(req.user);
+})
+
+
 
 /**
   Create user in the user collection
