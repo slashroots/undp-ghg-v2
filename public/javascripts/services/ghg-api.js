@@ -46,14 +46,55 @@ services.factory('SectorFactory', function($resource) {
   });
 });
 
+/*
+  Manipulate Inventory
+*/
+services.factory('InventoryFactory', function($resource) {
+  return $resource('/api/inventory/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
+
 /**
   * Request currently authenticated user details.
   */
 services.factory('UserFactory', function($resource) {
   return $resource('/user', {}, {
-    query: {
+    get: {
       method: 'GET',
       isArray: false
+    }
+  });
+});
+
+services.factory('GasFactory', function($resource) {
+  return $resource('/api/gas/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
     }
   });
 });

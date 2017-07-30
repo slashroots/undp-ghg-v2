@@ -34,7 +34,7 @@ var UserSchema = new Schema({
   * Category that conforms to the IPCC model
   **/
 var CategorySchema = new Schema({
-  ca_code: {type: String, required: true},
+  ca_code: {type: String, required: true, unique: true},
   ca_code_name: {type: String, required: true},
   ca_code_parent: {type: Schema.Types.ObjectId, required: false},
   ca_code_definition: {type: String, required: false}
@@ -54,10 +54,20 @@ var SectorSchema = new Schema({
   */
 var GasSchema = new Schema({
   ga_gas_name: {type: String, required: true},
-  ga_chem_formula: {type: String, required: true}
+  ga_chem_formula: {type: String, required: true},
+  ga_gas_gwp: {type: String, required: true}
 });
+
+var InventorySchema = new Schema({
+  in_name: {type: String, required: true},
+  in_inventory_desc: {type: String, required: true},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  in_date: {type: Date, default: Date.now()},
+  in_status: {type: String, default: "opened"}
+})
 
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
-exports.Gases = mongoose.model('Gas', GasSchema);
+exports.Gas = mongoose.model('Gas', GasSchema);
 exports.Sector = mongoose.model('Sector', SectorSchema);
+exports.Inventory = mongoose.model('Inventory', InventorySchema);

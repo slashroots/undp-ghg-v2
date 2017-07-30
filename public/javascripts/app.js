@@ -5,5 +5,8 @@ app.config(function($routeProvider, $locationProvider) {
   $routeProvider
     .when("/", {
       templateUrl: "../partials/inventory/empty-inventory.html"
-    });
+    })
+    .when("/settings", {
+      templateUrl: "../partials/inventory/settings.html"
+    })
 });

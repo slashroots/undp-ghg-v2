@@ -1,3 +1,7 @@
+/**
+  * Navigation related controller and functionality
+  */
+
 angular.module('undp-ghg-v2')
 .controller('NavigationController', ['$scope', 'UserFactory',
   function($scope, UserFactory) {
