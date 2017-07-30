@@ -1,0 +1,31 @@
+<div class="add-category new-inventory-modal" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
+  <div class="openinv-wrapper">
+    <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#"><img src="../images/Close-Icon.png" width="12"></a></div>
+    <div class="dialog-header">Add IPCC Category</div>
+    <div class="w-form">
+      <form class="modal-form w-clearfix" data-name="Email Form" data-redirect="/settings/inventory-settings-open" id="email-form" name="email-form" redirect="/settings/inventory-settings-open">
+        <div class="modal-field-wrapper"><label class="modal-field-label" for="IPCC-Code-2">IPCC CODE</label><input class="modal-fields w-input" data-name="IPCC Code 2" id="IPCC-Code-2" maxlength="256" name="IPCC-Code-2" type="text"></div>
+        <div class="modal-field-wrapper"><label class="modal-field-label" for="IPCC-Category">IPCC CATEGORY NAME</label><input class="modal-fields w-input" data-name="IPCC Category" id="IPCC-Category" maxlength="256" name="IPCC-Category" type="text"></div>
+        <div class="modal-field-wrapper"><label class="modal-field-label" for="Version-2">DEFINITION</label><input class="modal-fields w-input" data-name="Version 2" id="Version-2" maxlength="256" name="Version-2" type="text"></div>
+        <div class="modal-field-wrapper">
+          <div>Is this a sector-level category?</div>
+        </div>
+        <div class="modal-field-wrapper radios">
+          <div class="w-radio yes" data-ix="hide-parent-field"><input class="w-radio-input" data-name="Sector Level" id="Yes" name="Sector-Level" type="radio" value="Yes"><label class="w-form-label" for="Yes">Yes</label></div>
+          <div class="no w-radio" data-ix="show-parent-field"><input class="w-radio-input" data-name="Sector Level" id="No" name="Sector-Level" type="radio" value="No"><label class="w-form-label" for="No">No</label></div>
+        </div>
+        <div class="parent-category" data-ix="hidden-scale-down" style="opacity: 0; display: none;"><label class="modal-field-label" for="Version-3">Parent Category</label><select class="modal-fields w-select" id="field" name="field"><option value="0"> None</option>
+<option value="First">Suggestion 1</option>
+<option value="Second">Suggestion 2</option>
+<option value="Third">Suggestion 3</option></select></div>
+        <div class="action-button-group"><a class="modal-form-cancel w-button" data-ix="close-add-category" href="#">Cancel</a><a class="modal-form-confirm w-button" data-ix="close-and-show-save-wrapper">Add</a></div>
+      </form>
+      <div class="w-form-done">
+        <div>Thank you! Your submission has been received!</div>
+      </div>
+      <div class="w-form-fail">
+        <div>Oops! Something went wrong while submitting the form</div>
+      </div>
+    </div>
+  </div>
+</div>

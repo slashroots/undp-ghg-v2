@@ -36,7 +36,7 @@ var UserSchema = new Schema({
 var CategorySchema = new Schema({
   ca_code: {type: String, required: true, unique: true},
   ca_code_name: {type: String, required: true},
-  ca_code_parent: {type: Schema.Types.ObjectId, required: false},
+  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_code_definition: {type: String, required: false}
 });
 
@@ -44,8 +44,8 @@ var CategorySchema = new Schema({
   * The grouping of each Sector
   */
 var SectorSchema = new Schema({
-  se_name: {type: String, required: true},
-  se_description: {type: String, required: true},
+  se_name: {type: String, required: true, unique: true},
+  se_description: {type: String, required: false},
   se_name_short_code: {type: String, required: true}
 });
 

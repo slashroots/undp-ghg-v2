@@ -1,8 +1,5 @@
 <div ng-controller="InventoryController" class="inventory-holder">
    <h1 class="heading">Inventory Control</h1>
-   <h1 class="sub-heading">Current Version {{Version}}</h1>
-   <h1 class="h3">Date Created: 1990-12-31</h1>
-   <h1 class="h3">Status: Open</h1><a class="closed openclose-toggle w-button" data-ix="close-dialog" href="#">Close Inventory</a>
    <div class="horizline"></div>
    <div class="w-tabs" data-duration-in="300" data-duration-out="100">
      <div class="w-tab-menu">
@@ -15,22 +12,13 @@
        <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(3) }" ng-click="setTab(3)">
          <div>Gases</div>
        </a>
+       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(4) }" ng-click="setTab(4)">
+         <div>Sectors</div>
+       </a>
      </div>
      <div class="tabs-content w-tab-content">
        <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(1) }" ng-show="isSet(1)">
-         <div class="w-form">
-           <form class="ipcc-menu" id="email-form-2" name="email-form-2">
-             <div class="div-block-2"><label class="inventory-version-choice-label" for="Version">Version</label><select class="select-field w-select" data-name="Version" id="Version" name="Version"><option value="">&lt;NAME&gt; (Open)</option>
-<option value="First">&lt;NAME 1&gt; (Closed)</option>
-<option value="Second">&lt;NAME 2&gt; (Open)</option>
-<option value="Third">&lt;NAME 3&gt; (Open)</option></select></div><a class="references w-button" data-ix="show-notes">References: &lt;IPCC Guidelines&gt;...</a></form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
+         <br />
          <div class="table-top-div">
            <div class="div-block-4">
              <h3 class="col-heading">IPCC Code</h3>
@@ -54,7 +42,7 @@
          <div ng-repeat="category in categories" class="data table-top-div">
            <div class="data div-block-4">
              <h3 class="col-heading data">{{category.ca_code}}</h3>
-             <h3 class="catgname col-heading data">{{category.ca_name}}</h3>
+             <h3 class="catgname col-heading data">{{category.ca_code_name}}</h3>
              <h3 class="col-heading data">{{category.ca_code_definition}}</h3>
            </div>
            <div class="table-button-group-div">
@@ -68,19 +56,7 @@
          </div>
        </div>
        <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(2) }" ng-show="isSet(2)">
-         <div class="w-form">
-           <form class="ipcc-menu" id="email-form-2" name="email-form-2">
-             <div class="div-block-2"><label class="inventory-version-choice-label" for="Version-3">Version</label><select class="select-field w-select" data-name="Version 3" id="Version-3" name="Version-3"><option value="">&lt;NAME&gt; (Open)</option>
-<option value="First">&lt;NAME 1&gt; (Closed)</option>
-<option value="Second">&lt;NAME 2&gt; (Open)</option>
-<option value="Third">&lt;NAME 3&gt; (Open)</option></select></div><a class="references w-button" data-ix="show-notes">References: &lt;IPCC Guidelines&gt;...</a></form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
+         <br />
          <div class="table-top-div">
            <div class="div-block-4">
              <h3 class="col-heading">ID</h3>
@@ -117,19 +93,7 @@
          </div>
        </div>
        <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(3) }" ng-show="isSet(3)">
-         <div class="w-form">
-           <form class="ipcc-menu" id="email-form-2" name="email-form-2">
-             <div class="div-block-2"><label class="inventory-version-choice-label" for="Version-4">Version</label><select class="select-field w-select" data-name="Version 3" id="Version-3" name="Version-3"><option value="">&lt;NAME&gt; (Open)</option>
-<option value="First">&lt;NAME 1&gt; (Closed)</option>
-<option value="Second">&lt;NAME 2&gt; (Open)</option>
-<option value="Third">&lt;NAME 3&gt; (Open)</option></select></div><a class="references w-button" data-ix="show-notes">References: &lt;IPCC Guidelines&gt;...</a></form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
+         <br />
          <div class="table-top-div">
            <div class="div-block-4">
              <h3 class="col-heading">ID</h3>
@@ -162,6 +126,49 @@
                <div>Edit</div>
              </a>
              <a class="table-row-retire-button w-inline-block" data-ix="retire-1-activity" href="#">
+               <div>Retire</div>
+             </a>
+           </div>
+         </div>
+       </div>
+       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(4) }" ng-show="isSet(4)">
+         <br />
+         <div class="table-top-div">
+           <div class="div-block-4">
+             <h3 class="col-heading">Short Code</h3>
+             <h3 class="col-heading">Sector Name</h3>
+             <h3 class="col-heading">Description</h3>
+           </div>
+           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#">
+             <div>Add IPCC Sector</div>
+           </a>
+         </div>
+         <div class="form-block-3 w-form">
+           <form class="table-search-div" id="email-form-3" name="email-form-3">
+             <div>
+               <input class="tablesearchfieldsmall w-input" data-name="Sector Code" id="IPCC-Code" maxlength="256" name="IPCC-Code" placeholder="Search Sector Code" required="required" type="text">
+             </div>
+             <input class="tablesearchfield-large w-input" data-name="Sector Name" id="IPCC-Category-Name" maxlength="256" name="IPCC-Category-Name" placeholder="Search Sector Name" type="text">
+
+           </form>
+           <div class="w-form-done">
+             <div>Thank you! Your submission has been received!</div>
+           </div>
+           <div class="w-form-fail">
+             <div>Oops! Something went wrong while submitting the form</div>
+           </div>
+         </div>
+         <div ng-repeat="sector in sectors" class="data table-top-div">
+           <div class="data div-block-4">
+             <h3 class="col-heading data">{{sector.se_name_short_code}}</h3>
+             <h3 class="catgname col-heading data">{{sector.se_name}}</h3>
+             <h3 class="col-heading data">{{sector.se_description}}</h3>
+           </div>
+           <div class="table-button-group-div">
+             <a class="table-row-edit-button w-inline-block" href="#">
+               <div>Edit</div>
+             </a>
+             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
                <div>Retire</div>
              </a>
            </div>
