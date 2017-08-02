@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-//mongoose.connect("mongodb://localhost:27017/undp-ghg");
+//mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
 mongoose.connect(process.env.MONGODB_URI);
 
 
@@ -46,16 +46,20 @@ var CategorySchema = new Schema({
 var SectorSchema = new Schema({
   se_name: {type: String, required: true, unique: true},
   se_description: {type: String, required: false},
-  se_name_short_code: {type: String, required: true}
+  se_name_short_code: {type: String, required: true},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
+  se_created: {type: Date, default: Date.now()}
 });
 
 /**
   * Gases Managed by the Database
   */
 var GasSchema = new Schema({
-  ga_gas_name: {type: String, required: true},
-  ga_chem_formula: {type: String, required: true},
-  ga_gas_gwp: {type: String, required: true}
+  ga_gas_name: {type: String, required: true, unique: true},
+  ga_chem_formula: {type: String, required: true, unique: true},
+  ga_gas_gwp: {type: Number, required: true},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  ga_created: {type: Date, default: Date.now()}
 });
 
 var InventorySchema = new Schema({

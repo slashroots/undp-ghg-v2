@@ -9,4 +9,22 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/settings", {
       templateUrl: "../partials/inventory/settings.html"
     })
+    .when("/add/gas", {
+      templateUrl: "../partials/dialog/add-gas.html"
+    })
+    .when("/add/gas/:id", {
+      templateUrl: "../partials/dialog/add-gas.html"
+    })
+    .when("/add/sector", {
+      templateUrl: "../partials/dialog/add-sector.html"
+    })
+    .when("/add/sector/:id", {
+      templateUrl: "../partials/dialog/add-sector.html"
+    })
+    .when("/add/category", {
+      templateUrl: "../partials/dialog/add-category.html"
+    })
+    .when("/add/category/:id", {
+      templateUrl: "../partials/dialog/add-category.html"
+    })
 });

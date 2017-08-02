@@ -1,0 +1,25 @@
+<div ng-controller="GasController" class="add-gas" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
+    <div class="openinv-wrapper">
+      <div class="div-block"><a class="close-button w-inline-block" data-ix="closeaddgas" href="#/settings"><img src="../images/Close-Icon.png" width="12"></a></div>
+      <div class="dialog-header">Add Gas</div>
+      <div class="w-form">
+        <form class="modal-form w-clearfix">
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Gas Name</label>
+            <input class="modal-fields w-input" ng-model="gas.ga_gas_name" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Chemical Formula</label>
+            <input class="modal-fields w-input" ng-model="gas.ga_chem_formula" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Gas GWP</label>
+            <input class="modal-fields w-input" ng-model="gas.ga_gas_gwp" type="number">
+          </div>
+          <div class="action-button-group">
+            <a class="modal-form-cancel w-button" ng-click="closeAndBack()" href="#">Cancel</a>
+            <a class="modal-form-confirm w-button" ng-click="addGas()">Add</a></div>
+        </form>
+      </div>
+    </div>
+  </div>

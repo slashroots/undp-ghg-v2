@@ -20,6 +20,12 @@ services.factory('CategoryFactory', function($resource) {
       params: {
         id: '@id'
       }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
     }
   });
 });
@@ -39,6 +45,12 @@ services.factory('SectorFactory', function($resource) {
     },
     get: {
       method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
       params: {
         id: '@id'
       }
@@ -92,6 +104,12 @@ services.factory('GasFactory', function($resource) {
     },
     get: {
       method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
       params: {
         id: '@id'
       }

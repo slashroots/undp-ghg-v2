@@ -25,7 +25,7 @@
              <h3 class="col-heading">IPCC Category Name</h3>
              <h3 class="col-heading">Definition</h3>
            </div>
-           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#">
+           <a class="add-category-button w-inline-block" href="#/add/category/">
              <div>Add IPCC Category</div>
            </a>
          </div>
@@ -41,12 +41,12 @@
          </div>
          <div ng-repeat="category in categories" class="data table-top-div">
            <div class="data div-block-4">
-             <h3 class="col-heading data">{{category.ca_code}}</h3>
+             <h3 class="col-heading data">{{category.ca_code}} ({{category.se_sector.se_name_short_code}})</h3>
              <h3 class="catgname col-heading data">{{category.ca_code_name}}</h3>
              <h3 class="col-heading data">{{category.ca_code_definition}}</h3>
            </div>
            <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#">
+             <a class="table-row-edit-button w-inline-block" href="#/add/category/{{category._id}}">
                <div>Edit</div>
              </a>
              <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
@@ -101,8 +101,8 @@
              <h3 class="col-heading">Formula</h3>
              <h3 class="col-heading">GWP (200 years)</h3>
            </div>
-           <a class="add-category-button w-inline-block" data-ix="add-gas-modal" href="#">
-             <div>Add Gas/Group</div>
+           <a class="add-category-button w-inline-block" data-ix="add-gas-modal" href="#/add/gas/">
+             <div>Add Gas</div>
            </a>
          </div>
          <div class="form-block-3 w-form">
@@ -119,10 +119,10 @@
              <h3 class="actid col-heading">{{gas._id}}</h3>
              <h3 class="actname col-heading data">{{gas.ga_gas_name}}</h3>
              <h3 class="col-heading data">{{gas.ga_chem_formula}}</h3>
-             <h3 class="col-heading data gas">{{ga_gas_gwp}}</h3>
+             <h3 class="col-heading data gas">{{gas.ga_gas_gwp}}</h3>
            </div>
            <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#">
+             <a class="table-row-edit-button w-inline-block" href="#/add/gas/{{gas._id}}">
                <div>Edit</div>
              </a>
              <a class="table-row-retire-button w-inline-block" data-ix="retire-1-activity" href="#">
@@ -139,7 +139,7 @@
              <h3 class="col-heading">Sector Name</h3>
              <h3 class="col-heading">Description</h3>
            </div>
-           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#">
+           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/sector">
              <div>Add IPCC Sector</div>
            </a>
          </div>
@@ -165,7 +165,7 @@
              <h3 class="col-heading data">{{sector.se_description}}</h3>
            </div>
            <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#">
+             <a class="table-row-edit-button w-inline-block" href="#/add/sector/{{sector._id}}">
                <div>Edit</div>
              </a>
              <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
