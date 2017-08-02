@@ -6,16 +6,20 @@
        <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(1) }" ng-click="setTab(1)">
          <div>IPCC Categories</div>
        </a>
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(2) }" ng-click="setTab(2)">
+       <!-- <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(2) }" ng-click="setTab(2)">
          <div>IPCC Activities</div>
-       </a>
+       </a> -->
        <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(3) }" ng-click="setTab(3)">
          <div>Gases</div>
        </a>
        <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(4) }" ng-click="setTab(4)">
          <div>Sectors</div>
        </a>
+       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(5) }" ng-click="setTab(5)">
+         <div>Users</div>
+       </a>
      </div>
+     <!-- Category Information -->
      <div class="tabs-content w-tab-content">
        <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(1) }" ng-show="isSet(1)">
          <br />
@@ -55,7 +59,8 @@
            </div>
          </div>
        </div>
-       <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(2) }" ng-show="isSet(2)">
+       <!-- IPCC Activity -->
+       <!-- <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(2) }" ng-show="isSet(2)">
          <br />
          <div class="table-top-div">
            <div class="div-block-4">
@@ -91,7 +96,8 @@
              </a>
            </div>
          </div>
-       </div>
+       </div> -->
+       <!-- Gas Settings -->
        <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(3) }" ng-show="isSet(3)">
          <br />
          <div class="table-top-div">
@@ -131,6 +137,7 @@
            </div>
          </div>
        </div>
+       <!-- Sector Information -->
        <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(4) }" ng-show="isSet(4)">
          <br />
          <div class="table-top-div">
@@ -170,6 +177,47 @@
              </a>
              <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
                <div>Retire</div>
+             </a>
+           </div>
+         </div>
+       </div>
+       <!-- User Information -->
+       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(5) }" ng-show="isSet(5)">
+         <br />
+         <div class="table-top-div">
+           <div class="div-block-4">
+             <p class="col-heading">Name</p>
+             <h3 class="col-heading">Email</h3>
+             <h3 class="col-heading">Role (Status)</h3>
+           </div>
+         </div>
+         <div class="form-block-3 w-form">
+           <form class="table-search-div" id="email-form-3" name="email-form-3">
+             <div>
+               <input class="tablesearchfieldsmall w-input" placeholder="Search Sector Code" type="text">
+             </div>
+             <input class="tablesearchfield-large w-input" placeholder="Search Sector Name" type="text">
+
+           </form>
+           <div class="w-form-done">
+             <div>Thank you! Your submission has been received!</div>
+           </div>
+           <div class="w-form-fail">
+             <div>Oops! Something went wrong while submitting the form</div>
+           </div>
+         </div>
+         <div ng-repeat="user in users" class="data table-top-div">
+           <div class="data div-block-4">
+             <h3 class="col-heading data">{{user.us_user_first_name}} {{user.us_user_last_name}}</h3>
+             <h3 class="catgname col-heading data">{{user.us_email_address}}</h3>
+             <h3 class="col-heading data">{{user.us_user_role}} ({{user.us_state}})</h3>
+           </div>
+           <div class="table-button-group-div">
+             <a class="table-row-edit-button w-inline-block" href="#/edit/user/{{user._id}}">
+               <div>Edit</div>
+             </a>
+             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
+               <div>Disable</div>
              </a>
            </div>
          </div>

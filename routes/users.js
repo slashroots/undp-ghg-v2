@@ -125,4 +125,42 @@ router.get('/logout', function(req, res, next) {
   res.redirect('/');
 });
 
+
+
+router.get('/users', common.isAdmin, function(req, res, next) {
+  User.find()
+    .select('-us_password -us_activation_token')
+    .exec(function(err, users) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(users);
+      }
+    })
+});
+
+router.get('/users/:id', common.isAdmin, function(req, res, next) {
+  User.findById(req.params.id)
+    .select('-us_password -us_activation_token')
+    .exec(function(err, user) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(user);
+      }
+    })
+});
+
+router.put('/users/:id', common.isAdmin, function(req, res, next) {
+  User.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    })
+});
+
+
 module.exports = router;

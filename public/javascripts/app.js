@@ -27,4 +27,7 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/add/category/:id", {
       templateUrl: "../partials/dialog/add-category.html"
     })
+    .when("/edit/user/:id", {
+      templateUrl: "../partials/dialog/edit-user.html"
+    })
 });

@@ -3,8 +3,8 @@
   */
 
 angular.module('undp-ghg-v2')
-.controller('InventoryController', ['$scope', 'UserFactory', 'SectorFactory', 'CategoryFactory', 'GasFactory',
-  function($scope, UserFactory, SectorFactory, CategoryFactory, GasFactory) {
+.controller('InventoryController', ['$scope', 'UserFactory', 'SectorFactory', 'CategoryFactory', 'GasFactory', 'AdminUserFactory',
+  function($scope, UserFactory, SectorFactory, CategoryFactory, GasFactory, AdminUserFactory) {
 
     /*
       Setup the tabs for viewing
@@ -22,6 +22,11 @@ angular.module('undp-ghg-v2')
       **/
     UserFactory.get(function(user) {
       $scope.user = user;
+      if(user.us_user_role == 'admin') {
+        AdminUserFactory.query(function(users) {
+          $scope.users = users;
+        });
+      }
     });
 
     CategoryFactory.query(function(categories) {

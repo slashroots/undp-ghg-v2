@@ -116,3 +116,25 @@ services.factory('GasFactory', function($resource) {
     }
   });
 });
+
+
+services.factory('AdminUserFactory', function($resource) {
+  return $resource('/users/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
