@@ -18,6 +18,9 @@
        <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(5) }" ng-click="setTab(5)">
          <div>Users</div>
        </a>
+       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(6) }" ng-click="setTab(6)">
+         <div>Inventory</div>
+       </a>
      </div>
      <!-- Category Information -->
      <div class="tabs-content w-tab-content">
@@ -218,6 +221,35 @@
              </a>
              <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
                <div>Disable</div>
+             </a>
+           </div>
+         </div>
+       </div>
+       <!-- Inventory Information -->
+       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(6) }" ng-show="isSet(6)">
+         <br />
+         <div class="table-top-div">
+           <div class="div-block-4">
+             <p class="col-heading">Name</p>
+             <h3 class="col-heading">Period</h3>
+             <h3 class="col-heading">Status</h3>
+           </div>
+           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/inventory">
+             <div>Add Inventory Year</div>
+           </a>
+         </div>
+         <div ng-repeat="inventory in inventories" class="data table-top-div">
+           <div class="data div-block-4">
+             <p class="col-heading data">{{inventory.in_name}}</p>
+             <p class="col-heading data">{{inventory.in_start_date | date: 'longDate'}} - {{inventory.in_end_date | date: 'longDate'}}</p>
+             <p class="col-heading data">{{inventory.in_status | uppercase}}</p>
+           </div>
+           <div class="table-button-group-div">
+             <a class="table-row-edit-button w-inline-block" href="#/edit/inventory/{{inventory._id}}">
+               <div>Edit</div>
+             </a>
+             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
+               <div>Close</div>
              </a>
            </div>
          </div>

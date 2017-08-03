@@ -66,7 +66,9 @@ var InventorySchema = new Schema({
   in_name: {type: String, required: true},
   in_inventory_desc: {type: String, required: true},
   us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
-  in_date: {type: Date, default: Date.now()},
+  in_creation_date: {type: Date, default: Date.now()},
+  in_start_date: {type: Date, required: true, unique: true},
+  in_end_date: {type: Date, required: true, unique: true},
   in_status: {type: String, default: "opened"}
 })
 

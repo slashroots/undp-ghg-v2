@@ -9,6 +9,9 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/settings", {
       templateUrl: "../partials/inventory/settings.html"
     })
+    .when("/settings/:id", {
+      templateUrl: "../partials/inventory/settings.html"
+    })
     .when("/add/gas", {
       templateUrl: "../partials/dialog/add-gas.html"
     })
@@ -29,5 +32,8 @@ app.config(function($routeProvider, $locationProvider) {
     })
     .when("/edit/user/:id", {
       templateUrl: "../partials/dialog/edit-user.html"
+    })
+    .when("/add/inventory", {
+      templateUrl: "../partials/dialog/add-inventory.html"
     })
 });

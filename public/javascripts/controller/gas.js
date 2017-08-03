@@ -30,7 +30,7 @@ angular.module('undp-ghg-v2')
       });
 
       $scope.closeAndBack = function() {
-        window.history.back();
+        $location.path("/settings/3");
       };
 
       /**
@@ -43,15 +43,15 @@ angular.module('undp-ghg-v2')
             id: $routeParams.id
           }, $scope.gas, function(res) {
             alert("Modified " + $scope.gas.ga_gas_name + "!");
-            $location.path("/settings");
+            $location.path("/settings/3");
           }, function(error) {
             alert("Error: " + error.statusText);
           })
         } else {
           $scope.gas.us_user = $scope.user["_id"];
           GasFactory.create($scope.gas, function(res) {
-            alert("Added " + $scope.gas.ga_gas_name + " !");
-            $location.path("/settings");
+            alert("Added " + $scope.gas.ga_gas_name + "!");
+            $location.path("/settings/3");
           }, function(error) {
             alert("Error: " + error.statusText);
           });

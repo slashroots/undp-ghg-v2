@@ -3,15 +3,21 @@
   */
 
 angular.module('undp-ghg-v2')
-.controller('InventoryController', ['$scope', 'UserFactory', 'SectorFactory', 'CategoryFactory', 'GasFactory', 'AdminUserFactory',
-  function($scope, UserFactory, SectorFactory, CategoryFactory, GasFactory, AdminUserFactory) {
+.controller('InventoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
+  'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory',
+  function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
+    AdminUserFactory, InventoryFactory) {
 
     /*
       Setup the tabs for viewing
     */
     $scope.tab = 1;
+    if ($routeParams.id) {
+      $scope.tab = $routeParams.id;
+    }
+
     $scope.setTab = function(newTab){
-      $scope.tab = newTab;
+      $location.path("settings/"+newTab);
     };
     $scope.isSet = function(tabNum){
       return $scope.tab == tabNum;
@@ -40,5 +46,18 @@ angular.module('undp-ghg-v2')
     SectorFactory.query(function(sectors) {
       $scope.sectors = sectors;
     });
+
+    InventoryFactory.query(function(inventories) {
+      $scope.inventories = inventories;
+    })
+
+    $scope.save = function() {
+      InventoryFactory.create($scope.inventory, function(inventory) {
+        if(inventory) {
+          alert("Inventory " + $scope.inventory.in_name + " has been added!");
+          $location.path('/settings/6');
+        }
+      })
+    }
   }
 ]);

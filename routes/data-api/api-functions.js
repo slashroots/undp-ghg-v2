@@ -127,6 +127,29 @@ exports.createInventory = function(req, res, next) {
   });
 };
 
+exports.modifyInventory = function(req, res, next) {
+  Inventory.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.getInventoryByID = function(req, res, next) {
+  Inventory.findById(req.params.id)
+    .populate('us_user')
+    .exec(function(err, item){
+    if(err) {
+      next(err);
+    } else {
+      res.send(item);
+    }
+  });
+};
+
 /**
  * Retrieve all gases
  */

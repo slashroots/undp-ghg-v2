@@ -18,7 +18,9 @@ router.get('/api/sector/:id', Utils.isAuthenticated, App.getSectorByID);
 router.put('/api/sector/:id', Utils.isAuthenticated, App.updateSectorByID);
 
 router.get('/api/inventory', Utils.isAuthenticated, App.getInventory);
-router.post('/api/inventory', Utils.isAuthenticated, App.createInventory);
+router.post('/api/inventory', Utils.isAdmin, App.createInventory);
+router.get('/api/inventory/:id', Utils.isAdmin, App.getInventoryByID);
+router.put('/api/inventory/:id', Utils.isAdmin, App.modifyInventory);
 
 router.get('/api/gas', Utils.isAuthenticated, App.getGas);
 router.get('/api/gas/:id', Utils.isAuthenticated, App.getGasByID);

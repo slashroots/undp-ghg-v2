@@ -30,13 +30,13 @@ angular.module('undp-ghg-v2')
       });
 
       $scope.closeAndBack = function() {
-        window.history.back();
+        $location.path("/settings/1")
       };
 
       SectorFactory.query(function(sectors) {
         $scope.sectors = sectors;
       });
-      
+
       /**
         * Used to modify or add a category in the databse.
         */
@@ -47,7 +47,7 @@ angular.module('undp-ghg-v2')
             id: $routeParams.id
           }, $scope.category, function(res) {
             alert("Modified " + $scope.category.ca_code_name + "!");
-            $location.path("/settings");
+            $location.path("/settings/1");
           }, function(error) {
             alert("Error: " + error.statusText);
           })
@@ -55,7 +55,7 @@ angular.module('undp-ghg-v2')
           $scope.category.us_user = $scope.user["_id"];
           CategoryFactory.create($scope.category, function(res) {
             alert("Added " + $scope.category.ca_code_name + " !");
-            $location.path("/settings");
+            $location.path("/settings/1");
           }, function(error) {
             alert("Error: " + error.statusText);
           });

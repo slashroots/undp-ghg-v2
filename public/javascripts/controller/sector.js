@@ -30,7 +30,7 @@ angular.module('undp-ghg-v2')
       });
 
       $scope.closeAndBack = function() {
-        window.history.back();
+        $location.path("/settings/4");
       };
 
       /**
@@ -43,7 +43,7 @@ angular.module('undp-ghg-v2')
             id: $routeParams.id
           }, $scope.sector, function(res) {
             alert("Modified " + $scope.sector.se_name + "!");
-            $location.path("/settings");
+            $location.path("/settings/4");
           }, function(error) {
             alert("Error: " + error.statusText);
           })
@@ -51,7 +51,7 @@ angular.module('undp-ghg-v2')
           $scope.sector.us_user = $scope.user["_id"];
           SectorFactory.create($scope.sector, function(res) {
             alert("Added " + $scope.sector.se_name + " !");
-            $location.path("/settings");
+            $location.path("/settings/4");
           }, function(error) {
             alert("Error: " + error.statusText);
           });

@@ -27,7 +27,7 @@ angular.module('undp-ghg-v2')
       }
 
       $scope.closeAndBack = function() {
-        $location.path("/settings");
+        $location.path("/settings/5");
       };
 
       /**
@@ -39,7 +39,7 @@ angular.module('undp-ghg-v2')
             id: $routeParams.id
           }, $scope.user, function(res) {
             alert("Modified " + $scope.user.us_user_first_name + " " + $scope.user.us_user_last_name + "!");
-            $location.path("/settings");
+            $location.path("/settings/5");
           }, function(error) {
             alert("Error: " + error.statusText);
           })
