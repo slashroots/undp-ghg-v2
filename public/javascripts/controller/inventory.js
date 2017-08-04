@@ -4,9 +4,9 @@
 
 angular.module('undp-ghg-v2')
 .controller('InventoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
-  'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory',
+  'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory',
   function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-    AdminUserFactory, InventoryFactory) {
+    AdminUserFactory, InventoryFactory, ActivityFactory) {
 
     /*
       Setup the tabs for viewing
@@ -49,7 +49,11 @@ angular.module('undp-ghg-v2')
 
     InventoryFactory.query(function(inventories) {
       $scope.inventories = inventories;
-    })
+    });
+
+    ActivityFactory.query(function(activities) {
+      $scope.activities = activities;
+    });
 
     $scope.save = function() {
       InventoryFactory.create($scope.inventory, function(inventory) {

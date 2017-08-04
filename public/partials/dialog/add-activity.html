@@ -1,0 +1,39 @@
+<div ng-controller="ActivityController" class="add-activity" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
+    <div class="openinv-wrapper">
+      <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-act" href="#/settings/2"><img src="../images/Close-Icon.png" width="12"></a></div>
+      <div class="dialog-header">Add Activity</div>
+      <div class="w-form">
+        <form class="modal-form w-clearfix">
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Activity Name</label>
+            <input class="modal-fields w-input" ng-model="activity.ac_name" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Information Source</label>
+            <input class="modal-fields w-input" ng-model="activity.ac_info_source" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Sector</label>
+            <select ng-model="activity.se_sector" ng-change="onChange()" class="modal-fields w-select">
+              <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name_short_code}}</option>
+            </select>
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Category</label>
+            <select ng-model="activity.ca_category" class="modal-fields w-select">
+              <option ng-repeat="category in categories" value="{{category._id}}">{{category.ca_code}}</option>
+            </select>
+          </div>
+          <div class="action-button-group">
+            <a class="modal-form-cancel w-button" href="#/settings/2">Cancel</a>
+            <a class="modal-form-confirm w-button" ng-click="addActivity()" >Add</a></div>
+        </form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form</div>
+        </div>
+      </div>
+    </div>
+  </div>

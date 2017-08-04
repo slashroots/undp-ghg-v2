@@ -77,7 +77,8 @@ var ActivitySchema = new Schema({
   ac_creation_date: {type: Date, default: Date.now()},
   ac_info_source: {type: String, required: true},
   ac_location: {type: String, required: false},
-  ca_category: {type: Schema.Types.ObjectId, required: true}
+  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
+  ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'}
 });
 
 exports.User = mongoose.model('User', UserSchema);

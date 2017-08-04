@@ -9,7 +9,8 @@ var Activity = model.Activity;
   * Find all categories matching search parameters
   */
 exports.getCategory = function(req, res, next) {
-  Category.find()
+  var query = req.querymen;
+  Category.find(query.query, query.select, query.cursor)
     .populate('se_sector')
     .exec(function(err, docs) {
       if (err) {
@@ -54,7 +55,8 @@ exports.createCategory = function(req, res, next) {
 };
 
 exports.getSector = function(req, res, next) {
-  Sector.find()
+  var query = req.querymen;
+  Sector.find(query.query, query.select, query.cursor)
     .populate('us_user')
     .exec(function(err, docs) {
       if (err) {
@@ -102,7 +104,8 @@ exports.updateSectorByID = function(req, res, next) {
  * Retrieve all invetories
  */
 exports.getInventory = function(req, res, next) {
-  Inventory.find()
+  var query = req.querymen;
+  Inventory.find(query.query, query.select, query.cursor)
     .populate('us_user')
     .exec(function(err, docs) {
       if (err) {
@@ -155,7 +158,8 @@ exports.getInventoryByID = function(req, res, next) {
  * Retrieve all gases
  */
 exports.getGas = function(req, res, next) {
-  Gas.find()
+  var query = req.querymen;
+  Gas.find(query.query, query.select, query.cursor)
     .populate('us_user')
     .exec(function(err, docs) {
       if (err) {
@@ -202,8 +206,9 @@ exports.createGas = function(req, res, next) {
 };
 
 exports.getActivities = function(req, res, next) {
-  Activity.find()
-    .populate('ca_category')
+  var query = req.querymen;
+  Activity.find(query.query, query.select, query.cursor)
+    .populate('ca_category se_sector')
     .exec(function(err, result) {
       if(err) {
         next(err);
@@ -215,7 +220,7 @@ exports.getActivities = function(req, res, next) {
 
 exports.getActivityById = function(req, res, next) {
   Activity.findById(req.params.id)
-    .populate('ca_category')
+    .populate('ca_category se_sector')
     .exec(function(err, item) {
       if(err) {
         next(err);

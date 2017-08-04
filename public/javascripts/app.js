@@ -36,4 +36,10 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/add/inventory", {
       templateUrl: "../partials/dialog/add-inventory.html"
     })
+    .when("/add/activity", {
+      templateUrl: "../partials/dialog/add-activity.html"
+    })
+    .when("/add/activity/:id", {
+      templateUrl: "../partials/dialog/add-activity.html"
+    })
 });

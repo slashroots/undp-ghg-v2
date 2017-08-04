@@ -145,6 +145,10 @@ services.factory('ActivityFactory', function($resource) {
       method: 'GET',
       isArray: true
     },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
     get: {
       method: 'GET',
       params: {

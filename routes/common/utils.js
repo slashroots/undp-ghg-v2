@@ -13,6 +13,17 @@ exports.MANAGER = 'manager';
 exports.REPORTER = 'reporter';
 exports.SECTOR_EXPERT = 'sector';
 
+/**
+  * These are the possible Inventory states
+  */
+exports.INVENTORY_STATE = {
+  PUBLISHED: 'published',
+  OPENED: 'opened',
+  IN_REVIEW: 'review',
+  CLOSED: 'closed',
+  VOID: 'void'
+}
+
 hasPermissions = function(req, res, next, access) {
   if (req.isAuthenticated()) {
     if (access == req.user.us_user_role) {
