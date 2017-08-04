@@ -70,10 +70,19 @@ var InventorySchema = new Schema({
   in_start_date: {type: Date, required: true, unique: true},
   in_end_date: {type: Date, required: true, unique: true},
   in_status: {type: String, default: "opened"}
-})
+});
+
+var ActivitySchema = new Schema({
+  ac_name: {type: String, required: true},
+  ac_creation_date: {type: Date, default: Date.now()},
+  ac_info_source: {type: String, required: true},
+  ac_location: {type: String, required: false},
+  ca_category: {type: Schema.Types.ObjectId, required: true}
+});
 
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.Gas = mongoose.model('Gas', GasSchema);
 exports.Sector = mongoose.model('Sector', SectorSchema);
 exports.Inventory = mongoose.model('Inventory', InventorySchema);
+exports.Activity = mongoose.model('Activity', ActivitySchema);

@@ -138,3 +138,24 @@ services.factory('AdminUserFactory', function($resource) {
     }
   });
 });
+
+services.factory('ActivityFactory', function($resource) {
+  return $resource('/api/activity/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});

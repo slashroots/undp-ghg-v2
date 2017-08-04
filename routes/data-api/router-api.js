@@ -27,4 +27,9 @@ router.get('/api/gas/:id', Utils.isAuthenticated, App.getGasByID);
 router.put('/api/gas/:id', Utils.isAuthenticated, App.updateGasByID);
 router.post('/api/gas', Utils.isAuthenticated, App.createGas);
 
+router.get('/api/activity', Utils.isAuthenticated, App.getActivities);
+router.get('/api/activity/:id', Utils.isAuthenticated, App.getActivityById);
+router.put('/api/activity/:id', Utils.isAdmin, App.updateActivity);
+router.post('/api/activity', Utils.isAdmin, App.createActivity);
+
 module.exports = router;

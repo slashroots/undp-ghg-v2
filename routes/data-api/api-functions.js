@@ -3,6 +3,7 @@ var Category = model.Category;
 var Sector = model.Sector;
 var Inventory = model.Inventory;
 var Gas = model.Gas;
+var Activity = model.Activity;
 
 /**
   * Find all categories matching search parameters
@@ -183,7 +184,7 @@ exports.updateGasByID = function(req, res, next) {
       } else {
         res.send(item);
       }
-    })
+    });
 }
 
 /**
@@ -198,4 +199,50 @@ exports.createGas = function(req, res, next) {
       res.send(gas);
     }
   });
+};
+
+exports.getActivities = function(req, res, next) {
+  Activity.find()
+    .populate('ca_category')
+    .exec(function(err, result) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getActivityById = function(req, res, next) {
+  Activity.findById(req.params.id)
+    .populate('ca_category')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.createActivity = function(req, res, next) {
+  var activity = new Activity(req.body);
+  activity.save(function(err) {
+    if(err) {
+      next(err);
+    } else {
+      res.send(activity);
+    }
+  });
+};
+
+exports.updateActivity = function(req, res, next) {
+  Activity.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
 };
