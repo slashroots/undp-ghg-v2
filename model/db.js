@@ -87,6 +87,7 @@ var UnitSchema = new Schema({
 });
 
 var DataSchema = new Schema({
+  in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
   ac_activity: {type: Schema.Types.ObjectId, required: true, ref: 'Activity'},

@@ -977,7 +977,7 @@
 
 .inventory-holder {
   height: 100vh;
-  padding-top: 80px;
+  padding-top: 10px;
   padding-right: 22px;
   padding-left: 222px;
   font-family: Heebo, sans-serif;
@@ -2170,4 +2170,3 @@ html.w-mod-js *[data-ix="hidden-save"] {
   -ms-transform: translate(0px, 300px);
   transform: translate(0px, 300px);
 }
-

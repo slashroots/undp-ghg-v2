@@ -188,3 +188,29 @@ services.factory('UnitFactory', function($resource) {
     }
   });
 });
+
+
+services.factory('DataFactory', function($resource) {
+  return $resource('/data/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});

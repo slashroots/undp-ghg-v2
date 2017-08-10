@@ -10,6 +10,7 @@ var passport = require('passport');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/data-api/router-api');
+var data = require('./routes/data/router-data');
 var db = require('./model/db.js');
 
 var app = express();
@@ -46,6 +47,7 @@ app.use(logger('dev'));
 app.use('/', index);
 app.use('/', users);
 app.use('/', api);
+app.use('/', data);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

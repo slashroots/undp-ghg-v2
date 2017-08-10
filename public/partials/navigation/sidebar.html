@@ -1,8 +1,33 @@
 <div ng-controller="NavigationController" class="sidebar w-nav" data-animation="default" data-collapse="medium" data-duration="400"><a class="sidebarhome w-nav-brand" href="#"><img src="../images/Logo.png"></a>
-  <nav class="nav-menu-2 w-nav-menu" role="navigation"><a class="sidebar-navlink user w-inline-block" href="#"><img src="../images/User-Icon_1.png" width="18"><div class="text-block-4">{{user.us_user_first_name}} {{user.us_user_last_name}}</div></a>
-    <div class="sidebar-horizline"></div><a class="choice sidebar-navlink w-inline-block" href="#/settings/"><img src="../images/Cog-Icon.png" width="20"><div class="sidenav-text">Settings</div></a><a class="choice sidebar-navlink w-inline-block" href="#"><img height="16" src="../images/Data-Icon.png" width="19"><div class="sidenav-text">Data</div></a>
-    <a class="choice sidebar-navlink w-inline-block" href="#"><img src="../images/Calc-Icon.png" width="16">
+  <nav class="nav-menu-2 w-nav-menu" role="navigation">
+    <a class="sidebar-navlink user w-inline-block" href="#">
+      <img src="../images/User-Icon_1.png" width="18">
+      <div class="text-block-4">
+        {{user.us_user_first_name}} {{user.us_user_last_name}}
+      </div>
+    </a>
+    <div class="sidebar-horizline">
+    </div>
+    <a class="choice sidebar-navlink w-inline-block" href="#/settings/1">
+      <img src="../images/Cog-Icon.png" width="20">
+      <div class="sidenav-text">Settings</div>
+    </a>
+    <a class="choice sidebar-navlink w-inline-block" href="#/data">
+      <img height="16" src="../images/Data-Icon.png" width="19">
+      <div class="sidenav-text">Data</div>
+    </a>
+    <a class="choice sidebar-navlink w-inline-block" href="#">
+      <img src="../images/Calc-Icon.png" width="16">
       <div class="sidenav-text">Calculations</div>
-      </a><a class="choice sidebar-navlink w-inline-block" href="#"><img height="18" src="../images/Reporting-Icon.png" width="18"><div class="sidenav-text">Reporting</div></a><a class="choice sidebar-navlink w-inline-block" href="#"><img src="../images/Notifications-Icon.png" width="17"><div class="sidenav-text">Notifications</div></a></nav>
+    </a>
+    <a class="choice sidebar-navlink w-inline-block" href="#">
+      <img height="18" src="../images/Reporting-Icon.png" width="18">
+      <div class="sidenav-text">Reporting</div>
+    </a>
+    <a class="choice sidebar-navlink w-inline-block" href="#">
+      <img src="../images/Notifications-Icon.png" width="17">
+      <div class="sidenav-text">Notifications</div>
+    </a>
+  </nav>
   <a class="logoutbutton w-button" href="/logout">Log Out</a>
 </div>

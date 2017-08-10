@@ -48,4 +48,7 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/edit/unit/:id", {
       templateUrl: "../partials/dialog/add-unit.html"
     })
+    .when("/data", {
+      templateUrl: "../partials/inventory/data-inventory.html"
+    })
 });
