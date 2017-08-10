@@ -1,261 +1,92 @@
 <div ng-controller="InventoryController" class="inventory-holder">
-   <h1 class="heading">Inventory Control</h1>
-   <div class="horizline"></div>
-   <div class="w-tabs" data-duration-in="300" data-duration-out="100">
-     <div class="w-tab-menu">
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(1) }" ng-click="setTab(1)">
-         <div>IPCC Categories</div>
-       </a>
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(2) }" ng-click="setTab(2)">
-         <div>Activities</div>
-       </a>
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(3) }" ng-click="setTab(3)">
-         <div>Gases</div>
-       </a>
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(4) }" ng-click="setTab(4)">
-         <div>Sectors</div>
-       </a>
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(5) }" ng-click="setTab(5)">
-         <div>Users</div>
-       </a>
-       <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(6) }" ng-click="setTab(6)">
-         <div>Inventory</div>
-       </a>
-     </div>
-     <!-- Category Information -->
-     <div class="tabs-content w-tab-content">
-       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(1) }" ng-show="isSet(1)">
-         <br />
-         <div class="table-top-div">
-           <div class="div-block-4">
-             <h3 class="col-heading">IPCC Code</h3>
-             <h3 class="col-heading">IPCC Category Name</h3>
-             <h3 class="col-heading">Definition</h3>
-           </div>
-           <a class="add-category-button w-inline-block" href="#/add/category/">
-             <div>Add IPCC Category</div>
-           </a>
-         </div>
-         <div class="form-block-3 w-form">
-           <form class="table-search-div" id="email-form-3" name="email-form-3">
-             <div><input class="tablesearchfieldsmall w-input" data-name="IPCC Code" id="IPCC-Code" maxlength="256" name="IPCC-Code" placeholder="Search IPCC Code" required="required" type="text"></div><input class="tablesearchfield-large w-input" data-name="IPCC Category Name" id="IPCC-Category-Name" maxlength="256" name="IPCC-Category-Name" placeholder="Search IPCC Category Name" type="text"></form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
-         <div ng-repeat="category in categories" class="data table-top-div">
-           <div class="data div-block-4">
-             <h3 class="col-heading data">{{category.ca_code}} ({{category.se_sector.se_name_short_code}})</h3>
-             <h3 class="catgname col-heading data">{{category.ca_code_name}}</h3>
-             <h3 class="col-heading data">{{category.ca_code_definition}}</h3>
-           </div>
-           <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#/add/category/{{category._id}}">
-               <div>Edit</div>
-             </a>
-             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
-               <div>Retire</div>
-             </a>
-           </div>
-         </div>
-       </div>
-       <!-- IPCC Activity -->
-       <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(2) }" ng-show="isSet(2)">
-         <br/>
-         <div class="table-top-div">
-           <div class="div-block-4">
-             <h3 class="col-heading">Name</h3>
-             <h3 class="col-heading">Info. Source</h3>
-             <h3 class="col-heading">Category</h3>
-             <h3 class="col-heading">Sector</h3>
-           </div>
-           <a class="add-category-button w-inline-block" data-ix="add-activity-modal" href="#/add/activity">
-             <div>Add Activity</div>
-           </a>
-         </div>
-         <div class="form-block-3 w-form">
-           <form class="table-search-activities" id="email-form-3" name="email-form-3"><input class="spacing w-input" id="node" maxlength="256" required="required" type="text"><input class="tablesearchfield-large w-input" data-name="Activity" id="Activity" maxlength="256" name="Activity" placeholder="Search Acitvity Name" type="text"></form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
-         <div ng-repeat="activity in activities" class="data table-top-div">
-           <div class="data div-block-4">
-             <h3 class="actid col-heading">{{activity.ac_name}}</h3>
-             <h3 class="actname col-heading data">{{activity.ac_info_source}}</h3>
-             <h3 class="col-heading data">{{activity.ca_category.ca_code}}</h3>
-             <h3 class="col-heading data">{{activity.se_sector.se_name}}</h3>
-           </div>
-           <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#/add/activity/{{activity._id}}">
-               <div>Edit</div>
-             </a>
-             <a class="table-row-retire-button w-inline-block" data-ix="retire-1-activity" href="#">
-               <div>Retire</div>
-             </a>
-           </div>
-         </div>
-       </div>
-       <!-- Gas Settings -->
-       <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(3) }" ng-show="isSet(3)">
-         <br />
-         <div class="table-top-div">
-           <div class="div-block-4">
-             <h3 class="col-heading">ID</h3>
-             <h3 class="col-heading gas">Gas/Group Name</h3>
-             <h3 class="col-heading">Formula</h3>
-             <h3 class="col-heading">GWP (200 years)</h3>
-           </div>
-           <a class="add-category-button w-inline-block" data-ix="add-gas-modal" href="#/add/gas/">
-             <div>Add Gas</div>
-           </a>
-         </div>
-         <div class="form-block-3 w-form">
-           <form class="table-search-activities" id="email-form-3" name="email-form-3"><input class="spacing w-input" id="node" maxlength="256" required="required" type="text"><input class="tablesearchfield-large w-input" data-name="Gas" id="Gas" maxlength="256" name="Gas" placeholder="Search Gas/Group Name" type="text"></form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
-         <div ng-repeat="gas in gases" class="data table-top-div">
-           <div class="data div-block-4">
-             <h3 class="actid col-heading">{{gas._id}}</h3>
-             <h3 class="actname col-heading data">{{gas.ga_gas_name}}</h3>
-             <h3 class="col-heading data">{{gas.ga_chem_formula}}</h3>
-             <h3 class="col-heading data gas">{{gas.ga_gas_gwp}}</h3>
-           </div>
-           <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#/add/gas/{{gas._id}}">
-               <div>Edit</div>
-             </a>
-             <a class="table-row-retire-button w-inline-block" data-ix="retire-1-activity" href="#">
-               <div>Retire</div>
-             </a>
-           </div>
-         </div>
-       </div>
-       <!-- Sector Information -->
-       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(4) }" ng-show="isSet(4)">
-         <br />
-         <div class="table-top-div">
-           <div class="div-block-4">
-             <h3 class="col-heading">Short Code</h3>
-             <h3 class="col-heading">Sector Name</h3>
-             <h3 class="col-heading">Description</h3>
-           </div>
-           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/sector">
-             <div>Add IPCC Sector</div>
-           </a>
-         </div>
-         <div class="form-block-3 w-form">
-           <form class="table-search-div" id="email-form-3" name="email-form-3">
-             <div>
-               <input class="tablesearchfieldsmall w-input" data-name="Sector Code" id="IPCC-Code" maxlength="256" name="IPCC-Code" placeholder="Search Sector Code" required="required" type="text">
-             </div>
-             <input class="tablesearchfield-large w-input" data-name="Sector Name" id="IPCC-Category-Name" maxlength="256" name="IPCC-Category-Name" placeholder="Search Sector Name" type="text">
-
-           </form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
-         <div ng-repeat="sector in sectors" class="data table-top-div">
-           <div class="data div-block-4">
-             <h3 class="col-heading data">{{sector.se_name_short_code}}</h3>
-             <h3 class="catgname col-heading data">{{sector.se_name}}</h3>
-             <h3 class="col-heading data">{{sector.se_description}}</h3>
-           </div>
-           <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#/add/sector/{{sector._id}}">
-               <div>Edit</div>
-             </a>
-             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
-               <div>Retire</div>
-             </a>
-           </div>
-         </div>
-       </div>
-       <!-- User Information -->
-       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(5) }" ng-show="isSet(5)">
-         <br />
-         <div class="table-top-div">
-           <div class="div-block-4">
-             <p class="col-heading">Name</p>
-             <h3 class="col-heading">Email</h3>
-             <h3 class="col-heading">Role (Status)</h3>
-           </div>
-         </div>
-         <div class="form-block-3 w-form">
-           <form class="table-search-div" id="email-form-3" name="email-form-3">
-             <div>
-               <input class="tablesearchfieldsmall w-input" placeholder="Search Sector Code" type="text">
-             </div>
-             <input class="tablesearchfield-large w-input" placeholder="Search Sector Name" type="text">
-
-           </form>
-           <div class="w-form-done">
-             <div>Thank you! Your submission has been received!</div>
-           </div>
-           <div class="w-form-fail">
-             <div>Oops! Something went wrong while submitting the form</div>
-           </div>
-         </div>
-         <div ng-repeat="user in users" class="data table-top-div">
-           <div class="data div-block-4">
-             <h3 class="col-heading data">{{user.us_user_first_name}} {{user.us_user_last_name}}</h3>
-             <h3 class="catgname col-heading data">{{user.us_email_address}}</h3>
-             <h3 class="col-heading data">{{user.us_user_role}} ({{user.us_state}})</h3>
-           </div>
-           <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#/edit/user/{{user._id}}">
-               <div>Edit</div>
-             </a>
-             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
-               <div>Disable</div>
-             </a>
-           </div>
-         </div>
-       </div>
-       <!-- Inventory Information -->
-       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(6) }" ng-show="isSet(6)">
-         <br />
-         <div class="table-top-div">
-           <div class="div-block-4">
-             <p class="col-heading">Name</p>
-             <h3 class="col-heading">Period</h3>
-             <h3 class="col-heading">Status</h3>
-           </div>
-           <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/inventory">
-             <div>Add Inventory Year</div>
-           </a>
-         </div>
-         <div ng-repeat="inventory in inventories" class="data table-top-div">
-           <div class="data div-block-4">
-             <p class="col-heading data">{{inventory.in_name}}</p>
-             <p class="col-heading data">{{inventory.in_start_date | date: 'longDate'}} - {{inventory.in_end_date | date: 'longDate'}}</p>
-             <p class="col-heading data">{{inventory.in_status | uppercase}}</p>
-           </div>
-           <div class="table-button-group-div">
-             <a class="table-row-edit-button w-inline-block" href="#/edit/inventory/{{inventory._id}}">
-               <div>Edit</div>
-             </a>
-             <a class="table-row-retire-button w-inline-block" data-ix="show-retire" href="#">
-               <div>Close</div>
-             </a>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
+  <h1 class="heading">Inventory Control</h1>
+  <div class="horizline"></div>
+  <div class="w-tabs" data-duration-in="300" data-duration-out="100">
+    <div class="w-tab-menu">
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(1) }" ng-click="setTab(1)">
+        <div>IPCC Categories</div>
+      </a>
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(2) }" ng-click="setTab(2)">
+        <div>Activities</div>
+      </a>
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(3) }" ng-click="setTab(3)">
+        <div>Gases</div>
+      </a>
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(4) }" ng-click="setTab(4)">
+        <div>Sectors</div>
+      </a>
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(5) }" ng-click="setTab(5)">
+        <div>Users</div>
+      </a>
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(6) }" ng-click="setTab(6)">
+        <div>Inventory</div>
+      </a>
+      <a class="inventorytabs w-inline-block w-tab-link" ng-class="{ 'w--current': isSet(7) }" ng-click="setTab(7)">
+        <div>Units</div>
+      </a>
+    </div>
+    <!-- Category Information -->
+    <div class="tabs-content w-tab-content">
+      <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(1) }" ng-show="isSet(1)">
+        <br />
+        <a class="add-category-button w-inline-block" href="#/add/category/">
+          <div>Add IPCC Category</div>
+        </a>
+        <div ui-grid="categoryGridOptions" class="table-grid">
+        </div>
+      </div>
+      <!-- IPCC Activity -->
+      <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(2) }" ng-show="isSet(2)">
+        <br/>
+          <a class="add-category-button w-inline-block" data-ix="add-activity-modal" href="#/add/activity">
+            <div>Add Activity</div>
+          </a>
+          <div ui-grid="activityGridOptions" class="table-grid">
+          </div>
+      </div>
+      <!-- Gas Settings -->
+      <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(3) }" ng-show="isSet(3)">
+        <br />
+        <a class="add-category-button w-inline-block" data-ix="add-gas-modal" href="#/add/gas/">
+          <div>Add Gas</div>
+        </a>
+        <div ui-grid="gasGridOptions" class="table-grid">
+        </div>
+      </div>
+      <!-- Sector Information -->
+      <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(4) }" ng-show="isSet(4)">
+        <br />
+        <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/sector">
+          <div>Add IPCC Sector</div>
+        </a>
+        <div ui-grid="sectorGridOptions" class="table-grid">
+        </div>
+      </div>
+      <!-- User Information -->
+      <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(5) }" ng-show="isSet(5)">
+        <br />
+        <div ui-grid="userGridOptions" class="table-grid">
+        </div>
+      </div>
+      <!-- Inventory Information -->
+      <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(6) }" ng-show="isSet(6)">
+        <br />
+        <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/inventory">
+          <div>Add Inventory Year</div>
+        </a>
+        <div ui-grid="inventoryGridOptions" class="table-grid">
+        </div>
+      </div>
+      <!-- Unit Information -->
+      <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(7) }" ng-show="isSet(7)">
+        <br/>
+        <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#/add/unit">
+          <div>Add Unit</div>
+        </a>
+        <br/>
+        <div ui-grid="unitGridOptions" class="table-grid">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

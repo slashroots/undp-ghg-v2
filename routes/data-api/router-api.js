@@ -33,4 +33,9 @@ router.get('/api/activity/:id', Utils.isAuthenticated, App.getActivityById);
 router.put('/api/activity/:id', Utils.isAdmin, App.updateActivity);
 router.post('/api/activity', Utils.isAdmin, App.createActivity);
 
+router.get('/api/unit', [Utils.isAuthenticated, querymen.middleware()], App.getUnits);
+router.get('/api/unit/:id', Utils.isAuthenticated, App.getUnitByID);
+router.put('/api/unit/:id', Utils.isAdmin, App.updateUnit);
+router.post('/api/unit', Utils.isAdmin, App.createUnit);
+
 module.exports = router;

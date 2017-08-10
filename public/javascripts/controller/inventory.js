@@ -4,9 +4,9 @@
 
 angular.module('undp-ghg-v2')
 .controller('InventoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
-  'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory',
+  'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
   function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-    AdminUserFactory, InventoryFactory, ActivityFactory) {
+    AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory) {
 
     /*
       Setup the tabs for viewing
@@ -21,6 +21,74 @@ angular.module('undp-ghg-v2')
     };
     $scope.isSet = function(tabNum){
       return $scope.tab == tabNum;
+    };
+
+
+    //setup the tables
+    $scope.unitGridOptions = {
+      data: 'units',
+      columnDefs: [
+          {field: 'un_unit_name', displayName: 'Unit Name'},
+          {field:'un_unit_symbol', displayName:'Unit Symbol'}
+      ]
+    };
+    $scope.inventoryGridOptions = {
+      data: 'inventories',
+      columnDefs: [
+          {field: 'in_name', displayName: 'Inventory Name'},
+          {field:'in_start_date', displayName:'Start Date', cellFilter: "date: 'longDate'"},
+          {field:'in_end_date', displayName:'End Date', cellFilter: "date: 'longDate'"},
+          {field:'in_status', displayName:'Inventory Status', cellFilter: 'uppercase'}
+      ]
+    };
+    $scope.userGridOptions = {
+      data: 'users',
+      columnDefs: [
+          {field: 'us_user_first_name', displayName: 'First Name'},
+          {field: 'us_user_last_name', displayName: 'Last Name'},
+          {field: 'us_email_address', displayName: 'Email'},
+          {field: 'us_user_role', displayName:'Role', cellFilter: "uppercase"},
+          {field: 'us_state', displayName:'State', cellFilter: 'uppercase'}
+      ]
+    };
+
+    $scope.sectorGridOptions = {
+      data: 'sectors',
+      columnDefs: [
+          {field: 'se_name_short_code', displayName: 'Sector Code'},
+          {field: 'se_name', displayName: 'Sector Name'},
+          {field: 'se_description', displayName: 'Description'}
+      ]
+    };
+
+    $scope.gasGridOptions = {
+      data: 'gases',
+      columnDefs: [
+          {field: '_id', displayName: 'ID'},
+          {field: 'ga_gas_name', displayName: 'Gas Name'},
+          {field: 'ga_chem_formula', displayName: 'Chemical Formula'},
+          {field: 'ga_gas_gwp', displayName: 'Global Warming Potential (100)'}
+      ]
+    };
+
+    $scope.activityGridOptions = {
+      data: 'activities',
+      columnDefs: [
+          {field: 'ac_name', displayName: 'Activity Name'},
+          {field: 'ac_info_source', displayName: 'Information Source'},
+          {field: 'ca_category.ca_code', displayName: 'Category Code'},
+          {field: 'se_sector.se_name', displayName: 'Sector'}
+      ]
+    };
+
+    $scope.categoryGridOptions = {
+      data: 'categories',
+      columnDefs: [
+          {field: 'ca_code', displayName: 'Category Code'},
+          {field: 'se_sector.se_name_short_code', displayName: 'Sector'},
+          {field: 'ca_code_name', displayName: 'Category Code Name'},
+          {field: 'ca_code_definition', displayName: 'Definition'}
+      ]
     };
 
     /**
@@ -53,6 +121,11 @@ angular.module('undp-ghg-v2')
 
     ActivityFactory.query(function(activities) {
       $scope.activities = activities;
+    });
+
+
+    UnitFactory.query(function(units) {
+      $scope.units = units;
     });
 
     $scope.save = function() {

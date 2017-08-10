@@ -1,4 +1,4 @@
-var app = angular.module("undp-ghg-v2", ["ngRoute", "undp-ghg-v2.services"]);
+var app = angular.module("undp-ghg-v2", ["ngRoute", "undp-ghg-v2.services", "ui.grid"]);
 
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');
@@ -41,5 +41,11 @@ app.config(function($routeProvider, $locationProvider) {
     })
     .when("/add/activity/:id", {
       templateUrl: "../partials/dialog/add-activity.html"
+    })
+    .when("/add/unit", {
+      templateUrl: "../partials/dialog/add-unit.html"
+    })
+    .when("/edit/unit/:id", {
+      templateUrl: "../partials/dialog/add-unit.html"
     })
 });

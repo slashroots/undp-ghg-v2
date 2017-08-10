@@ -3,6 +3,7 @@ var Category = model.Category;
 var Sector = model.Sector;
 var Inventory = model.Inventory;
 var Gas = model.Gas;
+var Unit = model.Unit;
 var Activity = model.Activity;
 
 /**
@@ -243,6 +244,51 @@ exports.createActivity = function(req, res, next) {
 
 exports.updateActivity = function(req, res, next) {
   Activity.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.getUnits = function(req, res, next) {
+  var query = req.querymen;
+  Unit.find(query.query, query.select, query.cursor)
+    .exec(function(err, result) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getUnitByID = function(req, res, next) {
+  Unit.findById(req.params.id)
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.createUnit = function(req, res, next) {
+  var unit = new Unit(req.body);
+  unit.save(function(err) {
+    if(err) {
+      next(err);
+    } else {
+      res.send(unit);
+    }
+  });
+};
+
+exports.updateUnit = function(req, res, next) {
+  Unit.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {
       if(err) {
         next(err);

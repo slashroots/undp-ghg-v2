@@ -81,9 +81,27 @@ var ActivitySchema = new Schema({
   ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'}
 });
 
+var UnitSchema = new Schema({
+  un_unit_name: {type: String, required: true, unique: true},
+  un_unit_symbol: {type: String, required: true, unique: true}
+});
+
+var DataSchema = new Schema({
+  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
+  ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
+  ac_activity: {type: Schema.Types.ObjectId, required: true, ref: 'Activity'},
+  da_data_value: {type: Number, required: true},
+  un_unit: {type: Schema.Types.ObjectId, required: true, ref: 'Unit'},
+  ga_gas: {type: Schema.Types.ObjectId, required: true, ref: 'Gas'},
+  da_data_modified: {type: Date, default: Date.now()},
+  da_data_state: {type:String, required: true}
+});
+
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.Gas = mongoose.model('Gas', GasSchema);
 exports.Sector = mongoose.model('Sector', SectorSchema);
 exports.Inventory = mongoose.model('Inventory', InventorySchema);
 exports.Activity = mongoose.model('Activity', ActivitySchema);
+exports.Unit = mongoose.model('Unit', UnitSchema);
+exports.Data = mongoose.model('Data', DataSchema);
