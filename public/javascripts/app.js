@@ -15,19 +15,19 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/add/gas", {
       templateUrl: "../partials/dialog/add-gas.html"
     })
-    .when("/add/gas/:id", {
+    .when("/edit/gas/:id", {
       templateUrl: "../partials/dialog/add-gas.html"
     })
     .when("/add/sector", {
       templateUrl: "../partials/dialog/add-sector.html"
     })
-    .when("/add/sector/:id", {
+    .when("/edit/sector/:id", {
       templateUrl: "../partials/dialog/add-sector.html"
     })
     .when("/add/category", {
       templateUrl: "../partials/dialog/add-category.html"
     })
-    .when("/add/category/:id", {
+    .when("/edit/category/:id", {
       templateUrl: "../partials/dialog/add-category.html"
     })
     .when("/edit/user/:id", {
@@ -39,7 +39,7 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/add/activity", {
       templateUrl: "../partials/dialog/add-activity.html"
     })
-    .when("/add/activity/:id", {
+    .when("/edit/activity/:id", {
       templateUrl: "../partials/dialog/add-activity.html"
     })
     .when("/add/unit", {

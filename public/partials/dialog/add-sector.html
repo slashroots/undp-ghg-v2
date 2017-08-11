@@ -1,6 +1,6 @@
 <div ng-controller="SectorController" class="add-category new-inventory-modal" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
     <div class="openinv-wrapper">
-      <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/"><img src="../images/Close-Icon.png" width="12"></a></div>
+      <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/4"><img src="../images/Close-Icon.png" width="12"></a></div>
       <div class="dialog-header">Add IPCC Sector</div>
       <div class="w-form">
         <form class="modal-form w-clearfix">
@@ -17,8 +17,8 @@
             <input class="modal-fields w-input" ng-model="sector.se_description" type="text">
           </div>
           <div class="action-button-group">
-            <a class="modal-form-cancel w-button" ng-click= "closeAndBack()" href="#">Cancel</a>
-            <a class="modal-form-confirm w-button" ng-click= "addSector()" >Add</a>
+            <a class="modal-form-cancel w-button" href="#/settings/4" href="#">Cancel</a>
+            <a class="modal-form-confirm w-button" ng-click= "addSector()" >Save</a>
           </div>
         </form>
       </div>

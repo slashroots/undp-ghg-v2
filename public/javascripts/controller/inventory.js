@@ -23,10 +23,24 @@ angular.module('undp-ghg-v2')
         return $scope.tab == tabNum;
       };
 
+      //Global edit function.  Directs to the relevant dialog.
+      $scope.edit = function(id) {
+        switch($scope.tab) {
+          case '1': $location.path("edit/category/" + id); break;
+          case '2': $location.path("edit/activity/" + id); break;
+          case '3': $location.path("edit/gas/" + id); break;
+          case '4': $location.path("edit/sector/" + id); break;
+          case '5': $location.path("edit/user/" + id); break;
+          case '6': break;
+          case '7': $location.path("edit/unit/" + id); break;
+          default: break;
+        }
+      };
 
       //setup the tables
       $scope.unitGridOptions = {
         data: 'units',
+        enableRowSelection: true,
         columnDefs: [{
             field: 'un_unit_name',
             displayName: 'Unit Name'
@@ -34,9 +48,16 @@ angular.module('undp-ghg-v2')
           {
             field: 'un_unit_symbol',
             displayName: 'Unit Symbol'
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
+
       $scope.inventoryGridOptions = {
         data: 'inventories',
         columnDefs: [{
@@ -83,6 +104,12 @@ angular.module('undp-ghg-v2')
             field: 'us_state',
             displayName: 'State',
             cellFilter: 'uppercase'
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
@@ -91,15 +118,23 @@ angular.module('undp-ghg-v2')
         data: 'sectors',
         columnDefs: [{
             field: 'se_name_short_code',
-            displayName: 'Sector Code'
+            displayName: 'Sector Code',
+            width: 150,
           },
           {
             field: 'se_name',
-            displayName: 'Sector Name'
+            displayName: 'Sector Name',
+            width: 250,
           },
           {
             field: 'se_description',
             displayName: 'Description'
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
@@ -108,7 +143,8 @@ angular.module('undp-ghg-v2')
         data: 'gases',
         columnDefs: [{
             field: '_id',
-            displayName: 'ID'
+            displayName: 'ID',
+            width: 100,
           },
           {
             field: 'ga_gas_name',
@@ -121,6 +157,12 @@ angular.module('undp-ghg-v2')
           {
             field: 'ga_gas_gwp',
             displayName: 'Global Warming Potential (100)'
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
@@ -137,11 +179,18 @@ angular.module('undp-ghg-v2')
           },
           {
             field: 'ca_category.ca_code',
-            displayName: 'Category Code'
+            displayName: 'Category Code',
+            width: 200,
           },
           {
             field: 'se_sector.se_name',
             displayName: 'Sector'
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
@@ -150,11 +199,13 @@ angular.module('undp-ghg-v2')
         data: 'categories',
         columnDefs: [{
             field: 'ca_code',
-            displayName: 'Category Code'
+            displayName: 'Category Code',
+            width: 200,
           },
           {
             field: 'se_sector.se_name_short_code',
-            displayName: 'Sector'
+            displayName: 'Sector',
+            width: 200,
           },
           {
             field: 'ca_code_name',
@@ -163,6 +214,12 @@ angular.module('undp-ghg-v2')
           {
             field: 'ca_code_definition',
             displayName: 'Definition'
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
@@ -181,40 +238,35 @@ angular.module('undp-ghg-v2')
         }
       });
 
-      if ($scope.tab == 1) {
+
+      /**
+        * If the tab is selected then load the relevant data.
+        */
+      switch($scope.tab) {
+        case '1':
         CategoryFactory.query(function(categories) {
           $scope.categories = categories;
-        });
-      }
-
-      if ($scope.tab == 3) {
-        GasFactory.query(function(gases) {
-          $scope.gases = gases;
-        });
-      }
-
-      if ($scope.tab == 4) {
-        SectorFactory.query(function(sectors) {
-          $scope.sectors = sectors;
-        });
-      }
-
-      if ($scope.tab == 6) {
-        InventoryFactory.query(function(inventories) {
-          $scope.inventories = inventories;
-        });
-      }
-
-      if ($scope.tab == 2) {
+        }); break;
+        case '2':
         ActivityFactory.query(function(activities) {
           $scope.activities = activities;
         });
-      }
-
-      if ($scope.tab == 7) {
+        case '3':
+        GasFactory.query(function(gases) {
+          $scope.gases = gases;
+        }); break;
+        case '4':
+        SectorFactory.query(function(sectors) {
+          $scope.sectors = sectors;
+        }); break;
+        case '6':
+        InventoryFactory.query(function(inventories) {
+          $scope.inventories = inventories;
+        }); break;
+        case '7':
         UnitFactory.query(function(units) {
           $scope.units = units;
-        });
+        }); break;
       }
 
       $scope.save = function() {
