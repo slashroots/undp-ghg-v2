@@ -27,7 +27,13 @@ angular.module('undp-ghg-v2')
       $scope.filtered = function() {
         //lookup based on filter applied
         DataFactory.query({in_inventory: $scope.selectedInventory}, function(dataValues) {
+          if(dataValues) {
+            $scope.isAvailable = true;
+          }
           $scope.dataValues = dataValues;
+        },
+        function(error) {
+          $scope.isAvailable = false;
         });
       }
 

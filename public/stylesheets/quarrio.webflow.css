@@ -1269,8 +1269,8 @@
   -webkit-transition: color 300ms ease, border 300ms ease;
   transition: color 300ms ease, border 300ms ease;
   color: #7a82ab;
-  font-size: 30px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 100;
 }
 
 .inventorytabs:hover {
@@ -1281,10 +1281,11 @@
 .inventorytabs.w--current {
   padding: 15px 20px;
   border-bottom: 3px solid #272838;
-  background-color: transparent;
+  background-color: lightblue;
   color: #272838;
-  font-size: 30px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 200;
+  border-radius: 15px 15px 0px 0px;
 }
 
 .tabs-content {

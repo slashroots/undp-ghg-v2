@@ -4,6 +4,24 @@
     <option ng-repeat="inventory in inventories" value="{{inventory._id}}">{{inventory.in_inventory_desc}} ({{inventory.in_start_date | date:'longDate'}} - {{inventory.in_end_date | date: 'longDate'}})</option>
   </select>
   <div class="horizline"></div>
+
+  <div class="flex" ng-show="isAvailable">
+    <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#">
+      <div>Manage Supporting Files</div>
+    </a>
+
+    Show: 
+    <select ng-model="category.se_sector" class="modal-fields w-select">
+      <option value="0">All Variables</option>
+    </select>
+
+    <a class="add-category-button w-inline-block" data-ix="add-category-modal" href="#">
+      <div>Add Variables</div>
+    </a>
+  </div>
+
+  <br />
+
   <!-- <div class="ftux-alert">No inventories have been created yet.<br><br> Create the first version of the inventory to start collecting and reporting data.</div> -->
   <div ui-grid="dataGridOptions" class="table-grid">
   </div>
