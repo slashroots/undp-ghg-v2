@@ -11,7 +11,7 @@ angular.module('undp-ghg-v2')
       /*
         Setup the tabs for viewing
       */
-      $scope.tab = 1;
+      $scope.tab = 4;
       if ($routeParams.id) {
         $scope.tab = $routeParams.id;
       }

@@ -1,15 +1,15 @@
 <div ng-controller="CategoryController" class="add-category new-inventory-modal" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
     <div class="openinv-wrapper">
       <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/1"><img src="../images/Close-Icon.png" width="12"></a></div>
-      <div class="dialog-header">Add IPCC Category</div>
+      <div class="dialog-header">Add Category</div>
       <div class="w-form">
         <form class="modal-form w-clearfix">
           <div class="modal-field-wrapper">
-            <label class="modal-field-label">IPCC CODE</label>
+            <label class="modal-field-label">CATEGORY CODE</label>
             <input class="modal-fields w-input" ng-model="category.ca_code" type="text">
           </div>
           <div class="modal-field-wrapper">
-            <label class="modal-field-label">IPCC CATEGORY NAME</label>
+            <label class="modal-field-label">CATEGORY NAME</label>
             <input class="modal-fields w-input" ng-model="category.ca_code_name" type="text">
           </div>
           <div class="modal-field-wrapper">
@@ -21,6 +21,10 @@
             <select ng-model="category.se_sector" class="modal-fields w-select">
               <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name_short_code}}</option>
             </select>
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">IS IPCC</label>
+            <input type="checkbox" ng-model="category.ca_is_ipcc" checked>
           </div>
           <div class="action-button-group">
             <a class="modal-form-cancel w-button" href="#/settings/1">Cancel</a>

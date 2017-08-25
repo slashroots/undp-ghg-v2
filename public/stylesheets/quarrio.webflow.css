@@ -1264,13 +1264,16 @@
 }
 
 .inventorytabs {
-  padding: 15px 20px;
+  padding: 10px 20px;
   background-color: transparent;
   -webkit-transition: color 300ms ease, border 300ms ease;
   transition: color 300ms ease, border 300ms ease;
   color: #7a82ab;
   font-size: 20px;
   font-weight: 100;
+  border-bottom: 1px solid lightgray;
+  /*border-left: 1px solid lightgray;*/
+  border-right: 1px solid lightgray;
 }
 
 .inventorytabs:hover {
@@ -1279,18 +1282,20 @@
 }
 
 .inventorytabs.w--current {
-  padding: 15px 20px;
-  border-bottom: 3px solid #272838;
-  background-color: lightblue;
+  padding: 10px 20px;
+  border-top: 3px solid #272838;
+
+  border-bottom: 0px;
+  /*background-color: lightblue;*/
   color: #272838;
   font-size: 20px;
   font-weight: 200;
-  border-radius: 15px 15px 0px 0px;
+  /*border-radius: 15px 15px 0px 0px;*/
 }
 
 .tabs-content {
   z-index: 0;
-  border-top: 1px solid #7a82ab;
+  /*border-top: 1px solid #7a82ab;*/
 }
 
 .modal-text {

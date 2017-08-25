@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-// mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
+//mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
 mongoose.connect(process.env.MONGODB_URI);
 
 
@@ -37,7 +37,8 @@ var CategorySchema = new Schema({
   ca_code: {type: String, required: true, unique: true},
   ca_code_name: {type: String, required: true},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
-  ca_code_definition: {type: String, required: false}
+  ca_code_definition: {type: String, required: false},
+  ca_is_ipcc: {type: Boolean, required: true}
 });
 
 /**
@@ -78,7 +79,8 @@ var ActivitySchema = new Schema({
   ac_info_source: {type: String, required: true},
   ac_location: {type: String, required: false},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
-  ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'}
+  ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
+  ac_is_ipcc: {type: Boolean, required: true}
 });
 
 var UnitSchema = new Schema({
