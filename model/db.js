@@ -81,7 +81,8 @@ var ActivitySchema = new Schema({
   ac_location: {type: String, required: false},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
-  ac_is_ipcc: {type: Boolean, required: true}
+  ac_is_ipcc: {type: Boolean, required: true},
+  ac_ga_gases: [{type: Schema.Types.ObjectId, ref: 'Gas'}]
 });
 
 var UnitSchema = new Schema({

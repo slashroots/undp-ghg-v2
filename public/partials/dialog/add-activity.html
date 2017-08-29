@@ -9,10 +9,6 @@
             <input class="modal-fields w-input" ng-model="activity.ac_name" type="text">
           </div>
           <div class="modal-field-wrapper">
-            <label class="modal-field-label">Information Source</label>
-            <input class="modal-fields w-input" ng-model="activity.ac_info_source" type="text">
-          </div>
-          <div class="modal-field-wrapper">
             <label class="modal-field-label">Sector</label>
             <select ng-model="activity.se_sector" ng-change="onChange()" class="modal-fields w-select">
               <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name_short_code}}</option>
@@ -27,6 +23,12 @@
           <div class="modal-field-wrapper">
             <label class="modal-field-label">IS IPCC</label>
             <input type="checkbox" ng-model="activity.ac_is_ipcc" checked>
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Associated Gas(es)</label>
+            <select ng-model="activity.ac_ga_gases" class="modal-fields w-select" multiple>
+              <option ng-repeat="gas in gases" value="{{gas._id}}">{{gas.ga_gas_name}}</option>
+            </select>
           </div>
           <div class="action-button-group">
             <a class="modal-form-cancel w-button" href="#/settings/2">Cancel</a>

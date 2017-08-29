@@ -4,14 +4,15 @@
 
 angular.module('undp-ghg-v2')
   .controller('ActivityController', ['$scope', '$location', '$routeParams',
-  'UserFactory', 'ActivityFactory', 'SectorFactory', 'CategoryFactory',
+  'UserFactory', 'ActivityFactory', 'SectorFactory', 'CategoryFactory', 'GasFactory',
     function($scope, $location, $routeParams, UserFactory, ActivityFactory,
-      SectorFactory, CategoryFactory) {
+      SectorFactory, CategoryFactory, GasFactory) {
 
       /**
        * Default states
        **/
       $scope.activity = {};
+      $scope.activity.ac_is_ipcc = false;
 
 
       if ($routeParams.id) {
@@ -38,11 +39,14 @@ angular.module('undp-ghg-v2')
         $scope.sectors = sectors;
       });
 
+      GasFactory.query(function(gases) {
+        $scope.gases = gases;
+      });
+
       $scope.onChange = function() {
         CategoryFactory.query({se_sector: $scope.activity.se_sector}, function(categories) {
           $scope.categories = categories;
-          if($scope.activity.ca_category._id) {
-            console.log("ID exists");
+          if($scope.activity.ca_category != undefined) {
             $scope.activity.ca_category = $scope.activity.ca_category._id;
           }
         }, function(error) {

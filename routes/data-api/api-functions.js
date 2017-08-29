@@ -219,7 +219,7 @@ exports.createGas = function(req, res, next) {
 exports.getActivities = function(req, res, next) {
   var query = req.querymen;
   Activity.find(query.query, query.select, query.cursor)
-    .populate('ca_category se_sector')
+    .populate('ca_category se_sector ac_ga_gases')
     .exec(function(err, result) {
       if(err) {
         next(err);
@@ -231,7 +231,7 @@ exports.getActivities = function(req, res, next) {
 
 exports.getActivityById = function(req, res, next) {
   Activity.findById(req.params.id)
-    .populate('ca_category se_sector')
+    .populate('ca_category se_sector ac_ga_gases')
     .exec(function(err, item) {
       if(err) {
         next(err);
@@ -245,6 +245,7 @@ exports.createActivity = function(req, res, next) {
   var activity = new Activity(req.body);
   activity.save(function(err) {
     if(err) {
+      console.log(err);
       next(err);
     } else {
       res.send(activity);
