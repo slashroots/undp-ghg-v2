@@ -20,6 +20,8 @@ angular.module('undp-ghg-v2')
           id: $routeParams.id
         }, function(activity) {
           $scope.activity = activity;
+          $scope.activity.se_sector = activity.se_sector._id;
+          $scope.onChange();
         }, function(error) {
           alert(error.statusText);
         });
@@ -39,6 +41,10 @@ angular.module('undp-ghg-v2')
       $scope.onChange = function() {
         CategoryFactory.query({se_sector: $scope.activity.se_sector}, function(categories) {
           $scope.categories = categories;
+          if($scope.activity.ca_category._id) {
+            console.log("ID exists");
+            $scope.activity.ca_category = $scope.activity.ca_category._id;
+          }
         }, function(error) {
           $scope.categories = [];
         })

@@ -12,7 +12,7 @@ var Activity = model.Activity;
 exports.getCategory = function(req, res, next) {
   var query = req.querymen;
   Category.find(query.query, query.select, query.cursor)
-    .populate('se_sector')
+    .populate('se_sector us_user')
     .exec(function(err, docs) {
       if (err) {
         next(err);
@@ -23,16 +23,21 @@ exports.getCategory = function(req, res, next) {
 };
 
 exports.getCategoryByID = function(req, res, next) {
-  Category.findById(req.params.id, function(err, item) {
-    if(err) {
-      next(err);
-    } else {
-      res.send(item);
-    }
-  });
+  Category.findById(req.params.id)
+    .populate('se_sector us_user')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
 };
 
 exports.updateCategoryByID = function(req, res, next) {
+  var category = req.body;
+  category.ca_modified = Date.now();
+  category.us_user = req.user._id;
   Category.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {
       if(err) {
@@ -45,6 +50,7 @@ exports.updateCategoryByID = function(req, res, next) {
 
 exports.createCategory = function(req, res, next) {
   var category = new Category(req.body);
+  category.us_user = req.user._id;
   category.save(function(err) {
     console.log(err);
     if (err) {
@@ -70,6 +76,7 @@ exports.getSector = function(req, res, next) {
 
 exports.createSector = function(req, res, next) {
   var sector = new Sector(req.body);
+  sector.us_user = req.user._id;
   sector.save(function(err) {
     if (err) {
       next(err);
@@ -90,7 +97,10 @@ exports.getSectorByID = function(req, res, next) {
 };
 
 exports.updateSectorByID = function(req, res, next) {
-  Sector.findByIdAndUpdate(req.params.id, req.body, {new: true},
+  var sector = req.body;
+  sector.se_modified = Date.now();
+  sector.us_user = req.user._id;
+  Sector.findByIdAndUpdate(req.params.id, sector, {new: true},
     function(err, item) {
       if(err) {
         next(err);

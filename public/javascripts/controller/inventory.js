@@ -131,6 +131,17 @@ angular.module('undp-ghg-v2')
             displayName: 'Description'
           },
           {
+            field: 'se_modified',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
+            width: 100
+          },
+          {
             field: '_id',
             displayName: '',
             width: 100,
@@ -174,8 +185,9 @@ angular.module('undp-ghg-v2')
             displayName: 'Activity Name'
           },
           {
-            field: 'ac_info_source',
-            displayName: 'Information Source'
+            field: 'ac_is_ipcc',
+            displayName: 'Is IPCC',
+            width: 100
           },
           {
             field: 'ca_category.ca_code',
@@ -200,12 +212,17 @@ angular.module('undp-ghg-v2')
         columnDefs: [{
             field: 'ca_code',
             displayName: 'Category Code',
-            width: 200,
+            width: 150,
+          },
+          {
+            field: 'ca_is_ipcc',
+            displayName: 'IS IPCC',
+            width: 100
           },
           {
             field: 'se_sector.se_name_short_code',
             displayName: 'Sector',
-            width: 200,
+            width: 100,
           },
           {
             field: 'ca_code_name',
@@ -214,6 +231,17 @@ angular.module('undp-ghg-v2')
           {
             field: 'ca_code_definition',
             displayName: 'Definition'
+          },
+          {
+            field: 'ca_modified',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
+            width: 100
           },
           {
             field: '_id',

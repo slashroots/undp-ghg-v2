@@ -38,6 +38,8 @@ var CategorySchema = new Schema({
   ca_code_name: {type: String, required: true},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_code_definition: {type: String, required: false},
+  ca_modified: {type: Date, default: Date.now()},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
   ca_is_ipcc: {type: Boolean, required: true}
 });
 
@@ -49,7 +51,7 @@ var SectorSchema = new Schema({
   se_description: {type: String, required: false},
   se_name_short_code: {type: String, required: true},
   us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
-  se_created: {type: Date, default: Date.now()}
+  se_modified: {type: Date, default: Date.now()}
 });
 
 /**
@@ -76,7 +78,6 @@ var InventorySchema = new Schema({
 var ActivitySchema = new Schema({
   ac_name: {type: String, required: true},
   ac_creation_date: {type: Date, default: Date.now()},
-  ac_info_source: {type: String, required: true},
   ac_location: {type: String, required: false},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
