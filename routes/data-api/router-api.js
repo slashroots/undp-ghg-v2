@@ -8,6 +8,11 @@ var querymen = require('querymen');
  * End Points relevant to Data Management
  */
 
+ router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
+ router.post('/api/ipcc/category', Utils.isAdmin, App.createIPCCCategory);
+ router.get('/api/ipcc/category/:id', Utils.isAuthenticated, App.getIPCCCategoryByID);
+ router.put('/api/ipcc/category/:id', Utils.isAuthenticated, App.updateIPCCCategoryByID);
+
 router.get('/api/category', [Utils.isAuthenticated, querymen.middleware()], App.getCategory);
 router.post('/api/category', Utils.isAdmin, App.createCategory);
 router.get('/api/category/:id', Utils.isAuthenticated, App.getCategoryByID);

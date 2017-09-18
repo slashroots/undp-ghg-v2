@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
-// mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
+mongoose.connect(process.env.MONGODB_URI);
 
 
 /**
@@ -30,8 +30,22 @@ var UserSchema = new Schema({
     us_activation_token: {type: String, required: true}
 });
 
+
 /**
-  * Category that conforms to the IPCC model
+  * IPCC Categories
+  */
+var IPCCCategorySchema = new Schema({
+  ica_code: {type: String, required: true, unique: true},
+  ica_code_name: {type: String, required: true},
+  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
+  ica_code_definition: {type: String, required: false},
+  ica_modified: {type: Date, default: Date.now()},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
+  ica_parent: {type: Schema.Types.ObjectId, ref: 'IPCCCategory'}
+});
+
+/**
+  * Local Category
   **/
 var CategorySchema = new Schema({
   ca_code: {type: String, required: true, unique: true},
@@ -39,8 +53,8 @@ var CategorySchema = new Schema({
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_code_definition: {type: String, required: false},
   ca_modified: {type: Date, default: Date.now()},
-  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
-  ca_is_ipcc: {type: Boolean, required: true}
+  ica_category: {type: Schema.Types.ObjectId, ref: 'IPCCCategory'},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'}
 });
 
 /**
@@ -126,6 +140,7 @@ var NotationKeySchema = new Schema({
 
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
+exports.IPCCCategory = mongoose.model('IPCCCategory', IPCCCategorySchema);
 exports.Gas = mongoose.model('Gas', GasSchema);
 exports.Sector = mongoose.model('Sector', SectorSchema);
 exports.Inventory = mongoose.model('Inventory', InventorySchema);

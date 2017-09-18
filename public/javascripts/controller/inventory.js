@@ -6,9 +6,10 @@ angular.module('undp-ghg-v2')
   .controller('InventoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory',
     'IPCCActivityFactory', 'UnitFactory', 'RegionFactory', 'NotationKeyFactory',
+    'IPCCCategoryFactory',
     function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, IPCCActivityFactory, UnitFactory,
-      RegionFactory, NotationKeyFactory) {
+      RegionFactory, NotationKeyFactory, IPCCCategoryFactory) {
 
       /*
         Setup the tabs for viewing
@@ -25,6 +26,7 @@ angular.module('undp-ghg-v2')
         return $scope.tab == tabNum;
       };
       $scope.localActivity = true;
+      $scope.localCategory = true;
 
       //Global edit function.  Directs to the relevant dialog.
       $scope.edit = function(id) {
@@ -350,6 +352,46 @@ angular.module('undp-ghg-v2')
         ]
       };
 
+      $scope.IpcccategoryGridOptions = {
+        data: 'ipcc_categories',
+        columnDefs: [{
+            field: 'ica_code',
+            displayName: 'IPCC Code',
+            width: 150,
+          },
+          {
+            field: 'se_sector.se_name_short_code',
+            displayName: 'Sector',
+            width: 100,
+          },
+          {
+            field: 'ica_code_name',
+            displayName: 'IPCC Code Name'
+          },
+          {
+            field: 'ica_code_definition',
+            displayName: 'Definition'
+          },
+          {
+            field: 'ica_modified',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
+            width: 100
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
+          }
+        ]
+      };
+
       /**
        * Data Factories
        **/
@@ -372,7 +414,11 @@ angular.module('undp-ghg-v2')
         case '1':
         CategoryFactory.query(function(categories) {
           $scope.categories = categories;
-        }); break;
+        });
+        IPCCCategoryFactory.query(function(ipcc_categories) {
+          $scope.ipcc_categories = ipcc_categories;
+        });
+        break;
         case '2':
         ActivityFactory.query(function(activities) {
           $scope.activities = activities;

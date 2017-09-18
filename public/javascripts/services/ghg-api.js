@@ -30,6 +30,31 @@ services.factory('CategoryFactory', function($resource) {
   });
 });
 
+services.factory('IPCCCategoryFactory', function($resource) {
+  return $resource('/api/ipcc/category/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
+
 /*
   Manipulate Sector
 */

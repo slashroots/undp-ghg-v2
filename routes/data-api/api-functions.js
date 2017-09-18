@@ -1,5 +1,6 @@
 var model = require('../../model/db');
 var Category = model.Category;
+var IPCCCategory = model.IPCCCategory;
 var Sector = model.Sector;
 var Inventory = model.Inventory;
 var Gas = model.Gas;
@@ -9,6 +10,63 @@ var NotationKey = model.NotationKey;
 var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 
+//############################ IPCC CATEGORY ###################################
+
+/**
+  * Find all categories matching search parameters
+  */
+exports.getIPCCCategory = function(req, res, next) {
+  var query = req.querymen;
+  IPCCCategory.find(query.query, query.select, query.cursor)
+    .populate('se_sector us_user ica_parent')
+    .exec(function(err, docs) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(docs);
+      }
+    });
+};
+
+exports.getIPCCCategoryByID = function(req, res, next) {
+  IPCCCategory.findById(req.params.id)
+    .populate('se_sector us_user ica_parent')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.updateIPCCCategoryByID = function(req, res, next) {
+  var category = req.body;
+  category.ca_modified = Date.now();
+  category.us_user = req.user._id;
+  Category.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    })
+};
+
+exports.createIPCCCategory = function(req, res, next) {
+  var category = new IPCCCategory(req.body);
+  category.us_user = req.user._id;
+  category.save(function(err) {
+    console.log(err);
+    if (err) {
+      next(err);
+    } else {
+      res.send(category);
+    }
+  });
+};
+
 //############################## CATEGORY ######################################
 
 /**
@@ -17,7 +75,7 @@ var IPCCActivity = model.IPCCActivity;
 exports.getCategory = function(req, res, next) {
   var query = req.querymen;
   Category.find(query.query, query.select, query.cursor)
-    .populate('se_sector us_user')
+    .populate('se_sector us_user ica_category')
     .exec(function(err, docs) {
       if (err) {
         next(err);
@@ -29,7 +87,7 @@ exports.getCategory = function(req, res, next) {
 
 exports.getCategoryByID = function(req, res, next) {
   Category.findById(req.params.id)
-    .populate('se_sector us_user')
+    .populate('se_sector us_user ica_category')
     .exec(function(err, item) {
       if(err) {
         next(err);
