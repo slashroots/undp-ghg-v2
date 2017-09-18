@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-// mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
+// mongoose.connect(process.env.MONGODB_URI);
 
 
 /**
@@ -75,14 +75,19 @@ var InventorySchema = new Schema({
   in_status: {type: String, default: "opened"}
 });
 
+var IPCCActivitySchema = new Schema({
+  iac_name: {type: String, required: true},
+  iac_description: {type: String, required: true},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  ac_modification_date: {type: Date, default: Date.now()}
+});
+
 var ActivitySchema = new Schema({
   ac_name: {type: String, required: true},
-  ac_creation_date: {type: Date, default: Date.now()},
-  ac_location: {type: String, required: false},
-  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
-  ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
-  ac_is_ipcc: {type: Boolean, required: true},
-  ac_ga_gases: [{type: Schema.Types.ObjectId, ref: 'Gas'}]
+  ac_description: {type: String, required: true},
+  ac_modification_date: {type: Date, default: Date.now()},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  iac_activity: {type: Schema.Types.ObjectId, required: false, ref: 'IPCCActivity'}
 });
 
 var UnitSchema = new Schema({
@@ -102,11 +107,31 @@ var DataSchema = new Schema({
   da_data_state: {type:String, required: true}
 });
 
+var RegionSchema = new Schema({
+  re_region_name: {type: String, required: true, unique: true},
+  re_region_desc: {type: String, required: false},
+  re_notes:  {type: String, required: false},
+  re_data_modified: {type: Date, default: Date.now()},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+});
+
+var NotationKeySchema = new Schema({
+  nk_name: {type: String, required: true, unique: true},
+  nk_definition: {type: String, required: false, unique: false},
+  nk_explanation: {type: String, required: false, unique: false},
+  nk_notes: {type: String, required: false, unique: false},
+  nk_date_modified: {type: Date, default: Date.now()},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+});
+
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.Gas = mongoose.model('Gas', GasSchema);
 exports.Sector = mongoose.model('Sector', SectorSchema);
 exports.Inventory = mongoose.model('Inventory', InventorySchema);
 exports.Activity = mongoose.model('Activity', ActivitySchema);
+exports.IPCCActivity = mongoose.model('IPCCActivity', IPCCActivitySchema);
 exports.Unit = mongoose.model('Unit', UnitSchema);
 exports.Data = mongoose.model('Data', DataSchema);
+exports.Region = mongoose.model('Region', RegionSchema);
+exports.NotationKey = mongoose.model('NotationKey', NotationKeySchema);

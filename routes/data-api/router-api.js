@@ -33,9 +33,24 @@ router.get('/api/activity/:id', Utils.isAuthenticated, App.getActivityById);
 router.put('/api/activity/:id', Utils.isAdmin, App.updateActivity);
 router.post('/api/activity', Utils.isAdmin, App.createActivity);
 
+router.get('/api/ipcc/activity', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCActivities);
+router.get('/api/ipcc/activity/:id', Utils.isAuthenticated, App.getIPCCActivityById);
+router.put('/api/ipcc/activity/:id', Utils.isAdmin, App.updateIPCCActivity);
+router.post('/api/ipcc/activity', Utils.isAdmin, App.createIPCCActivity);
+
+router.get('/api/ipcc/notationkey', [Utils.isAuthenticated, querymen.middleware()], App.getNotation);
+router.get('/api/ipcc/notationkey/:id', Utils.isAuthenticated, App.getNotationByID);
+router.put('/api/ipcc/notationkey/:id', Utils.isAdmin, App.updateNotationKey);
+router.post('/api/ipcc/notationkey', Utils.isAdmin, App.createNotationKey);
+
 router.get('/api/unit', [Utils.isAuthenticated, querymen.middleware()], App.getUnits);
 router.get('/api/unit/:id', Utils.isAuthenticated, App.getUnitByID);
 router.put('/api/unit/:id', Utils.isAdmin, App.updateUnit);
 router.post('/api/unit', Utils.isAdmin, App.createUnit);
+
+router.get('/api/region', [Utils.isAuthenticated, querymen.middleware()], App.getRegion);
+router.get('/api/region/:id', Utils.isAuthenticated, App.getRegionByID);
+router.put('/api/region/:id', Utils.isAdmin, App.updateRegion);
+router.post('/api/region', Utils.isAdmin, App.createRegion);
 
 module.exports = router;

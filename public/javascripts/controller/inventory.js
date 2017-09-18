@@ -4,9 +4,11 @@
 
 angular.module('undp-ghg-v2')
   .controller('InventoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
-    'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
+    'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory',
+    'IPCCActivityFactory', 'UnitFactory', 'RegionFactory', 'NotationKeyFactory',
     function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory) {
+      AdminUserFactory, InventoryFactory, ActivityFactory, IPCCActivityFactory, UnitFactory,
+      RegionFactory, NotationKeyFactory) {
 
       /*
         Setup the tabs for viewing
@@ -22,6 +24,7 @@ angular.module('undp-ghg-v2')
       $scope.isSet = function(tabNum) {
         return $scope.tab == tabNum;
       };
+      $scope.localActivity = true;
 
       //Global edit function.  Directs to the relevant dialog.
       $scope.edit = function(id) {
@@ -33,6 +36,8 @@ angular.module('undp-ghg-v2')
           case '5': $location.path("edit/user/" + id); break;
           case '6': break;
           case '7': $location.path("edit/unit/" + id); break;
+          case '8': $location.path("edit/notation/" + id); break;
+          case '9': $location.path("edit/region/" + id); break;
           default: break;
         }
       };
@@ -182,21 +187,114 @@ angular.module('undp-ghg-v2')
         data: 'activities',
         columnDefs: [{
             field: 'ac_name',
-            displayName: 'Activity Name'
+            displayName: 'Local Activity Name'
           },
           {
-            field: 'ac_is_ipcc',
-            displayName: 'Is IPCC',
+              field: 'ac_description',
+              displayName: 'Description'
+          },
+          {
+            field: 'ac_modification_date',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
             width: 100
           },
           {
-            field: 'ca_category.ca_code',
-            displayName: 'Category Code',
-            width: 200,
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
+          }
+        ]
+      };
+
+      $scope.IpccActivityGridOptions = {
+        data: 'ipcc_activities',
+        columnDefs: [{
+            field: 'iac_name',
+            displayName: 'IPCC Activity Name'
           },
           {
-            field: 'se_sector.se_name',
-            displayName: 'Sector'
+              field: 'iac_description',
+              displayName: 'IPCC Description'
+          },
+          {
+            field: 'iac_modification_date',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
+            width: 100
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
+          }
+        ]
+      };
+
+      $scope.regionGridOptions = {
+        data: 'regions',
+        columnDefs: [{
+            field: 're_region_name',
+            displayName: 'Region Name'
+          },
+          {
+              field: 're_region_desc',
+              displayName: 'Description'
+          },
+          {
+            field: 're_data_modified',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
+            width: 100
+          },
+          {
+            field: '_id',
+            displayName: '',
+            width: 100,
+            cellTemplate: "/partials/components/edit-button.html"
+          }
+        ]
+      };
+
+      $scope.notationKeyGridOptions = {
+        data: 'notationKeys',
+        columnDefs: [{
+            field: 'nk_name',
+            displayName: 'Notation Key'
+          },
+          {
+              field: 'nk_definition',
+              displayName: 'Definition'
+          },
+          {
+              field: 'nk_definition',
+              displayName: 'Definition'
+          },
+          {
+            field: 'nk_explanation',
+            displayName: 'Explanation'
+          },
+          {
+            field: 'us_user.us_user_last_name',
+            displayName: 'User Modified',
+            width: 100
           },
           {
             field: '_id',
@@ -279,6 +377,10 @@ angular.module('undp-ghg-v2')
         ActivityFactory.query(function(activities) {
           $scope.activities = activities;
         });
+        IPCCActivityFactory.query(function(activities) {
+          $scope.ipcc_activities = activities;
+        });
+        break;
         case '3':
         GasFactory.query(function(gases) {
           $scope.gases = gases;
@@ -294,6 +396,14 @@ angular.module('undp-ghg-v2')
         case '7':
         UnitFactory.query(function(units) {
           $scope.units = units;
+        }); break;
+        case '8':
+        NotationKeyFactory.query(function(keys) {
+          $scope.notationKeys = keys;
+        }); break;
+        case '9':
+        RegionFactory.query(function(regions) {
+          $scope.regions = regions;
         }); break;
       }
 

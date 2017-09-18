@@ -4,7 +4,12 @@ var Sector = model.Sector;
 var Inventory = model.Inventory;
 var Gas = model.Gas;
 var Unit = model.Unit;
+var Region = model.Region;
+var NotationKey = model.NotationKey;
 var Activity = model.Activity;
+var IPCCActivity = model.IPCCActivity;
+
+//############################## CATEGORY ######################################
 
 /**
   * Find all categories matching search parameters
@@ -61,6 +66,8 @@ exports.createCategory = function(req, res, next) {
   });
 };
 
+//############################## SECTOR ######################################
+
 exports.getSector = function(req, res, next) {
   var query = req.querymen;
   Sector.find(query.query, query.select, query.cursor)
@@ -111,8 +118,9 @@ exports.updateSectorByID = function(req, res, next) {
 };
 
 
+//############################## INVENTORY ######################################
 /**
- * Retrieve all invetories
+ * Retrieve all inventories
  */
 exports.getInventory = function(req, res, next) {
   var query = req.querymen;
@@ -165,6 +173,8 @@ exports.getInventoryByID = function(req, res, next) {
   });
 };
 
+//################################# GASES ######################################
+
 /**
  * Retrieve all gases
  */
@@ -216,10 +226,11 @@ exports.createGas = function(req, res, next) {
   });
 };
 
+//############################## ACTIVITY ######################################
 exports.getActivities = function(req, res, next) {
   var query = req.querymen;
   Activity.find(query.query, query.select, query.cursor)
-    .populate('ca_category se_sector ac_ga_gases')
+    .populate('us_user iac_activity')
     .exec(function(err, result) {
       if(err) {
         next(err);
@@ -231,7 +242,7 @@ exports.getActivities = function(req, res, next) {
 
 exports.getActivityById = function(req, res, next) {
   Activity.findById(req.params.id)
-    .populate('ca_category se_sector ac_ga_gases')
+    .populate('us_user iac_activity')
     .exec(function(err, item) {
       if(err) {
         next(err);
@@ -263,6 +274,8 @@ exports.updateActivity = function(req, res, next) {
       }
     });
 };
+
+//################################# UNITS ######################################
 
 exports.getUnits = function(req, res, next) {
   var query = req.querymen;
@@ -300,6 +313,156 @@ exports.createUnit = function(req, res, next) {
 
 exports.updateUnit = function(req, res, next) {
   Unit.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+//############################ IPCC ACTIVITY ###################################
+exports.getIPCCActivities = function(req, res, next) {
+  var query = req.querymen;
+  IPCCActivity.find(query.query, query.select, query.cursor)
+    .populate('us_user')
+    .exec(function(err, result) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getIPCCActivityById = function(req, res, next) {
+  Activity.findById(req.params.id)
+    .populate('us_user')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.createIPCCActivity = function(req, res, next) {
+  var activity = new Activity(req.body);
+  activity.save(function(err) {
+    if(err) {
+      console.log(err);
+      next(err);
+    } else {
+      res.send(activity);
+    }
+  });
+};
+
+exports.updateIPCCActivity = function(req, res, next) {
+  Activity.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+//################################ REGION ######################################
+
+exports.getRegion = function(req, res, next) {
+  var query = req.querymen;
+  Region.find(query.query, query.select, query.cursor)
+    .populate('us_user')
+    .exec(function(err, result) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getRegionByID = function(req, res, next) {
+  Region.findById(req.params.id)
+    .populate('us_user')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.createRegion = function(req, res, next) {
+  var region = new Region(req.body);
+  region.us_user = req.user._id;
+  region.save(function(err) {
+    if(err) {
+      next(err);
+    } else {
+      res.send(region);
+    }
+  });
+};
+
+exports.updateRegion = function(req, res, next) {
+  Region.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+
+//############################## Notation ######################################
+
+exports.getNotation = function(req, res, next) {
+  var query = req.querymen;
+  NotationKey.find(query.query, query.select, query.cursor)
+    .populate('us_user')
+    .exec(function(err, result) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getNotationByID = function(req, res, next) {
+  NotationKey.findById(req.params.id)
+    .populate('us_user')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.createNotationKey = function(req, res, next) {
+  var nk = new NotationKey(req.body);
+  nk.us_user = req.user._id;
+  nk.save(function(err) {
+    if(err) {
+      next(err);
+    } else {
+      res.send(nk);
+    }
+  });
+};
+
+exports.updateNotationKey = function(req, res, next) {
+  NotationKey.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {
       if(err) {
         next(err);

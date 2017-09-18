@@ -1,0 +1,25 @@
+<div ng-controller="NotationKeyController" class="add-gas" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
+    <div class="openinv-wrapper">
+      <div class="div-block"><a class="close-button w-inline-block" href="#/settings/8"><img src="../images/Close-Icon.png" width="12"></a></div>
+      <div class="dialog-header">Add Notation Key</div>
+      <div class="w-form">
+        <form class="modal-form w-clearfix">
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Key</label>
+            <input class="modal-fields w-input" ng-model="notationKey.nk_name" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Definition</label>
+            <input class="modal-fields w-input" ng-model="notationKey.nk_definition" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Explanation</label>
+            <input class="modal-fields w-input" ng-model="notationKey.nk_explanation" type="text">
+          </div>
+          <div class="action-button-group">
+            <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
+            <a class="modal-form-confirm w-button" ng-click="addNotationKey()">Save</a></div>
+        </form>
+      </div>
+    </div>
+  </div>

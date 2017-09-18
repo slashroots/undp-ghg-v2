@@ -1,0 +1,21 @@
+<div ng-controller="RegionController" class="add-gas" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
+    <div class="openinv-wrapper">
+      <div class="div-block"><a class="close-button w-inline-block" href="#/settings/9"><img src="../images/Close-Icon.png" width="12"></a></div>
+      <div class="dialog-header">Add Region</div>
+      <div class="w-form">
+        <form class="modal-form w-clearfix">
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Region Name</label>
+            <input class="modal-fields w-input" ng-model="region.re_region_name" type="text">
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Description</label>
+            <input class="modal-fields w-input" ng-model="region.re_region_desc" type="text">
+          </div>
+          <div class="action-button-group">
+            <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
+            <a class="modal-form-confirm w-button" ng-click="addRegion()">Save</a></div>
+        </form>
+      </div>
+    </div>
+  </div>

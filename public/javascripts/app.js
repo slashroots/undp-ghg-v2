@@ -48,6 +48,18 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/edit/unit/:id", {
       templateUrl: "../partials/dialog/add-unit.html"
     })
+    .when("/add/region", {
+      templateUrl: "../partials/dialog/add-region.html"
+    })
+    .when("/edit/region/:id", {
+      templateUrl: "../partials/dialog/add-region.html"
+    })
+    .when("/add/notation", {
+      templateUrl: "../partials/dialog/add-notationkey.html"
+    })
+    .when("/edit/notation/:id", {
+      templateUrl: "../partials/dialog/add-notationkey.html"
+    })
     .when("/data", {
       templateUrl: "../partials/inventory/data-inventory.html"
     })

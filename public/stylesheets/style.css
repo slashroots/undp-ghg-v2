@@ -10,3 +10,13 @@
 .flexible {
   display: flex;
 }
+
+.w-submenu {
+  display: inline;
+  font-size: small;
+}
+
+.w-action {
+  position: relative;
+  float: right;
+}
