@@ -40,8 +40,9 @@ var IPCCCategorySchema = new Schema({
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ica_code_definition: {type: String, required: false},
   ica_modified: {type: Date, default: Date.now()},
-  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'},
-  ica_parent: {type: Schema.Types.ObjectId, ref: 'IPCCCategory'}
+  us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},
+  ica_depth: {type: Number, required: true},
+  ica_parent: [this]
 });
 
 /**
@@ -110,15 +111,21 @@ var UnitSchema = new Schema({
 });
 
 var DataSchema = new Schema({
-  in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
-  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
-  ca_category: {type: Schema.Types.ObjectId, required: true, ref: 'Category'},
-  ac_activity: {type: Schema.Types.ObjectId, required: true, ref: 'Activity'},
-  da_data_value: {type: Number, required: true},
-  un_unit: {type: Schema.Types.ObjectId, required: true, ref: 'Unit'},
-  ga_gas: {type: Schema.Types.ObjectId, required: true, ref: 'Gas'},
+  in_inventory: {type: Schema.Types.ObjectId, required: false, ref: 'Inventory'},
+  ca_category: {type: Schema.Types.ObjectId, required: false, ref: 'Category'},
+  ac_activity: {type: Schema.Types.ObjectId, ref: 'Activity'},
+  da_variable_type: {type: String, required: true},
+  da_data_value: {type: Number, required: false},
+  un_unit: {type: Schema.Types.ObjectId, required: false, ref: 'Unit'},
+  ga_gas: {type: Schema.Types.ObjectId, required: false, ref: 'Gas'},
   da_data_modified: {type: Date, default: Date.now()},
-  da_data_state: {type:String, required: true}
+  nk_notation_key: {type: Schema.Types.ObjectId, ref: 'NotationKey'},
+  da_date: {type: Date, required: false},
+  re_region: {type: Schema.Types.ObjectId, ref: 'Region'},
+  da_notes: {type: String},
+  da_uncertainty_min: {type: Number, required: false},
+  da_uncertainty_max: {type: Number, required: false},
+  da_data_state: {type:String, required: false}
 });
 
 var RegionSchema = new Schema({

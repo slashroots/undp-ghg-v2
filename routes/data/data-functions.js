@@ -11,7 +11,7 @@ var Data = model.Data;
 exports.getData = function(req, res, next) {
   var query = req.querymen;
   Data.find(query.query, query.select, query.cursor)
-    .populate('se_sector ca_category ac_activity un_unit ga_gas')
+    .populate('ca_category in_inventory re_region ac_activity un_unit ga_gas')
     .exec(function(err, docs) {
       if (err) {
         next(err);
@@ -22,13 +22,15 @@ exports.getData = function(req, res, next) {
 };
 
 exports.getDataByID = function(req, res, next) {
-  Data.findById(req.params.id, function(err, item) {
-    if(err) {
-      next(err);
-    } else {
-      res.send(item);
-    }
-  });
+  Data.findById(req.params.id)
+    .populate('ca_category in_inventory re_region ac_activity un_unit ga_gas')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
 };
 
 exports.updateData = function(req, res, next) {
@@ -47,6 +49,7 @@ exports.addNewData = function(req, res, next) {
   data.save(function(err) {
     console.log(err);
     if (err) {
+      console.log(err);
       next(err);
     } else {
       res.send(data);
