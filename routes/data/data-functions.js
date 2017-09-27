@@ -37,6 +37,7 @@ exports.updateData = function(req, res, next) {
   Data.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {
       if(err) {
+        console.log(err);
         next(err);
       } else {
         res.send(item);
