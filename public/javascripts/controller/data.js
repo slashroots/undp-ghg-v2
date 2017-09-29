@@ -10,7 +10,11 @@ angular.module('undp-ghg-v2')
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
 
       var editable = false;
-      $scope.dataGridOptions = {};
+      $scope.dataGridOptions = {
+        enableFiltering: true,
+        enableCellEditOnFocus: editable,
+        enableGridMenu: true
+      };
 
       /*
         Setup the tabs for viewing
@@ -64,9 +68,6 @@ angular.module('undp-ghg-v2')
         //setup the tables
         return {
           data: 'dataValues',
-          enableFiltering: true,
-          enableGridMenu: true,
-          enableCellEditOnFocus: editable,
           columnDefs: [{
               field: 'da_variable_type',
               displayName: 'Variable Type',
