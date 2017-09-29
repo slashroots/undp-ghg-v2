@@ -1497,13 +1497,13 @@
 }
 
 .add-category-button {
-  padding: 8px 20px;
+  padding: 6px 10px;
   border: 2px solid #7a82ab;
   border-radius: 5px;
   -webkit-transition: background-color 200ms ease, color 200ms ease;
   transition: background-color 200ms ease, color 200ms ease;
   color: #7a82ab;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 22px;
   font-weight: 400;
   text-decoration: none;
