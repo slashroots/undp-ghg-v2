@@ -9,11 +9,19 @@ angular.module('undp-ghg-v2')
     function($scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
 
+      // DataFactory.create({
+      //   in_inventory: '5982771ab063df6c0ab8c20e',
+      //   da_variable_type: "AD"
+      // });
       var editable = false;
       $scope.dataGridOptions = {
         enableFiltering: true,
         enableCellEditOnFocus: editable,
-        enableGridMenu: true
+        enableSelectAll: true,
+        enableGridMenu: true,
+        exporterPdfDefaultStyle: {fontSize: 9},
+        exporterPdfTableStyle: {margin: [5, 5, 5, 5]},
+        exporterPdfTableHeaderStyle: {fontSize: 9, bold: true, italics: true, color: 'red'}
       };
 
       /*
@@ -38,6 +46,7 @@ angular.module('undp-ghg-v2')
           if (item.in_status == 'opened') {
             editable = true;
           }
+          $scope.dataGridOptions.exporterCsvFilename = item.in_name+'.csv';
         });
 
         //lookup based on filter applied
@@ -76,6 +85,9 @@ angular.module('undp-ghg-v2')
               editDropdownValueLabel: 'variableType',
               editDropdownIdLabel: 'variableType',
               editableCellTemplate: 'ui-grid/dropdownEditor',
+              enableSelectAll: true,
+              exporterCsvFilename: 'dataExport.csv',
+              // exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
               editDropdownOptionsArray: [{
                   variableType: 'EF'
                 },
@@ -90,7 +102,8 @@ angular.module('undp-ghg-v2')
               enableCellEdit: editable,
               cellTooltip: function(row, col) {
                 if (row.entity.ca_category) {
-                  return 'Code: ' + row.entity.ca_category.ca_code + ' Name: ' + row.entity.ca_category.ca_code_name;
+                  return 'Code: ' + row.entity.ca_category.ca_code
+                    + ' Name: ' + row.entity.ca_category.ca_code_name;
                 } else {
                   return '';
                 }
@@ -168,6 +181,10 @@ angular.module('undp-ghg-v2')
         };
       };
 
+      /*
+      Based on the selected item from the combobox replace with the server side
+      values for the save record script that gets called.
+      */
       $scope.lookupEditor = function(rowEntity, columnDef, newValue, oldValue) {
         if (newValue != oldValue) {
           if (columnDef.field == 'ca_category.ca_code_name') {
@@ -202,16 +219,10 @@ angular.module('undp-ghg-v2')
         }
       };
 
-      //This is run after a ROW edited event
+      //This is run approximately 3 seconds after a ROW edited event
       $scope.saveRow = function(rowEntity) {
-        //set a promise
-        // var promise = $q.defer();
-
-        var dataRecord = DataFactory.edit({
-          id: rowEntity._id
-        }, rowEntity);
+        var dataRecord = DataFactory.edit({id: rowEntity._id}, rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, dataRecord.$promise);
-
       };
 
       $scope.dataGridOptions.onRegisterApi = function(gridApi) {
