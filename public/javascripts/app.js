@@ -64,4 +64,10 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/data", {
       templateUrl: "../partials/inventory/data-inventory.html"
     })
+    .when("/data/:id", {
+      templateUrl: "../partials/inventory/data-inventory.html"
+    })
+    .when("/uploadbatch/:entity/:id", {
+      templateUrl: "../partials/dialog/upload-file.html"
+    })
 });

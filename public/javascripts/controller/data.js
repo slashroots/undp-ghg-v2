@@ -9,10 +9,6 @@ angular.module('undp-ghg-v2')
     function($scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
 
-      // DataFactory.create({
-      //   in_inventory: '5982771ab063df6c0ab8c20e',
-      //   da_variable_type: "AD"
-      // });
       var editable = false;
       $scope.dataGridOptions = {
         enableFiltering: true,
@@ -232,5 +228,17 @@ angular.module('undp-ghg-v2')
         gridApi.edit.on.afterCellEdit($scope, $scope.lookupEditor);
       };
 
+      //launches the uploader dialog for uploading to the inventory
+      $scope.startUploader = function() {
+        $location.path("/uploadbatch/inventory/" + $scope.selectedInventory);
+      }
+
+      /**
+        run this script if there exists an ID within the URL for Inventory
+      **/
+      if ($routeParams.id) {
+        $scope.selectedInventory = $routeParams.id;
+        $scope.filtered();
+      }
     }
   ]);

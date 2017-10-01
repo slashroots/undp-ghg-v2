@@ -1,0 +1,19 @@
+<div ng-controller="UploadController" class="add-gas" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
+    <div class="bigger openinv-wrapper">
+      <div class="div-block"><a class="close-button w-inline-block" ng-click="closeAndBack()"><img src="../images/Close-Icon.png" width="12"></a></div>
+      <div class="dialog-header">{{title}} Uploader</div>
+
+      <br/>
+      <br/>
+
+      <input type="file" name="entity-file" style="width: 100%"/>
+
+      <br/>
+      <br/>
+
+      <div class="centered-form">
+        <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
+        <a class="modal-form-confirm w-button" ng-click="Upload()">Upload</a>
+      </div>
+    </div>
+  </div>
