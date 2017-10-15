@@ -14,19 +14,31 @@ angular.module('undp-ghg-v2')
         $location.path('data/' + $scope.selectedInventory);
       }
 
+      //Used to import data.  Need to perform Validation on the information!
+      newDataImporter = function(grid, newObjects) {
+        $scope.dataValues = $scope.dataValues.concat(newObjects);
+        $scope.dirtyRowsExist = true;
+        console.log($scope.dataValues);
+      };
+
+      $scope.persist = function() {
+        $scope.gridApi.rowEdit.flushDirtyRows();
+        $scope.dirtyRowsExist = false;
+      }
+
       //setting up the table structure and configurations.
       $scope.editable = true;
+      $scope.dirtyRowsExist = false;
       $scope.dataGridOptions = {
         enableFiltering: true,
         enableCellEditOnFocus: $scope.editable,
         enableSelectAll: true,
         enableGridMenu: true,
+        rowEditWaitInterval: -1,
         exporterPdfDefaultStyle: {fontSize: 9},
         exporterPdfTableStyle: {margin: [5, 5, 5, 5]},
         exporterPdfTableHeaderStyle: {fontSize: 9, bold: true, italics: true, color: 'red'},
-        importerDataAddCallback: function(grid, newObjects) {
-          console.log(newObjects);
-        },
+        importerDataAddCallback: newDataImporter,
         data: 'dataValues',
         columnDefs: [{
             field: 'da_variable_type',
@@ -185,6 +197,10 @@ angular.module('undp-ghg-v2')
       values for the save record script that gets called.
       */
       $scope.lookupEditor = function(rowEntity, columnDef, newValue, oldValue) {
+        if($scope.gridApi.rowEdit.getDirtyRows() > 0) {
+          console.log($scope.gridApi.rowEdit.getDirtyRows().length);
+          $scope.dirtyRowsExist = true;
+        }
         if (newValue != oldValue) {
           if (columnDef.field == 'ca_category.ca_code_name') {
             CategoryFactory.get({
@@ -218,7 +234,8 @@ angular.module('undp-ghg-v2')
         }
       };
 
-      //This is run approximately 3 seconds after a ROW edited event
+      //This is run approximately 3 seconds after a ROW edited event or if
+      //flushing dirty rows.
       $scope.saveRow = function(rowEntity) {
         var dataRecord = DataFactory.edit({id: rowEntity._id}, rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, dataRecord.$promise);
@@ -237,11 +254,12 @@ angular.module('undp-ghg-v2')
       }
 
       /**
-        run this script if there exists an ID within the URL for Inventory
+        run this function if there exists an ID within the URL for Inventory
       **/
       if ($routeParams.id) {
         $scope.selectedInventory = $routeParams.id;
         $scope.filtered();
       }
+
     }
   ]);

@@ -2187,3 +2187,8 @@ html.w-mod-js *[data-ix="hidden-save"] {
   -ms-transform: translate(0px, 300px);
   transform: translate(0px, 300px);
 }
+
+.red {
+  color: red;
+  border: 2px solid red;
+}

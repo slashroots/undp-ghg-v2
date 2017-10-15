@@ -48,7 +48,6 @@ exports.updateData = function(req, res, next) {
 exports.addNewData = function(req, res, next) {
   var data = new Data(req.body);
   data.save(function(err) {
-    console.log(err);
     if (err) {
       console.log(err);
       next(err);

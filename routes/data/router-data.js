@@ -20,5 +20,5 @@ router.get('/data', [Utils.isAuthenticated, querymen.middleware(schema)], App.ge
 router.post('/data', Utils.isAdmin, App.addNewData);
 router.get('/data/:id', Utils.isAuthenticated, App.getDataByID);
 router.put('/data/:id', Utils.isAuthenticated, App.updateData);
-
+router.put('/data', Utils.isAuthenticated, App.addNewData);
 module.exports = router;

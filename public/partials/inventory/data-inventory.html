@@ -10,12 +10,12 @@
       <div>Manage Supporting Files</div>
     </a>
 
-    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" href="#">
-      <div>Add Variable</div>
-    </a>
-
     <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="startUploader()">
       <div>Upload Variables</div>
+    </a>
+
+    <a class="smaller add-category-button w-inline-block" ng-class="{red: dirtyRowsExist}" ng-click="persist()" data-ix="add-category-modal">
+      <div>Persist to Database</div>
     </a>
   </div>
   <br />
