@@ -1,5 +1,5 @@
 var app = angular.module("undp-ghg-v2", ["ngRoute", "undp-ghg-v2.services",
-"ui.grid", "ui.grid.edit", "ui.grid.rowEdit", "ui.grid.selection","ui.grid.exporter", "ui.grid.cellNav"]);
+"ui.grid", "ui.grid.importer", "ui.grid.edit", "ui.grid.rowEdit", "ui.grid.selection","ui.grid.exporter", "ui.grid.cellNav"]);
 
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');
