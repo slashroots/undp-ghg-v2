@@ -9,6 +9,12 @@ angular.module('undp-ghg-v2')
     function($scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
 
+      //when user selects the inventory to manipulate this function is run:
+      $scope.inventoryChanged = function() {
+        $location.path('data/' + $scope.selectedInventory);
+      }
+
+      //setting up the table structure and configurations.
       $scope.editable = true;
       $scope.dataGridOptions = {
         enableFiltering: true,
