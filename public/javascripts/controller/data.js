@@ -3,11 +3,14 @@
  */
 
 angular.module('undp-ghg-v2')
-  .controller('DataController', ['$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
+  .controller('DataController', ['$mdSidenav','$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
     'DataFactory',
-    function($scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
+    function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
+
+      //construct modal side nav menu
+      $scope.toggleRight = buildToggler('right');
 
       //when user selects the inventory to manipulate this function is run:
       $scope.inventoryChanged = function() {
@@ -21,10 +24,20 @@ angular.module('undp-ghg-v2')
         console.log($scope.dataValues);
       };
 
+      //triggers a save event to flush all the modified rows to the databse.
       $scope.persist = function() {
         $scope.gridApi.rowEdit.flushDirtyRows();
         $scope.dirtyRowsExist = false;
       }
+
+      /**
+       * Data Factories
+       **/
+      $scope.inventories = InventoryFactory.query();
+      $scope.categories = CategoryFactory.query();
+      $scope.units = UnitFactory.query();
+      $scope.gases = GasFactory.query();
+      $scope.activities = ActivityFactory.query();
 
       //setting up the table structure and configurations.
       $scope.editable = true;
@@ -143,6 +156,8 @@ angular.module('undp-ghg-v2')
         ]
       };
 
+
+
       /*
         Setup the tabs for viewing
       */
@@ -181,15 +196,6 @@ angular.module('undp-ghg-v2')
             $scope.isAvailable = false;
           });
       }
-
-      /**
-       * Data Factories
-       **/
-      $scope.inventories = InventoryFactory.query();
-      $scope.categories = CategoryFactory.query();
-      $scope.units = UnitFactory.query();
-      $scope.gases = GasFactory.query();
-      $scope.activities = ActivityFactory.query();
 
 
       /*
@@ -246,7 +252,16 @@ angular.module('undp-ghg-v2')
         $scope.gridApi = gridApi;
         gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
         gridApi.edit.on.afterCellEdit($scope, $scope.lookupEditor);
+        gridApi.selection.on.rowSelectionChanged($scope, $scope.rowSelected);
       };
+
+      $scope.selectedRows = [];
+      $scope.rowSelected = function(rows) {
+        console.log(rows);
+        $scope.toggleRight();
+        $scope.selectedRows = rows;
+      };
+
 
       //launches the uploader dialog for uploading to the inventory
       $scope.startUploader = function() {
@@ -260,6 +275,17 @@ angular.module('undp-ghg-v2')
         $scope.selectedInventory = $routeParams.id;
         $scope.filtered();
       }
+
+    /**
+     * Build handler to open/close a SideNav; when animation finishes
+     * report completion in console
+     */
+    function buildToggler(navID) {
+      return function() {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav(navID).toggle();
+      };
+    }
 
     }
   ]);

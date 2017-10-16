@@ -6,7 +6,7 @@
   <div class="horizline"></div>
 
   <div ng-show="isAvailable">
-    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" href="#">
+    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="toggleRight()">
       <div>Manage Supporting Files</div>
     </a>
 
@@ -23,4 +23,17 @@
   <!-- <div class="ftux-alert">No inventories have been created yet.<br><br> Create the first version of the inventory to start collecting and reporting data.</div> -->
   <div ui-grid="dataGridOptions" ui-grid-importer ui-grid-edit ui-grid-exporter ui-grid-selection ui-grid-row-edit ui-grid-cellnav class="table-grid">
   </div>
+
+  <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-disable-backdrop md-component-id="right">
+
+      <md-toolbar class="md-theme-dark">
+        <h1 class="md-toolbar-tools">Issues and Notes</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+
+        {{selectedRows.entity | json}}
+
+      </md-content>
+
+    </md-sidenav>
 </div>

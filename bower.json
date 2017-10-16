@@ -27,7 +27,8 @@
     "jquery": "^3.2.1",
     "angular-ui-grid": "^4.0.6",
     "pdfmake": "^0.1.33",
-    "CSV-JS": "csv-js#^1.1.1"
+    "CSV-JS": "csv-js#^1.1.1",
+    "angular-material": "^1.1.5"
   },
   "resolutions": {
     "angular": "^1.6.5"
