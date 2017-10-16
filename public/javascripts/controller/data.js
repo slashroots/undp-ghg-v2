@@ -11,6 +11,12 @@ angular.module('undp-ghg-v2')
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
+      $scope.openSideNav = function() {
+        $mdSidenav('right').open();
+      }
+      $scope.closeSideNav = function() {
+        $mdSidenav('right').close();
+      }
 
       //when user selects the inventory to manipulate this function is run:
       $scope.inventoryChanged = function() {
@@ -46,6 +52,9 @@ angular.module('undp-ghg-v2')
         enableFiltering: true,
         enableCellEditOnFocus: $scope.editable,
         enableSelectAll: true,
+        enableRowSelection: true,
+        multiSelect: false,
+        enableSelectionBatchEvent: false,
         enableGridMenu: true,
         rowEditWaitInterval: -1,
         exporterPdfDefaultStyle: {fontSize: 9},
@@ -253,13 +262,21 @@ angular.module('undp-ghg-v2')
         gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
         gridApi.edit.on.afterCellEdit($scope, $scope.lookupEditor);
         gridApi.selection.on.rowSelectionChanged($scope, $scope.rowSelected);
+        gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+          var msg = 'rows changed ' + rows.length;
+          console.log(msg);
+        });
       };
 
-      $scope.selectedRows = [];
-      $scope.rowSelected = function(rows) {
-        console.log(rows);
-        $scope.toggleRight();
-        $scope.selectedRows = rows;
+      $scope.selectedRow = {};
+      $scope.rowSelected = function(row) {
+        if(row.isSelected) {
+          $scope.openSideNav();
+          $scope.selectedRow = row;
+        } else {
+          $scope.closeSideNav();
+          $scope.selectedRow = {};
+        }
       };
 
 
