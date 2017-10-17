@@ -10,7 +10,7 @@ var Data = model.Data;
 
 exports.getData = function(req, res, next) {
   var query = req.querymen;
-  Data.find(query.query, query.select, query.cursor)
+  Data.find(query.query, query.select)
     .populate('ca_category in_inventory re_region ac_activity un_unit ga_gas')
     .exec(function(err, docs) {
       if (err) {

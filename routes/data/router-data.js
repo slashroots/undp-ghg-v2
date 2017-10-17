@@ -7,12 +7,15 @@ var querymen = require('querymen');
 /**
  * End Points relevant to Data Management
  */
- var schema = new querymen.Schema({
-   in_inventory: {
-     type: String,
-     paths: ['in_inventory']
-   }
- });
+var schema = new querymen.Schema({
+  in_inventory: {
+    type: String,
+    paths: ['in_inventory']
+  }
+}, {
+  page: false, // disable default parameter `page`
+  limit: 'max_items' // change name of default parameter `limit` to `max_items`
+});
 
 
 

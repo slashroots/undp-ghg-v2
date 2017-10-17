@@ -3,7 +3,7 @@
  */
 
 angular.module('undp-ghg-v2')
-  .controller('DataController', ['$mdSidenav','$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
+  .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
     'DataFactory',
     function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
@@ -25,9 +25,10 @@ angular.module('undp-ghg-v2')
 
       //Used to import data.  Need to perform Validation on the information!
       newDataImporter = function(grid, newObjects) {
-        $scope.dataValues = $scope.dataValues.concat(newObjects);
-        $scope.dirtyRowsExist = true;
-        console.log($scope.dataValues);
+        runMatchProcess(newObjects, function(matchedItems) {
+          $scope.dataValues = $scope.dataValues.concat(newObjects);
+          $scope.dirtyRowsExist = true;
+        });
       };
 
       //triggers a save event to flush all the modified rows to the databse.
@@ -57,9 +58,18 @@ angular.module('undp-ghg-v2')
         enableSelectionBatchEvent: false,
         enableGridMenu: true,
         rowEditWaitInterval: -1,
-        exporterPdfDefaultStyle: {fontSize: 9},
-        exporterPdfTableStyle: {margin: [5, 5, 5, 5]},
-        exporterPdfTableHeaderStyle: {fontSize: 9, bold: true, italics: true, color: 'red'},
+        exporterPdfDefaultStyle: {
+          fontSize: 9
+        },
+        exporterPdfTableStyle: {
+          margin: [5, 5, 5, 5]
+        },
+        exporterPdfTableHeaderStyle: {
+          fontSize: 9,
+          bold: true,
+          italics: true,
+          color: 'red'
+        },
         importerDataAddCallback: newDataImporter,
         data: 'dataValues',
         columnDefs: [{
@@ -87,8 +97,8 @@ angular.module('undp-ghg-v2')
             enableCellEdit: $scope.editable,
             cellTooltip: function(row, col) {
               if (row.entity.ca_category) {
-                return 'Code: ' + row.entity.ca_category.ca_code
-                  + ' Name: ' + row.entity.ca_category.ca_code_name;
+                return 'Code: ' + row.entity.ca_category.ca_code +
+                  ' Name: ' + row.entity.ca_category.ca_code_name;
               } else {
                 return '';
               }
@@ -111,7 +121,7 @@ angular.module('undp-ghg-v2')
           },
           {
             field: 'da_data_value',
-            displayName: 'Activity Amount/Value',
+            displayName: 'Variable Value',
             enableCellEdit: $scope.editable,
             type: 'number',
             width: 200
@@ -135,12 +145,12 @@ angular.module('undp-ghg-v2')
             type: 'date'
           },
           {
-            field: 'ga_gas.ga_gas_name',
+            field: 'ga_gas.ga_chem_formula',
             displayName: 'Assoc. Gas',
             enableCellEdit: $scope.editable,
             width: 200,
             editableCellTemplate: 'ui-grid/dropdownEditor',
-            editDropdownValueLabel: 'ga_gas_name',
+            editDropdownValueLabel: 'ga_chem_formula',
             editDropdownOptionsArray: $scope.gases,
             editDropdownIdLabel: '_id'
           },
@@ -189,7 +199,7 @@ angular.module('undp-ghg-v2')
           if (item.in_status == 'opened') {
             $scope.editable = true;
           }
-          $scope.dataGridOptions.exporterCsvFilename = item.in_name+'.csv';
+          $scope.dataGridOptions.exporterCsvFilename = item.in_name + '.csv';
         });
 
         //lookup based on filter applied
@@ -212,7 +222,7 @@ angular.module('undp-ghg-v2')
       values for the save record script that gets called.
       */
       $scope.lookupEditor = function(rowEntity, columnDef, newValue, oldValue) {
-        if($scope.gridApi.rowEdit.getDirtyRows() > 0) {
+        if ($scope.gridApi.rowEdit.getDirtyRows() > 0) {
           console.log($scope.gridApi.rowEdit.getDirtyRows().length);
           $scope.dirtyRowsExist = true;
         }
@@ -252,7 +262,9 @@ angular.module('undp-ghg-v2')
       //This is run approximately 3 seconds after a ROW edited event or if
       //flushing dirty rows.
       $scope.saveRow = function(rowEntity) {
-        var dataRecord = DataFactory.edit({id: rowEntity._id}, rowEntity);
+        var dataRecord = DataFactory.edit({
+          id: rowEntity._id
+        }, rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, dataRecord.$promise);
       };
 
@@ -262,15 +274,11 @@ angular.module('undp-ghg-v2')
         gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
         gridApi.edit.on.afterCellEdit($scope, $scope.lookupEditor);
         gridApi.selection.on.rowSelectionChanged($scope, $scope.rowSelected);
-        gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
-          var msg = 'rows changed ' + rows.length;
-          console.log(msg);
-        });
       };
 
       $scope.selectedRow = {};
       $scope.rowSelected = function(row) {
-        if(row.isSelected) {
+        if (row.isSelected) {
           $scope.openSideNav();
           $scope.selectedRow = row;
         } else {
@@ -293,16 +301,49 @@ angular.module('undp-ghg-v2')
         $scope.filtered();
       }
 
-    /**
-     * Build handler to open/close a SideNav; when animation finishes
-     * report completion in console
-     */
-    function buildToggler(navID) {
-      return function() {
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav(navID).toggle();
+      /**
+       * Build handler to open/close a SideNav; when animation finishes
+       * report completion in console
+       */
+      function buildToggler(navID) {
+        return function() {
+          // Component lookup should always be available since we are not using `ng-if`
+          $mdSidenav(navID).toggle();
+        };
+      }
+
+      //fairly resource intensive process for importing.  This will get heavy
+      //and can be optimized in the future
+      runMatchProcess = function(importedObjects, callback) {
+        for(var i =0; i < importedObjects.length; i++) {
+          importedObjects[i].in_inventory = $scope.selectedInventory;
+          importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
+          importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
+          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
+          importedObjects[i].nk_notation_key = null;
+          for(var a=0; a < $scope.categories.length; a++) {
+            if(importedObjects[i]["ca_category.ca_code_name"] == $scope.categories[a].ca_code_name) {
+              importedObjects[i].ca_category = $scope.categories[a];
+            }
+          }
+          for(var a=0; a < $scope.activities.length; a++) {
+            if(importedObjects[i]["ac_activity.ac_name"] == $scope.activities[a].ac_name) {
+              importedObjects[i].ac_activity = $scope.activities[a];
+            }
+          }
+          for(var a=0; a < $scope.units.length; a++) {
+            if(importedObjects[i]["un_unit.un_unit_symbol"] == $scope.units[a].un_unit_symbol) {
+              importedObjects[i].un_unit = $scope.units[a];
+            }
+          }
+          for(var a=0; a < $scope.gases.length; a++) {
+            if(importedObjects[i]["ga_gas.ga_chem_formula"] == $scope.gases[a].ga_chem_formula) {
+              importedObjects[i].ga_gas = $scope.gases[a];
+            }
+          }
+        }
+        callback(importedObjects);
       };
-    }
 
     }
   ]);
