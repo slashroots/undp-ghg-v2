@@ -31,6 +31,8 @@ angular.module('undp-ghg-v2')
             $scope.dataValues = $scope.dataValues.concat(newObjects);
             $scope.dirtyRowsExist = true;
           });
+        } else {
+          alert("Please select an inventory!");
         }
       };
 
@@ -41,7 +43,8 @@ angular.module('undp-ghg-v2')
       }
 
       /**
-       * Data Factories
+       * Loading all information for later matching.
+       * We should probably only run this when necessary - nice to have.
        **/
       $scope.inventories = InventoryFactory.query();
       $scope.categories = CategoryFactory.query();
@@ -262,8 +265,11 @@ angular.module('undp-ghg-v2')
         }
       };
 
-      //This is run approximately 3 seconds after a ROW edited event or if
-      //flushing dirty rows.
+      /**
+       * Typically the application can be setup to flush dirty rows by attempting to 
+       * save the record to the server.  This however is deferred until the user 
+       * selects the Persist to database button.
+       */
       $scope.saveRow = function(rowEntity) {
         var dataRecord = DataFactory.edit({
           id: rowEntity._id
@@ -271,6 +277,12 @@ angular.module('undp-ghg-v2')
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, dataRecord.$promise);
       };
 
+      /**
+       * Certain listeners are loaded during the registration of the table.
+       * These are used in various contexts (edit events and row selection
+       * events et al).  Others can be defined from this location and is setup
+       * against the specified grid.
+       */
       $scope.dataGridOptions.onRegisterApi = function(gridApi) {
         //set gridApi on scope
         $scope.gridApi = gridApi;
@@ -279,6 +291,10 @@ angular.module('undp-ghg-v2')
         gridApi.selection.on.rowSelectionChanged($scope, $scope.rowSelected);
       };
 
+      /**
+       * Upon selecting a row the side nav is toggled and displays further
+       * information about the selected record.
+       */
       $scope.selectedRow = {};
       $scope.rowSelected = function(row) {
         if (row.isSelected) {
@@ -291,13 +307,17 @@ angular.module('undp-ghg-v2')
       };
 
 
-      //launches the uploader dialog for uploading to the inventory
+      /**
+       * Originally intended for the uploading of inventory information - 
+       * this is not used and I opted for using the default uploader information
+       * present on the grid.
+       */
       $scope.startUploader = function() {
         $location.path("/uploadbatch/inventory/" + $scope.selectedInventory);
       }
 
       /**
-        run this function if there exists an ID within the URL for Inventory
+       * Run this function if there exists an ID within the URL for Inventory
       **/
       if ($routeParams.id) {
         $scope.selectedInventory = $routeParams.id;
