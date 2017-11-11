@@ -44,7 +44,9 @@ angular.module('undp-ghg-v2')
         }
       };
 
-      //setup the tables
+      /**
+       * Setup the Unit grid on the separate tab
+       */
       $scope.unitGridOptions = {
         data: 'units',
         enableRowSelection: true,
@@ -65,6 +67,11 @@ angular.module('undp-ghg-v2')
         ]
       };
 
+      /**
+       * Used for all inventories being defined system wide.
+       * TODO:  It still has no rule that prevents inventories from being
+       * created when there is an inventory already present and opened.
+       */
       $scope.inventoryGridOptions = {
         data: 'inventories',
         columnDefs: [{
@@ -88,6 +95,10 @@ angular.module('undp-ghg-v2')
           }
         ]
       };
+
+      /**
+       * User grid setup
+       */
       $scope.userGridOptions = {
         data: 'users',
         columnDefs: [{

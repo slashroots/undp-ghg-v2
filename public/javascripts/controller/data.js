@@ -25,10 +25,13 @@ angular.module('undp-ghg-v2')
 
       //Used to import data.  Need to perform Validation on the information!
       newDataImporter = function(grid, newObjects) {
-        runMatchProcess(newObjects, function(matchedItems) {
-          $scope.dataValues = $scope.dataValues.concat(newObjects);
-          $scope.dirtyRowsExist = true;
-        });
+        //run only if there is a selected inventory.
+        if($scope.selectedInventory) {
+          runMatchProcess(newObjects, function(matchedItems) {
+            $scope.dataValues = $scope.dataValues.concat(newObjects);
+            $scope.dirtyRowsExist = true;
+          });
+        }
       };
 
       //triggers a save event to flush all the modified rows to the databse.
@@ -312,14 +315,23 @@ angular.module('undp-ghg-v2')
         };
       }
 
-      //fairly resource intensive process for importing.  This will get heavy
-      //and can be optimized in the future
+      /**
+       * For each defined cell it attempts to lookup and perform exact match on imported information
+       * An example of this is category.  If the script finds "Cement Production" it then looks for 
+       * and exact match of this within the category listing.  After finding the listing it replaces 
+       * the name with the object and it's information.
+       * 
+       * This is highly resource intensive but it run on the frontend of the application and not
+       * server-side.  The loop can be optimized.
+       */
       runMatchProcess = function(importedObjects, callback) {
         for(var i =0; i < importedObjects.length; i++) {
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
-          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
+          // by default since the date is not complete - I am specifying that the date be set to the 
+          // first month first day.
+          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0); 
           importedObjects[i].nk_notation_key = null;
           for(var a=0; a < $scope.categories.length; a++) {
             if(importedObjects[i]["ca_category.ca_code_name"] == $scope.categories[a].ca_code_name) {
