@@ -74,7 +74,7 @@ exports.createIPCCCategory = function(req, res, next) {
   */
 exports.getCategory = function(req, res, next) {
   var query = req.querymen;
-  Category.find(query.query, query.select, query.cursor)
+  Category.find(query.query, query.select)
     .populate('se_sector us_user ica_category')
     .exec(function(err, docs) {
       if (err) {

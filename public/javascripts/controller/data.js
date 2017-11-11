@@ -20,7 +20,14 @@ angular.module('undp-ghg-v2')
 
       //when user selects the inventory to manipulate this function is run:
       $scope.inventoryChanged = function() {
-        $location.path('data/' + $scope.selectedInventory);
+        $scope.sectors = SectorFactory.query();
+      }
+
+      /**
+       * Event to be fired based on the selection of a sector.
+       */
+      $scope.sectorChanged = function() {
+        $location.path('data/' + $scope.selectedInventory + "/"+ $scope.selectedSector);
       }
 
       //Used to import data.  Need to perform Validation on the information!
@@ -47,7 +54,6 @@ angular.module('undp-ghg-v2')
        * We should probably only run this when necessary - nice to have.
        **/
       $scope.inventories = InventoryFactory.query();
-      $scope.categories = CategoryFactory.query();
       $scope.units = UnitFactory.query();
       $scope.gases = GasFactory.query();
       $scope.activities = ActivityFactory.query();
@@ -220,6 +226,14 @@ angular.module('undp-ghg-v2')
           function(error) {
             $scope.isAvailable = false;
           });
+
+          //filter all the relevant factories based
+          //on selected sector.
+          $scope.sectors = SectorFactory.query();
+
+          $scope.categories = CategoryFactory.query({
+            se_sector: $scope.selectedSector
+          });
       }
 
 
@@ -321,6 +335,11 @@ angular.module('undp-ghg-v2')
       **/
       if ($routeParams.id) {
         $scope.selectedInventory = $routeParams.id;
+        $scope.filtered();
+      }
+
+      if($routeParams.se) {
+        $scope.selectedSector = $routeParams.se;
         $scope.filtered();
       }
 
