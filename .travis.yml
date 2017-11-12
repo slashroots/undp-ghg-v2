@@ -7,6 +7,6 @@ deploy:
   provider: heroku
   strategy: api
   on:
-    all_branches: true
+    all_branches: false
   app:
     master: undp-ghg-staging

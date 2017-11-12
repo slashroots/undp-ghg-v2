@@ -36,13 +36,11 @@ var UserSchema = new Schema({
   */
 var IPCCCategorySchema = new Schema({
   ica_code: {type: String, required: true, unique: true},
-  ica_code_name: {type: String, required: true},
+  ica_code_name: {type: String, required: true, trim: true},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ica_code_definition: {type: String, required: false},
   ica_modified: {type: Date, default: Date.now()},
-  us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},
-  ica_depth: {type: Number, required: true},
-  ica_parent: [this]
+  us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'}
 });
 
 /**
@@ -50,12 +48,12 @@ var IPCCCategorySchema = new Schema({
   **/
 var CategorySchema = new Schema({
   ca_code: {type: String, required: true, unique: true},
-  ca_code_name: {type: String, required: true},
+  ca_code_name: {type: String, required: true, trim: true},
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_code_definition: {type: String, required: false},
   ca_modified: {type: Date, default: Date.now()},
   ica_category: {type: Schema.Types.ObjectId, ref: 'IPCCCategory'},
-  us_user: {type: Schema.Types.ObjectId, required: true, ref: 'User'}
+  us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'}
 });
 
 /**
