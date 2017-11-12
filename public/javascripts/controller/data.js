@@ -373,7 +373,7 @@ angular.module('undp-ghg-v2')
           importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0); 
           importedObjects[i].nk_notation_key = null;
           for(var a=0; a < $scope.categories.length; a++) {
-            if(importedObjects[i]["ca_category.ca_code_name"] == $scope.categories[a].ca_code_name) {
+            if(importedObjects[i]["ca_category.ca_code_name"].toLowerCase() == $scope.categories[a].ca_code_name.toLowerCase()) {
               importedObjects[i].ca_category = $scope.categories[a];
             }
           }

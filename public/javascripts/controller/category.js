@@ -3,8 +3,9 @@
  */
 
 angular.module('undp-ghg-v2')
-  .controller('CategoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory', 'CategoryFactory',
-    function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory) {
+  .controller('CategoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory', 'CategoryFactory', 'IPCCCategoryFactory',
+    function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, IPCCCategoryFactory) {
+
 
       /**
        * Default states
@@ -14,6 +15,8 @@ angular.module('undp-ghg-v2')
       $scope.category.ca_code_definition = "";
       $scope.category.ca_code_name = "";
       $scope.category.us_user = "";
+      $scope.ipcc_categories = [];
+      $scope.category.ica_category = "";
 
       if ($routeParams.id) {
         //query and populate $scope.category
@@ -61,5 +64,20 @@ angular.module('undp-ghg-v2')
           });
         }
       }
+
+      $scope.sectorSelected = function() {
+        IPCCCategoryFactory.query({
+          se_sector: $scope.category.se_sector
+        }, function(ipcc_categories) {
+          $scope.ipcc_categories = ipcc_categories;
+        });
+      }
+
+      $scope.ipccSelected = function() {
+        IPCCCategoryFactory.get({id:$scope.category.ica_category}, function(value) {
+          $scope.category.ca_code = value.ica_code;
+        });
+      }
+
     }
   ]);

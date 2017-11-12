@@ -17,7 +17,7 @@ var IPCCActivity = model.IPCCActivity;
   */
 exports.getIPCCCategory = function(req, res, next) {
   var query = req.querymen;
-  IPCCCategory.find(query.query, query.select, query.cursor)
+  IPCCCategory.find(query.query, query.select)
     .populate('se_sector us_user ica_parent')
     .exec(function(err, docs) {
       if (err) {

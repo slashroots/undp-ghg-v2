@@ -35,16 +35,14 @@
     <div class="tabs-content w-tab-content">
       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(1) }" ng-show="isSet(1)">
         <br />
-        <div class="w-tab-menu w-submenu">
-          <div ng-class="{ 'w--current': !localCategory}" class="inventorytabs w-inline-block w-tab-link" ng-click="localCategory = false">IPCC Categories</div>
-          <div ng-class="{ 'w--current': localCategory}" class="inventorytabs w-inline-block w-tab-link" ng-click="localCategory = true">Local Categories</div>
-        </div>
         <a class="add-category-button w-inline-block w-action" href="#/add/category/">
           <div>Add Category</div>
         </a>
-        <div ng-show="localCategory" ui-grid="categoryGridOptions" class="table-grid">
+        <h3>Local Category</h3>
+        <div ui-grid="categoryGridOptions" class="table-grid">
         </div>
-        <div ng-hide="localCategory" ui-grid="IpcccategoryGridOptions" class="table-grid">
+        <h3>IPCC Category</h3>
+        <div ui-grid="IpcccategoryGridOptions" class="table-grid">
         </div>
       </div>
       <!-- IPCC Activity -->

@@ -320,14 +320,15 @@ angular.module('undp-ghg-v2')
 
       $scope.categoryGridOptions = {
         data: 'categories',
+        enableFiltering: true,
         columnDefs: [{
             field: 'ca_code',
             displayName: 'Category Code',
             width: 150,
           },
           {
-            field: 'ca_is_ipcc',
-            displayName: 'IS IPCC',
+            field: 'ica_category.ica_code',
+            displayName: 'IPCC Code',
             width: 100
           },
           {
@@ -365,6 +366,7 @@ angular.module('undp-ghg-v2')
 
       $scope.IpcccategoryGridOptions = {
         data: 'ipcc_categories',
+        enableFiltering: true,
         columnDefs: [{
             field: 'ica_code',
             displayName: 'IPCC Code',
@@ -380,10 +382,6 @@ angular.module('undp-ghg-v2')
             displayName: 'IPCC Code Name'
           },
           {
-            field: 'ica_code_definition',
-            displayName: 'Definition'
-          },
-          {
             field: 'ica_modified',
             displayName: 'Last Modified',
             cellFilter: "date: 'medium'",
@@ -393,12 +391,6 @@ angular.module('undp-ghg-v2')
             field: 'us_user.us_user_last_name',
             displayName: 'User Modified',
             width: 100
-          },
-          {
-            field: '_id',
-            displayName: '',
-            width: 100,
-            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
