@@ -380,10 +380,6 @@ angular.module('undp-ghg-v2')
             displayName: 'IPCC Code Name'
           },
           {
-            field: 'ica_code_definition',
-            displayName: 'Definition'
-          },
-          {
             field: 'ica_modified',
             displayName: 'Last Modified',
             cellFilter: "date: 'medium'",

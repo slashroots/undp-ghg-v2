@@ -40,9 +40,7 @@ var IPCCCategorySchema = new Schema({
   se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ica_code_definition: {type: String, required: false},
   ica_modified: {type: Date, default: Date.now()},
-  us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},
-  ica_depth: {type: Number, required: true},
-  ica_parent: [this]
+  us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'}
 });
 
 /**
