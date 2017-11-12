@@ -391,12 +391,6 @@ angular.module('undp-ghg-v2')
             field: 'us_user.us_user_last_name',
             displayName: 'User Modified',
             width: 100
-          },
-          {
-            field: '_id',
-            displayName: '',
-            width: 100,
-            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
