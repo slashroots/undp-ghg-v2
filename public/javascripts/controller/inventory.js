@@ -320,6 +320,7 @@ angular.module('undp-ghg-v2')
 
       $scope.categoryGridOptions = {
         data: 'categories',
+        enableFiltering: true,
         columnDefs: [{
             field: 'ca_code',
             displayName: 'Category Code',
@@ -365,6 +366,7 @@ angular.module('undp-ghg-v2')
 
       $scope.IpcccategoryGridOptions = {
         data: 'ipcc_categories',
+        enableFiltering: true,
         columnDefs: [{
             field: 'ica_code',
             displayName: 'IPCC Code',

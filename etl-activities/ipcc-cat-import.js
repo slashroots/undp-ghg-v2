@@ -24,7 +24,7 @@ var output = read('ipcccategories-xxx.csv', function(data) {
 
     for(var i = 1; i < rows.length; i++){
       record = rows[i].split("|");
-      if(record[5]=="1: Energy") {
+      if(record[5]=="5: Other") {
         categories.push(record[4]);
       }
     }
@@ -37,7 +37,7 @@ var output = read('ipcccategories-xxx.csv', function(data) {
       var iCategory = new db.IPCCCategory({
         ica_code: array[0],
         ica_code_name: array[1],
-        se_sector: "597e331a8f47a700114c93f8"
+        se_sector: "597e331a8f47a700114c93fb"
       }).save(function(err,value) {
         console.log(err, value);
       });

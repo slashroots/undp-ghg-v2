@@ -4,11 +4,21 @@ var App = require('./api-functions');
 var Utils = require('../common/utils');
 var querymen = require('querymen');
 
+
+var ipcc_cat_schema = new querymen.Schema({
+    se_sector: {
+      type: String,
+      paths: ['se_sector']
+    }
+  }, {
+    page: false, // disable default parameter `page`
+    limit: 'max_items' // change name of default parameter `limit` to `max_items`
+  });
+
 /**
  * End Points relevant to Data Management
  */
-
- router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
+ router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware(ipcc_cat_schema)], App.getIPCCCategory);
  router.post('/api/ipcc/category', Utils.isAdmin, App.createIPCCCategory);
  router.get('/api/ipcc/category/:id', Utils.isAuthenticated, App.getIPCCCategoryByID);
  router.put('/api/ipcc/category/:id', Utils.isAuthenticated, App.updateIPCCCategoryByID);

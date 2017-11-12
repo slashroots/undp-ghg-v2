@@ -5,6 +5,18 @@
       <div class="w-form">
         <form class="modal-form w-clearfix">
           <div class="modal-field-wrapper">
+            <label class="modal-field-label">Sector</label>
+            <select ng-model="category.se_sector" ng-change="sectorSelected()" class="modal-fields w-select">
+              <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name_short_code}}</option>
+            </select>
+          </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">IPCC Category</label>
+            <select ng-model="category.ica_category" ng-change="ipccSelected()" class="modal-fields w-select">
+              <option ng-repeat="cat in ipcc_categories" value="{{cat._id}}">{{cat.ica_code}} : {{cat.ica_code_name}}</option>
+            </select>
+          </div>  
+          <div class="modal-field-wrapper">
             <label class="modal-field-label">CATEGORY CODE</label>
             <input class="modal-fields w-input" ng-model="category.ca_code" type="text">
           </div>
@@ -15,16 +27,6 @@
           <div class="modal-field-wrapper">
             <label class="modal-field-label">DEFINITION</label>
             <input class="modal-fields w-input" ng-model="category.ca_code_definition" type="text">
-          </div>
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">Sector</label>
-            <select ng-model="category.se_sector" class="modal-fields w-select">
-              <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name_short_code}}</option>
-            </select>
-          </div>
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">IS IPCC</label>
-            <input type="checkbox" ng-model="category.ca_is_ipcc" checked>
           </div>
           <div class="action-button-group">
             <a class="modal-form-cancel w-button" href="#/settings/1">Cancel</a>
