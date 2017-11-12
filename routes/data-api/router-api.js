@@ -16,14 +16,28 @@ var ipcc_cat_schema = new querymen.Schema({
   });
 
 /**
- * End Points relevant to Data Management
+ * Category Schema
  */
+var category_schema = new querymen.Schema({
+    se_sector: {
+      type: String,
+      paths: ['se_sector']
+    }
+  }, {
+    page: false, // disable default parameter `page`
+    limit: 'max_items' // change name of default parameter `limit` to `max_items`
+  });
+
+/**
+ * End Points relevant to Settings Management
+ */
+ router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
  router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware(ipcc_cat_schema)], App.getIPCCCategory);
  router.post('/api/ipcc/category', Utils.isAdmin, App.createIPCCCategory);
  router.get('/api/ipcc/category/:id', Utils.isAuthenticated, App.getIPCCCategoryByID);
  router.put('/api/ipcc/category/:id', Utils.isAuthenticated, App.updateIPCCCategoryByID);
 
-router.get('/api/category', [Utils.isAuthenticated, querymen.middleware()], App.getCategory);
+router.get('/api/category', [Utils.isAuthenticated, querymen.middleware(category_schema)], App.getCategory);
 router.post('/api/category', Utils.isAdmin, App.createCategory);
 router.get('/api/category/:id', Utils.isAuthenticated, App.getCategoryByID);
 router.put('/api/category/:id', Utils.isAuthenticated, App.updateCategoryByID);
