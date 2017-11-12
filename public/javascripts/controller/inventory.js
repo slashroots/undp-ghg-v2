@@ -327,8 +327,8 @@ angular.module('undp-ghg-v2')
             width: 150,
           },
           {
-            field: 'ca_is_ipcc',
-            displayName: 'IS IPCC',
+            field: 'ica_category.ica_code',
+            displayName: 'IPCC Code',
             width: 100
           },
           {
