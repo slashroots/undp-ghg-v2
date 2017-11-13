@@ -141,6 +141,7 @@ var NotationKeySchema = new Schema({
   nk_notes: {type: String, required: false, unique: false},
   nk_date_modified: {type: Date, default: Date.now()},
   us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  nk_is_enabled: {type: Boolean, default: true},
 });
 
 exports.User = mongoose.model('User', UserSchema);

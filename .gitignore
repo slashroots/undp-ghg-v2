@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 .vscode/
+
+#IntelliJ hidden files
+.idea/
