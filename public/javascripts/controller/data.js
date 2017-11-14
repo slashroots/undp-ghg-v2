@@ -15,6 +15,7 @@ angular.module('undp-ghg-v2')
         $mdSidenav('right').open();
       }
       $scope.closeSideNav = function() {
+
         $mdSidenav('right').close();
       }
 
@@ -59,6 +60,14 @@ angular.module('undp-ghg-v2')
       $scope.activities = ActivityFactory.query();
       $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
       $scope.regions = RegionFactory.query();
+      $scope.variable_types = [
+        {
+          variableType: 'EF'
+        },
+        {
+          variableType: 'AD'
+        }
+      ]
 
       //setting up the table structure and configurations.
       $scope.editable = true;
@@ -97,13 +106,7 @@ angular.module('undp-ghg-v2')
             enableSelectAll: true,
             exporterCsvFilename: 'dataExport.csv',
             // exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-            editDropdownOptionsArray: [{
-                variableType: 'EF'
-              },
-              {
-                variableType: 'AD'
-              }
-            ]
+            editDropdownOptionsArray: $scope.variable_types
           },
           {
             field: 'ca_category.ca_code_name',
@@ -198,6 +201,12 @@ angular.module('undp-ghg-v2')
             editDropdownValueLabel: 're_region_name',
             editDropdownIdLabel: 're_region_name',
             editDropdownOptionsArray: $scope.regions,
+            width: 200
+          },
+          {
+            field: 'notes',
+            displayName: 'Notes',
+            enableCellEdit: $scope.editable,
             width: 200
           }
         ]
@@ -346,8 +355,9 @@ angular.module('undp-ghg-v2')
       $scope.rowSelected = function(row) {
         if (row.isSelected) {
           $scope.openSideNav();
-          $scope.selectedRow = row;
+          $scope.selectedRow = angular.copy(row.entity);
         } else {
+          row.entity = $scope.selectedRow;
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }
