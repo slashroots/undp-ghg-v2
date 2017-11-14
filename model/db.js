@@ -97,7 +97,7 @@ var IPCCActivitySchema = new Schema({
 
 var ActivitySchema = new Schema({
   ac_name: {type: String, required: true},
-  ac_description: {type: String, required: true},
+  ac_description: {type: String, required: false},
   ac_modification_date: {type: Date, default: Date.now()},
   us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
   iac_activity: {type: Schema.Types.ObjectId, required: false, ref: 'IPCCActivity'}
