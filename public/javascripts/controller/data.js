@@ -5,9 +5,9 @@
 angular.module('undp-ghg-v2')
   .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-    'DataFactory',
+    'DataFactory', 'NotationKeyFactory',
     function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
+      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory) {
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -57,6 +57,7 @@ angular.module('undp-ghg-v2')
       $scope.units = UnitFactory.query();
       $scope.gases = GasFactory.query();
       $scope.activities = ActivityFactory.query();
+      $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
 
       //setting up the table structure and configurations.
       $scope.editable = true;
@@ -179,9 +180,13 @@ angular.module('undp-ghg-v2')
             width: 200
           },
           {
-            field: 'nk_notation_key',
+            field: 'nk_name',
             displayName: 'NK',
             enableCellEdit: $scope.editable,
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+            editDropdownValueLabel: 'nk_name',
+            editDropdownIdLabel: 'nk_name',
+            editDropdownOptionsArray: $scope.notation_keys,
             width: 200
           }
         ]
@@ -275,6 +280,14 @@ angular.module('undp-ghg-v2')
               function(item) {
                 rowEntity.ga_gas = item;
               });
+          } else if (columnDef.field == 'nk_notation_key') {
+            NotationKeyFactory.query({
+                nk_name: rowEntity.nk_notation_key
+            },
+            function(items) {
+                if(items.length > 0)
+                    rowEntity.nk = items[0];
+            });
           }
         }
       };
@@ -370,8 +383,7 @@ angular.module('undp-ghg-v2')
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
           // by default since the date is not complete - I am specifying that the date be set to the 
           // first month first day.
-          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0); 
-          importedObjects[i].nk_notation_key = null;
+          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
           for(var a=0; a < $scope.categories.length; a++) {
             if(importedObjects[i]["ca_category.ca_code_name"].toLowerCase() == $scope.categories[a].ca_code_name.toLowerCase()) {
               importedObjects[i].ca_category = $scope.categories[a];
@@ -390,6 +402,15 @@ angular.module('undp-ghg-v2')
           for(var a=0; a < $scope.gases.length; a++) {
             if(importedObjects[i]["ga_gas.ga_chem_formula"] == $scope.gases[a].ga_chem_formula) {
               importedObjects[i].ga_gas = $scope.gases[a];
+            }
+          }
+
+          //TODO: should abstract check to an isEmpty like function
+          if(importedObjects[i]["nk_notation_key"] !== '' && importedObjects[i]["nk_notation_key"] !== undefined) {
+            for(var a=0; a < $scope.notation_keys.length; a++) {
+              if(importedObjects[i]["nk_notation_key"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
+                importedObjects[i].nk_notation_key = $scope.notation_keys[a];
+              }
             }
           }
         }

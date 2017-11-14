@@ -29,6 +29,23 @@ var category_schema = new querymen.Schema({
   });
 
 /**
+ * NotationKey Schema
+ */
+var notationkey_schema = new querymen.Schema({
+    nk_is_enabled: {
+      type: Boolean,
+      paths: ['nk_is_enabled']
+    },
+    nk_name: {
+      type: String,
+      paths: ['nk_name']
+    }
+  }, {
+    page: false, // disable default parameter `page`
+    limit: 'max_items' // change name of default parameter `limit` to `max_items`
+  });
+
+/**
  * End Points relevant to Settings Management
  */
  router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
@@ -67,7 +84,7 @@ router.get('/api/ipcc/activity/:id', Utils.isAuthenticated, App.getIPCCActivityB
 router.put('/api/ipcc/activity/:id', Utils.isAdmin, App.updateIPCCActivity);
 router.post('/api/ipcc/activity', Utils.isAdmin, App.createIPCCActivity);
 
-router.get('/api/ipcc/notationkey', [Utils.isAuthenticated, querymen.middleware()], App.getNotation);
+router.get('/api/ipcc/notationkey', [Utils.isAuthenticated, querymen.middleware(notationkey_schema)], App.getNotation);
 router.get('/api/ipcc/notationkey/:id', Utils.isAuthenticated, App.getNotationByID);
 router.put('/api/ipcc/notationkey/:id', Utils.isAdmin, App.updateNotationKey);
 router.post('/api/ipcc/notationkey', Utils.isAdmin, App.createNotationKey);
