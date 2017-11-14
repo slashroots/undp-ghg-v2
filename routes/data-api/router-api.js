@@ -46,6 +46,20 @@ var notationkey_schema = new querymen.Schema({
   });
 
 /**
+ * Region Schema
+ */
+var region_schema = new querymen.Schema({
+    re_region_name: {
+      type: String,
+      paths: ['re_region_name']
+    }
+  }, {
+    page: false, // disable default parameter `page`
+    limit: 'max_items' // change name of default parameter `limit` to `max_items`
+  });
+
+
+/**
  * End Points relevant to Settings Management
  */
  router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
@@ -94,7 +108,7 @@ router.get('/api/unit/:id', Utils.isAuthenticated, App.getUnitByID);
 router.put('/api/unit/:id', Utils.isAdmin, App.updateUnit);
 router.post('/api/unit', Utils.isAdmin, App.createUnit);
 
-router.get('/api/region', [Utils.isAuthenticated, querymen.middleware()], App.getRegion);
+router.get('/api/region', [Utils.isAuthenticated, querymen.middleware(region_schema)], App.getRegion);
 router.get('/api/region/:id', Utils.isAuthenticated, App.getRegionByID);
 router.put('/api/region/:id', Utils.isAdmin, App.updateRegion);
 router.post('/api/region', Utils.isAdmin, App.createRegion);

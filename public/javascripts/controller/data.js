@@ -5,9 +5,9 @@
 angular.module('undp-ghg-v2')
   .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-    'DataFactory', 'NotationKeyFactory',
+    'DataFactory', 'NotationKeyFactory', 'RegionFactory',
     function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory) {
+      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory) {
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -58,6 +58,7 @@ angular.module('undp-ghg-v2')
       $scope.gases = GasFactory.query();
       $scope.activities = ActivityFactory.query();
       $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
+      $scope.regions = RegionFactory.query();
 
       //setting up the table structure and configurations.
       $scope.editable = true;
@@ -188,6 +189,16 @@ angular.module('undp-ghg-v2')
             editDropdownIdLabel: 'nk_name',
             editDropdownOptionsArray: $scope.notation_keys,
             width: 200
+          },
+          {
+            field: 're_region_name',
+            displayName: 'Region',
+            enableCellEdit: $scope.editable,
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+            editDropdownValueLabel: 're_region_name',
+            editDropdownIdLabel: 're_region_name',
+            editDropdownOptionsArray: $scope.regions,
+            width: 200
           }
         ]
       };
@@ -246,6 +257,7 @@ angular.module('undp-ghg-v2')
       Based on the selected item from the combobox replace with the server side
       values for the save record script that gets called.
       */
+      //TODO: these should intelligently use local copies where possible instead of searching on each lookup
       $scope.lookupEditor = function(rowEntity, columnDef, newValue, oldValue) {
         if ($scope.gridApi.rowEdit.getDirtyRows() > 0) {
           console.log($scope.gridApi.rowEdit.getDirtyRows().length);
@@ -287,6 +299,14 @@ angular.module('undp-ghg-v2')
             function(items) {
                 if(items.length > 0)
                     rowEntity.nk = items[0];
+            });
+          } else if (columnDef.field == 'region') {
+            RegionFactory.query({
+              nk_name: rowEntity.re_region_name
+            },
+            function(items) {
+              if(items.length > 0)
+                rowEntity.nk = items[0];
             });
           }
         }
@@ -410,6 +430,14 @@ angular.module('undp-ghg-v2')
             for(var a=0; a < $scope.notation_keys.length; a++) {
               if(importedObjects[i]["nk_notation_key"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
                 importedObjects[i].nk_notation_key = $scope.notation_keys[a];
+              }
+            }
+          }
+
+          if(importedObjects[i]["region"] !== '' && importedObjects[i]["region"] !== undefined) {
+            for(var a=0; a < $scope.regions.length; a++) {
+              if(importedObjects[i]["region"].toLowerCase() == $scope.regions[a].re_region_name.toLowerCase()) {
+                importedObjects[i].region = $scope.regions[a];
               }
             }
           }
