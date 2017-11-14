@@ -181,7 +181,7 @@ angular.module('undp-ghg-v2')
             width: 200
           },
           {
-            field: 'nk_name',
+            field: 'nk_notation_object.nk_name',
             displayName: 'NK',
             enableCellEdit: $scope.editable,
             editableCellTemplate: 'ui-grid/dropdownEditor',
@@ -191,7 +191,7 @@ angular.module('undp-ghg-v2')
             width: 200
           },
           {
-            field: 're_region_name',
+            field: 'region_object.re_region_name',
             displayName: 'Region',
             enableCellEdit: $scope.editable,
             editableCellTemplate: 'ui-grid/dropdownEditor',
@@ -292,21 +292,21 @@ angular.module('undp-ghg-v2')
               function(item) {
                 rowEntity.ga_gas = item;
               });
-          } else if (columnDef.field == 'nk_notation_key') {
+          } else if (columnDef.field == 'nk_notation_object.nk_name') {
             NotationKeyFactory.query({
-                nk_name: rowEntity.nk_notation_key
+                nk_name: rowEntity.nk_notation_object.nk_name
             },
             function(items) {
                 if(items.length > 0)
-                    rowEntity.nk = items[0];
+                    rowEntity.nk_notation_object = items[0];
             });
-          } else if (columnDef.field == 'region') {
+          } else if (columnDef.field == 'region_object.re_region_name') {
             RegionFactory.query({
-              nk_name: rowEntity.re_region_name
+              nk_name: rowEntity.region_object.re_region_name
             },
             function(items) {
               if(items.length > 0)
-                rowEntity.nk = items[0];
+                rowEntity.region_object = items[0];
             });
           }
         }
@@ -426,18 +426,18 @@ angular.module('undp-ghg-v2')
           }
 
           //TODO: should abstract check to an isEmpty like function
-          if(importedObjects[i]["nk_notation_key"] !== '' && importedObjects[i]["nk_notation_key"] !== undefined) {
+          if(importedObjects[i]["nk_notation_object.nk_name"] !== '' && importedObjects[i]["nk_notation_object.nk_name"] !== undefined) {
             for(var a=0; a < $scope.notation_keys.length; a++) {
-              if(importedObjects[i]["nk_notation_key"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
-                importedObjects[i].nk_notation_key = $scope.notation_keys[a];
+              if(importedObjects[i]["nk_notation_object.nk_name"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
+                importedObjects[i].nk_notation_object = $scope.notation_keys[a];
               }
             }
           }
 
-          if(importedObjects[i]["region"] !== '' && importedObjects[i]["region"] !== undefined) {
+          if(importedObjects[i]["region_object.re_region_name"] !== '' && importedObjects[i]["region_object.re_region_name"] !== undefined) {
             for(var a=0; a < $scope.regions.length; a++) {
-              if(importedObjects[i]["region"].toLowerCase() == $scope.regions[a].re_region_name.toLowerCase()) {
-                importedObjects[i].region = $scope.regions[a];
+              if(importedObjects[i]["region_object.re_region_name"].toLowerCase() == $scope.regions[a].re_region_name.toLowerCase()) {
+                importedObjects[i].region_object = $scope.regions[a];
               }
             }
           }
