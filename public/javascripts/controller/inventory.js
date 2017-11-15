@@ -462,7 +462,9 @@ angular.module('undp-ghg-v2')
             alert("Inventory " + $scope.inventory.in_name + " has been added!");
             $location.path('/settings/6');
           }
-        })
+        },function(failure) {
+          alert("Action failed: " + failure);
+        });
       }
     }
   ]);

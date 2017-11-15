@@ -45,8 +45,12 @@ angular.module('undp-ghg-v2')
 
       //triggers a save event to flush all the modified rows to the databse.
       $scope.persist = function() {
-        $scope.gridApi.rowEdit.flushDirtyRows();
-        $scope.dirtyRowsExist = false;
+        if($scope.editable) {
+          $scope.gridApi.rowEdit.flushDirtyRows();
+          $scope.dirtyRowsExist = false;
+        } else {
+          alert("Unable to save changes.  The inventory is closed!");
+        }
       }
 
       /**
@@ -210,6 +214,8 @@ angular.module('undp-ghg-v2')
         }, function(item) {
           if (item.in_status == 'opened') {
             $scope.editable = true;
+          } else {
+            $scope.editable = false;
           }
           $scope.dataGridOptions.exporterCsvFilename = item.in_name + '.csv';
         });
