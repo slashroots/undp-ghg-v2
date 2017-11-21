@@ -4,16 +4,22 @@
 
 angular.module('undp-ghg-v2')
   .controller('ActivityController', ['$scope', '$location', '$routeParams',
-  'UserFactory', 'ActivityFactory', 'SectorFactory', 'CategoryFactory', 'GasFactory',
+  'UserFactory', 'ActivityFactory', 'SectorFactory', 'CategoryFactory', 'GasFactory', 'IPCCActivityFactory',
     function($scope, $location, $routeParams, UserFactory, ActivityFactory,
-      SectorFactory, CategoryFactory, GasFactory) {
+      SectorFactory, CategoryFactory, GasFactory, IPCCActivityFactory) {
 
       /**
        * Default states
        **/
       $scope.activity = {};
-      $scope.activity.ac_is_ipcc = false;
+      $scope.ipcc_activities = [];
 
+      /**
+       * List all the associated IPCC activities
+       */
+      IPCCActivityFactory.query(function(activities) {
+        $scope.ipcc_activities = activities;
+      });
 
       if ($routeParams.id) {
         //query and populate $scope.category
@@ -21,8 +27,6 @@ angular.module('undp-ghg-v2')
           id: $routeParams.id
         }, function(activity) {
           $scope.activity = activity;
-          $scope.activity.se_sector = activity.se_sector._id;
-          $scope.onChange();
         }, function(error) {
           alert(error.statusText);
         });
@@ -34,25 +38,6 @@ angular.module('undp-ghg-v2')
       $scope.closeAndBack = function() {
         $location.path("/settings/2")
       };
-
-      SectorFactory.query(function(sectors) {
-        $scope.sectors = sectors;
-      });
-
-      GasFactory.query(function(gases) {
-        $scope.gases = gases;
-      });
-
-      $scope.onChange = function() {
-        CategoryFactory.query({se_sector: $scope.activity.se_sector}, function(categories) {
-          $scope.categories = categories;
-          if($scope.activity.ca_category != undefined) {
-            $scope.activity.ca_category = $scope.activity.ca_category._id;
-          }
-        }, function(error) {
-          $scope.categories = [];
-        })
-      }
 
       /**
         * Used to modify or add an activity in the databse.
@@ -76,5 +61,16 @@ angular.module('undp-ghg-v2')
           });
         }
       }
+
+      /**
+       * when the combobox is selected with a specific ipcc activity
+       * then inherit the name from the IPCC recommended activity.
+       */
+      $scope.ipccSelected = function() {
+        IPCCActivityFactory.get({id: activity.ica_activity}, function(ipcc_activity) {
+          activity.ac_name = ipcc_activity.iac_name;
+          activity.ac_description = ipcc_activity.iac_description;
+        });
+      };
     }
   ]);

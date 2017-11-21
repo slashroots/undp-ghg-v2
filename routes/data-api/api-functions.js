@@ -9,6 +9,7 @@ var Region = model.Region;
 var NotationKey = model.NotationKey;
 var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
+var Data = model.Data;
 
 //############################ IPCC CATEGORY ###################################
 
@@ -193,20 +194,97 @@ exports.getInventory = function(req, res, next) {
     });
 };
 
+
 /**
  * Create inventory and tag user who performed the action
  */
 exports.createInventory = function(req, res, next) {
+  //check if open inventory already exists
+  Inventory.findOne({in_status: "opened"}, function(err,item) {
+    if(err) {
+      next(err);
+    } else {
+      if(item) {
+        var error = new Error('An Open Inventory Already Exists!');
+        error.status = 400;
+        next(error);
+      } else {
+        //if there is no opened inventory, find the last inventory based on 
+        //in_end_date and copy data.
+        Inventory.find({}).sort('-in_end_date').exec(
+          function(err, list) {
+            if(err) {
+              next(err);
+            } else {
+
+              createNewInventory(req, function(err, inventory) {
+                if(err) {
+                  next(err);
+                } else {
+                  if(list.length == 0) {
+                    //just go ahead and report creation of new inventory
+                    res.send(inventory);
+                  } else { 
+                    var data_new = [];
+                    var new_obj = {};
+                    Data.find({in_inventory: list[0]._id}).exec(
+                      function(err1, data) {
+                        for(i in data) {
+                          new_obj = {};
+                          //I really don't like the way I did this
+                          //the delete function doesn't work at all
+                          new_obj.in_inventory = inventory._id;
+                          new_obj.ca_category = data[i].ca_category;
+                          new_obj.ac_activity = data[i].ac_activity;
+                          new_obj.da_variable_type = data[i].da_variable_type;
+                          new_obj.da_data_value = data[i].da_data_value;
+                          new_obj.un_unit = data[i].un_unit;
+                          new_obj.ga_gas = data[i].ga_gas;
+                          new_obj.da_data_modified = data[i].da_data_modified;
+                          new_obj.nk_notation_key = data[i].nk_notation_key;
+                          new_obj.da_date = data[i].da_date;
+                          new_obj.re_region = data[i].re_region;
+                          new_obj.da_notes = data[i].da_notes;
+                          new_obj.da_uncertainty_min = data[i].da_uncertainty_min;
+                          new_obj.da_uncertainty_max = data[i].da_uncertainty_max;
+                          new_obj.da_data_state = data[i].da_data_state;
+                          data_new.push(new_obj);
+                        }
+
+                        Data.insertMany(data_new, function(error_many, result) {
+                          if(error_many) {
+                            next(error_many);
+                          } else {
+                            res.send(inventory);
+                          }
+                        });
+                      }
+                    );
+                  }
+                }
+              });
+            }
+          }
+        )
+      }
+    }
+  })
+
+};
+
+/**
+ * A helper function to assist with the creation of the 
+ * inventory for the main function above.
+ */
+createNewInventory = function(req, callback) {
+  //create the inventory
   var inventory = new Inventory(req.body);
   inventory.us_user = req.user._id;
   inventory.save(function(err) {
-    if (err) {
-      next(err);
-    } else {
-      res.send(inventory);
-    }
+      //finally respond with the new inventory
+      callback(err, inventory);
   });
-};
+}
 
 exports.modifyInventory = function(req, res, next) {
   Inventory.findByIdAndUpdate(req.params.id, req.body, {new: true},

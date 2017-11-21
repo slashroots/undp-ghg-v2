@@ -246,12 +246,6 @@ angular.module('undp-ghg-v2')
             field: 'us_user.us_user_last_name',
             displayName: 'User Modified',
             width: 100
-          },
-          {
-            field: '_id',
-            displayName: '',
-            width: 100,
-            cellTemplate: "/partials/components/edit-button.html"
           }
         ]
       };
@@ -462,7 +456,9 @@ angular.module('undp-ghg-v2')
             alert("Inventory " + $scope.inventory.in_name + " has been added!");
             $location.path('/settings/6');
           }
-        })
+        },function(failure) {
+          alert("Action failed: " + failure);
+        });
       }
     }
   ]);
