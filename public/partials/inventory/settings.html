@@ -48,16 +48,14 @@
       <!-- IPCC Activity -->
       <div class="setting-tab-pane w-tab-pane" ng-class="{ 'w--tab-active': isSet(2) }" ng-show="isSet(2)">
         <br/>
-        <div class="w-tab-menu w-submenu">
-          <div ng-class="{ 'w--current': !localActivity}" class="inventorytabs w-inline-block w-tab-link" ng-click="localActivity = false">IPCC Activity</div>
-          <div ng-class="{ 'w--current': localActivity }" class="inventorytabs w-inline-block w-tab-link" ng-click="localActivity = true">Local Activities</div>
-        </div>
         <a class="add-category-button w-inline-block w-action" data-ix="add-activity-modal" href="#/add/activity">
           <div>Add Activity</div>
         </a>
-        <div ng-show="localActivity" ui-grid="activityGridOptions" class="table-grid">
+        <h3>Local Activity</h3>
+        <div ui-grid="activityGridOptions" class="table-grid">
         </div>
-        <div ng-hide="localActivity" ui-grid="IpccActivityGridOptions" class="table-grid">
+        <h3>IPCC Activity</h3>
+        <div ui-grid="IpccActivityGridOptions" class="table-grid">
         </div>
       </div>
       <!-- Gas Settings -->
