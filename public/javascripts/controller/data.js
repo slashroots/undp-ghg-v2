@@ -46,8 +46,12 @@ angular.module('undp-ghg-v2')
 
       //triggers a save event to flush all the modified rows to the databse.
       $scope.persist = function() {
-        $scope.gridApi.rowEdit.flushDirtyRows();
-        $scope.dirtyRowsExist = false;
+        if($scope.editable) {
+          $scope.gridApi.rowEdit.flushDirtyRows();
+          $scope.dirtyRowsExist = false;
+        } else {
+          alert("Unable to save changes.  The inventory is closed!");
+        }
       }
 
       /**
@@ -235,6 +239,8 @@ angular.module('undp-ghg-v2')
         }, function(item) {
           if (item.in_status == 'opened') {
             $scope.editable = true;
+          } else {
+            $scope.editable = false;
           }
           $scope.dataGridOptions.exporterCsvFilename = item.in_name + '.csv';
         });
@@ -415,12 +421,12 @@ angular.module('undp-ghg-v2')
           // first month first day.
           importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
           for(var a=0; a < $scope.categories.length; a++) {
-            if(importedObjects[i]["ca_category.ca_code_name"].toLowerCase() == $scope.categories[a].ca_code_name.toLowerCase()) {
+            if(importedObjects[i]["ca_category.ca_code_name"].toLowerCase().trim() == $scope.categories[a].ca_code_name.toLowerCase().trim()) {
               importedObjects[i].ca_category = $scope.categories[a];
             }
           }
           for(var a=0; a < $scope.activities.length; a++) {
-            if(importedObjects[i]["ac_activity.ac_name"] == $scope.activities[a].ac_name) {
+            if(importedObjects[i]["ac_activity.ac_name"].toLowerCase().trim() == $scope.activities[a].ac_name.toLowerCase().trim()) {
               importedObjects[i].ac_activity = $scope.activities[a];
             }
           }
