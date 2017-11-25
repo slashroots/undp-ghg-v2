@@ -5,9 +5,10 @@
 angular.module('undp-ghg-v2')
   .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-    'DataFactory', 'NotationKeyFactory', 'RegionFactory',
+    'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
     function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory) {
+      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
+      uiGridConstants) {
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -100,6 +101,11 @@ angular.module('undp-ghg-v2')
         importerDataAddCallback: newDataImporter,
         data: 'dataValues',
         columnDefs: [{
+            cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                isDataValid(row.entity);
+                if(!row.entity.isValid)
+                    return 'table-error-indicator';
+            },
             field: 'da_variable_type',
             displayName: 'Variable Type',
             enableCellEdit: $scope.editable,
@@ -363,7 +369,9 @@ angular.module('undp-ghg-v2')
           $scope.openSideNav();
           $scope.selectedRow = angular.copy(row.entity);
         } else {
+          $scope.selectedRow.isValid = true;
           row.entity = $scope.selectedRow;
+          $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }
@@ -414,6 +422,7 @@ angular.module('undp-ghg-v2')
        */
       runMatchProcess = function(importedObjects, callback) {
         for(var i =0; i < importedObjects.length; i++) {
+          importedObjects[i].isValid = false;
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
@@ -460,6 +469,10 @@ angular.module('undp-ghg-v2')
         }
         callback(importedObjects);
       };
+
+      function isDataValid(data) {
+        data.isValid = data.ca_category!=undefined && data.ac_activity!=undefined;
+      }
 
     }
   ]);

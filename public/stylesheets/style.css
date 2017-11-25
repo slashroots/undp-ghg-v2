@@ -25,3 +25,10 @@ md-toolbar:not(.md-menu-toolbar) {
     background-color: #272838;
     color: rgba(255,255,255,0.87);
 }
+
+.table-error-indicator {
+    background-image: url("https://i.imgur.com/Ei1GaY4.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 107% -2px;
+}
