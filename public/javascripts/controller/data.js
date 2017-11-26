@@ -10,6 +10,8 @@ angular.module('undp-ghg-v2')
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
       uiGridConstants) {
 
+      $scope.reference_issue = [];
+
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
       $scope.openSideNav = function() {
@@ -499,8 +501,12 @@ angular.module('undp-ghg-v2')
             "Unable to find match for " + importedObjects[i]["region_object.re_region_name"],
             importedObjects[i]["region_object.re_region_name"], "mismatch"));
           }
-          console.log(issue_list);
-          issue_list = [];
+
+          //TODO: I haven't done any association with the issue lists and the records at fault.
+          if(issue_list.length > 0) {
+            importedObjects[i].issues = issue_list;
+            issue_list = [];
+          }
         }
         callback(importedObjects);
       };
