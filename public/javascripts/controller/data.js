@@ -421,6 +421,7 @@ angular.module('undp-ghg-v2')
        * server-side.  The loop can be optimized.
        */
       runMatchProcess = function(importedObjects, callback) {
+        var issue_list = [];
         for(var i =0; i < importedObjects.length; i++) {
           importedObjects[i].isValid = false;
           importedObjects[i].in_inventory = $scope.selectedInventory;
@@ -434,19 +435,46 @@ angular.module('undp-ghg-v2')
               importedObjects[i].ca_category = $scope.categories[a];
             }
           }
+          /**
+           * TODO: there must be a nice cleaner way of recording that no matches have been found.
+           * THis isn't clean enough and should be changed eventually.
+           */
+          if(!hasProperty(importedObjects[i].ca_category, "_id")) {
+            issue_list.push(createIssue("Category", 
+            "Unable to find match for '" + importedObjects[i]["ca_category.ca_code_name"] +"'",
+            importedObjects[i]["ca_category.ca_code_name"], "mismatch"));
+          }
           for(var a=0; a < $scope.activities.length; a++) {
             if(importedObjects[i]["ac_activity.ac_name"].toLowerCase().trim() == $scope.activities[a].ac_name.toLowerCase().trim()) {
               importedObjects[i].ac_activity = $scope.activities[a];
             }
+          }
+          if(!hasProperty(importedObjects[i].ac_activity, "_id")) {
+            issue_list.push(createIssue("Activity", 
+            "Unable to find match for " + importedObjects[i]["ac_activity.ac_name"],
+            importedObjects[i]["ac_activity.ac_name"], "mismatch"));
           }
           for(var a=0; a < $scope.units.length; a++) {
             if(importedObjects[i]["un_unit.un_unit_symbol"] == $scope.units[a].un_unit_symbol) {
               importedObjects[i].un_unit = $scope.units[a];
             }
           }
+          if(!hasProperty(importedObjects[i].un_unit, "_id")) {
+            issue_list.push(createIssue("Unit", 
+            "Unable to find match for " + importedObjects[i]["un_unit.un_unit_symbol"],
+            importedObjects[i]["un_unit.un_unit_symbol"], "mismatch"));
+          }
           for(var a=0; a < $scope.gases.length; a++) {
             if(importedObjects[i]["ga_gas.ga_chem_formula"] == $scope.gases[a].ga_chem_formula) {
               importedObjects[i].ga_gas = $scope.gases[a];
+            }
+          }
+          if(!hasProperty(importedObjects[i].ga_gas, "_id")) {
+            //if this is activity data - it isn't an issue!
+            if(importedObjects[i].da_variable_type == "EF") {
+              issue_list.push(createIssue("Gas", 
+              "Unable to find match for " + importedObjects[i]["ga_gas.ga_chem_formula"],
+              importedObjects[i]["ga_gas.ga_chem_formula"], "mismatch"));
             }
           }
 
@@ -466,12 +494,50 @@ angular.module('undp-ghg-v2')
               }
             }
           }
+          if(!hasProperty(importedObjects[i].region_object, "_id")) {
+            issue_list.push(createIssue("Region", 
+            "Unable to find match for " + importedObjects[i]["region_object.re_region_name"],
+            importedObjects[i]["region_object.re_region_name"], "mismatch"));
+          }
+          console.log(issue_list);
+          issue_list = [];
         }
         callback(importedObjects);
       };
 
       function isDataValid(data) {
         data.isValid = data.ca_category!=undefined && data.ac_activity!=undefined;
+      }
+
+      /**
+       * create and issue object for adding to the row object
+       * @param {*} issue_name 
+       * @param {*} description 
+       * @param {*} problem 
+       * @param {*} type 
+       */
+      function createIssue(issue_name, description, problem, type) {
+        var issue_object = {};
+        issue_object.name = issue_name
+        issue_object.description = description; //
+        issue_object.problem = problem; //importedObjects[i]["ca_category.ca_code_name"];
+        issue_object.type = type; //"mismatch";
+        return issue_object;
+      }
+
+      /**
+       * safe check if property exists in object
+       * @param {*} object 
+       * @param {*} key 
+       */
+      function hasProperty(object, key) {
+        try {
+          if(object[key]) {
+            return true;
+          } 
+        } catch(error) {
+          return false;
+        }
       }
 
     }
