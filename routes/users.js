@@ -90,7 +90,14 @@ router.post('/user-registration', function(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.redirect('/');
+      common.sendActivationEmail(user, function(err, info) {
+        if(err) {
+          next(err);
+        } else {
+          res.redirect('/');
+        }
+      });
+      
     }
   });
 });

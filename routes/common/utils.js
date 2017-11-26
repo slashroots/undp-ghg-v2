@@ -29,7 +29,7 @@ exports.MAIL_AUTH_PASS = process.env.MAIL_AUTH_PASS || "";
 var transporter = nodemailer.createTransport({
   host: exports.MAIL_HOST,
   port: exports.MAIL_PORT,
-  secure: false, 
+  secure: true, 
   auth: {
       user: exports.MAIL_AUTH_USER, 
       pass: exports.MAIL_AUTH_PASS 
@@ -93,4 +93,22 @@ exports.isSectorExpert = function(req, res, next) {
 exports.sendActivationEmail = function(user, callback) {
   //TODO... based on the generate the email message and send using 
   //node mailer
+
+  var mailOptions = {
+    from: '"NOREPLY GHG" <noreply@greenhousegas.com>', // sender address
+    to: user.us_email_address,
+    subject: 'New Registration', // Subject line
+    text: 'Welcome', // plain text body
+    html: '<b>Welcome to the UNDP Greenhouse Gases Database Inventory System!</b>' // html body
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      callback(error);
+    } else {
+      console.log('Message sent: %s', info.messageId);
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      callback(null, info);
+    }
+});
 }
