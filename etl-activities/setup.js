@@ -24,15 +24,11 @@ var admin_user = db.User({
     us_activation_token: "notrealtoken"
 });
 
-db.User.find().exec(function(err, alldocs) {
-    console.log(alldocs);
-})
-
 admin_user.save(function(err, result) {
     if(err) {
         console.log("Error Thrown: ");
         console.error(err);
-        process.exit(1);
+        process.exit(1); //terminate upon exit with error code
     } else {
         console.log("Successfully created user.");
 
@@ -43,7 +39,7 @@ admin_user.save(function(err, result) {
         console.log("#####################################");
 
         console.log("Note the us_email_address and us_password");
-        process.exit(0);
+        process.exit(0); //terminate upon exit with success code
     }
 });
 
