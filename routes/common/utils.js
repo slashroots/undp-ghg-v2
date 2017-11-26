@@ -14,13 +14,17 @@ exports.MANAGER = 'manager';
 exports.REPORTER = 'reporter';
 exports.SECTOR_EXPERT = 'sector';
 
+exports.USER_ACTIVE = 'active';
+exports.USER_INACTIVE = 'inactive';
+exports.USER_PENDING = 'pending';
+
 /**
  * NODE_MAILER PARAMETERS
  */
-exports.MAIL_HOST = process.env.MAIL_HOST;
-exports.MAIL_PORT = process.env.MAIL_PORT;
-exports.MAIL_AUTH_USER = MAIL_AUTH_USER;
-exports.MAIL_AUTH_PASS = process.env.MAIL_AUTH_PASS;
+exports.MAIL_HOST = process.env.MAIL_HOST || "";
+exports.MAIL_PORT = process.env.MAIL_PORT || "";
+exports.MAIL_AUTH_USER = process.env.MAIL_AUTH_USER || "";
+exports.MAIL_AUTH_PASS = process.env.MAIL_AUTH_PASS || "";
 
 var transporter = nodemailer.createTransport({
   host: exports.MAIL_HOST,
