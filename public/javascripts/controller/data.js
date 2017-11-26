@@ -103,7 +103,7 @@ angular.module('undp-ghg-v2')
         columnDefs: [{
             cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                 isDataValid(row.entity);
-                if(!row.entity.isValid)
+                if(!row.entity.isValid || row.entity.isConflictExists)
                     return 'table-error-indicator';
             },
             field: 'da_variable_type',
@@ -421,8 +421,14 @@ angular.module('undp-ghg-v2')
        * server-side.  The loop can be optimized.
        */
       runMatchProcess = function(importedObjects, callback) {
+
+        /*
+            TODO: maintaining yet another list is not the most efficient way to import.
+            Values to be imported could be appended directly to dataValues.
+        */
+        var tmpImported = [];
+
         for(var i =0; i < importedObjects.length; i++) {
-          importedObjects[i].isValid = false;
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
@@ -466,12 +472,62 @@ angular.module('undp-ghg-v2')
               }
             }
           }
+
+          importedObjects[i].isValid = false;
+
+          /*
+            if the current object being imported does not conflict with a previously stored record,
+            store it for display
+          */
+          if(!isConflictExists(importedObjects[i])) {
+            tmpImported.push(importedObjects[i]);
+          }
         }
-        callback(importedObjects);
+        callback(tmpImported);
       };
 
       function isDataValid(data) {
         data.isValid = data.ca_category!=undefined && data.ac_activity!=undefined;
+      }
+
+      /*
+        checks if imported object is overwriting a previously saved object. If an object is
+        being overwritten the new object is appending to the previously saved object.
+      */
+      function isConflictExists(data) {
+        for(var i=0; i < $scope.dataValues.length; i++) {
+            if(objPathEqual($scope.dataValues[i], data, "da_variable_type") &&
+                objPathEqual($scope.dataValues[i], data, "ac_activity._id") &&
+                objPathEqual($scope.dataValues[i], data, "ca_category._id") &&
+                new Date($scope.dataValues[i].da_date).getFullYear()===new Date(data.da_date).getFullYear()) {
+                    $scope.dataValues[i].isConflictExists = true;
+                    $scope.dataValues[i].conflict = data;
+                    return true;
+                }
+        }
+        return false;
+      }
+
+      //TODO: helper functions should be moved to an appropriate package
+      // helper function to check of the path value of two objects are the same
+      function objPathEqual(obj1, obj2, path) {
+        return objPathExists(obj1, path)===objPathExists(obj2, path);
+      }
+
+      // helper function to do a deep path check on object.
+      function objPathExists(obj, path) {
+        var paths = path.split('.'),
+            current = obj,
+            i;
+
+        for (i = 0; i < paths.length; ++i) {
+            if (current[paths[i]] == undefined) {
+                return -1;
+            } else {
+                current = current[paths[i]];
+            }
+        }
+        return current;
       }
 
     }
