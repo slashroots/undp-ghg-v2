@@ -8,6 +8,7 @@
         <md-list-item ng-repeat="issue in selectedRow.issues" class="md-2-line contact-item">
             <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
             <div class="md-list-item-text compact">
+                <h4>{{issue.name}} ({{issue.type | uppercase}})</h4>
                 <p style="color: red;">{{issue.description}}</p>
             </div>
         </md-list-item>
