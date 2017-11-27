@@ -5,9 +5,24 @@
 angular.module('undp-ghg-v2')
   .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-    'DataFactory',
+    'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
     function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory) {
+      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
+      uiGridConstants) {
+
+      $scope.reference_issue = [];
+
+      $scope.sidebarPartial = function(type) {
+        if(type==='notes') {
+            $scope.selected_sidebar = "notes";
+            $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-notes.html";
+        } else if(type==='issues') {
+            $scope.selected_sidebar = "issues";
+            $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-issues.html";
+        }
+      }
+      $scope.sidebarPartial('notes');
+
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -15,6 +30,7 @@ angular.module('undp-ghg-v2')
         $mdSidenav('right').open();
       }
       $scope.closeSideNav = function() {
+
         $mdSidenav('right').close();
       }
 
@@ -61,6 +77,16 @@ angular.module('undp-ghg-v2')
       $scope.units = UnitFactory.query();
       $scope.gases = GasFactory.query();
       $scope.activities = ActivityFactory.query();
+      $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
+      $scope.regions = RegionFactory.query();
+      $scope.variable_types = [
+        {
+          variableType: 'EF'
+        },
+        {
+          variableType: 'AD'
+        }
+      ]
 
       //setting up the table structure and configurations.
       $scope.editable = true;
@@ -89,6 +115,11 @@ angular.module('undp-ghg-v2')
         importerDataAddCallback: newDataImporter,
         data: 'dataValues',
         columnDefs: [{
+            cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                isDataValid(row.entity);
+                if(!row.entity.isValid || row.entity.isConflictExists)
+                    return 'table-error-indicator';
+            },
             field: 'da_variable_type',
             displayName: 'Variable Type',
             enableCellEdit: $scope.editable,
@@ -99,13 +130,7 @@ angular.module('undp-ghg-v2')
             enableSelectAll: true,
             exporterCsvFilename: 'dataExport.csv',
             // exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-            editDropdownOptionsArray: [{
-                variableType: 'EF'
-              },
-              {
-                variableType: 'AD'
-              }
-            ]
+            editDropdownOptionsArray: $scope.variable_types
           },
           {
             field: 'ca_category.ca_code_name',
@@ -183,8 +208,28 @@ angular.module('undp-ghg-v2')
             width: 200
           },
           {
-            field: 'nk_notation_key',
+            field: 'nk_notation_object.nk_name',
             displayName: 'NK',
+            enableCellEdit: $scope.editable,
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+            editDropdownValueLabel: 'nk_name',
+            editDropdownIdLabel: 'nk_name',
+            editDropdownOptionsArray: $scope.notation_keys,
+            width: 200
+          },
+          {
+            field: 'region_object.re_region_name',
+            displayName: 'Region',
+            enableCellEdit: $scope.editable,
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+            editDropdownValueLabel: 're_region_name',
+            editDropdownIdLabel: 're_region_name',
+            editDropdownOptionsArray: $scope.regions,
+            width: 200
+          },
+          {
+            field: 'notes',
+            displayName: 'Notes',
             enableCellEdit: $scope.editable,
             width: 200
           }
@@ -247,6 +292,7 @@ angular.module('undp-ghg-v2')
       Based on the selected item from the combobox replace with the server side
       values for the save record script that gets called.
       */
+      //TODO: these should intelligently use local copies where possible instead of searching on each lookup
       $scope.lookupEditor = function(rowEntity, columnDef, newValue, oldValue) {
         if ($scope.gridApi.rowEdit.getDirtyRows() > 0) {
           console.log($scope.gridApi.rowEdit.getDirtyRows().length);
@@ -281,6 +327,22 @@ angular.module('undp-ghg-v2')
               function(item) {
                 rowEntity.ga_gas = item;
               });
+          } else if (columnDef.field == 'nk_notation_object.nk_name') {
+            NotationKeyFactory.query({
+                nk_name: rowEntity.nk_notation_object.nk_name
+            },
+            function(items) {
+                if(items.length > 0)
+                    rowEntity.nk_notation_object = items[0];
+            });
+          } else if (columnDef.field == 'region_object.re_region_name') {
+            RegionFactory.query({
+              nk_name: rowEntity.region_object.re_region_name
+            },
+            function(items) {
+              if(items.length > 0)
+                rowEntity.region_object = items[0];
+            });
           }
         }
       };
@@ -319,8 +381,11 @@ angular.module('undp-ghg-v2')
       $scope.rowSelected = function(row) {
         if (row.isSelected) {
           $scope.openSideNav();
-          $scope.selectedRow = row;
+          $scope.selectedRow = angular.copy(row.entity);
         } else {
+          $scope.selectedRow.isValid = true;
+          row.entity = $scope.selectedRow;
+          $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }
@@ -370,37 +435,188 @@ angular.module('undp-ghg-v2')
        * server-side.  The loop can be optimized.
        */
       runMatchProcess = function(importedObjects, callback) {
+        var issue_list = [];
+
+        /*
+            TODO: maintaining yet another list is not the most efficient way to import.
+            Values to be imported could be appended directly to dataValues.
+        */
+        var tmpImported = [];
+
         for(var i =0; i < importedObjects.length; i++) {
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
           // by default since the date is not complete - I am specifying that the date be set to the 
           // first month first day.
-          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0); 
-          importedObjects[i].nk_notation_key = null;
+          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
           for(var a=0; a < $scope.categories.length; a++) {
             if(importedObjects[i]["ca_category.ca_code_name"].toLowerCase().trim() == $scope.categories[a].ca_code_name.toLowerCase().trim()) {
               importedObjects[i].ca_category = $scope.categories[a];
             }
+          }
+          /**
+           * TODO: there must be a nice cleaner way of recording that no matches have been found.
+           * THis isn't clean enough and should be changed eventually.
+           */
+          if(!hasProperty(importedObjects[i].ca_category, "_id")) {
+            issue_list.push(createIssue("Category", 
+            "Unable to find match for '" + importedObjects[i]["ca_category.ca_code_name"] +"'",
+            importedObjects[i]["ca_category.ca_code_name"], "mismatch"));
           }
           for(var a=0; a < $scope.activities.length; a++) {
             if(importedObjects[i]["ac_activity.ac_name"].toLowerCase().trim() == $scope.activities[a].ac_name.toLowerCase().trim()) {
               importedObjects[i].ac_activity = $scope.activities[a];
             }
           }
+          if(!hasProperty(importedObjects[i].ac_activity, "_id")) {
+            issue_list.push(createIssue("Activity", 
+            "Unable to find match for " + importedObjects[i]["ac_activity.ac_name"],
+            importedObjects[i]["ac_activity.ac_name"], "mismatch"));
+          }
           for(var a=0; a < $scope.units.length; a++) {
             if(importedObjects[i]["un_unit.un_unit_symbol"] == $scope.units[a].un_unit_symbol) {
               importedObjects[i].un_unit = $scope.units[a];
             }
+          }
+          if(!hasProperty(importedObjects[i].un_unit, "_id")) {
+            issue_list.push(createIssue("Unit", 
+            "Unable to find match for " + importedObjects[i]["un_unit.un_unit_symbol"],
+            importedObjects[i]["un_unit.un_unit_symbol"], "mismatch"));
           }
           for(var a=0; a < $scope.gases.length; a++) {
             if(importedObjects[i]["ga_gas.ga_chem_formula"] == $scope.gases[a].ga_chem_formula) {
               importedObjects[i].ga_gas = $scope.gases[a];
             }
           }
+          if(!hasProperty(importedObjects[i].ga_gas, "_id")) {
+            //if this is activity data - it isn't an issue!
+            if(importedObjects[i].da_variable_type == "EF") {
+              issue_list.push(createIssue("Gas", 
+              "Unable to find match for " + importedObjects[i]["ga_gas.ga_chem_formula"],
+              importedObjects[i]["ga_gas.ga_chem_formula"], "mismatch"));
+            }
+          }
+
+          //TODO: should abstract check to an isEmpty like function
+          if(importedObjects[i]["nk_notation_object.nk_name"] !== '' && importedObjects[i]["nk_notation_object.nk_name"] !== undefined) {
+            for(var a=0; a < $scope.notation_keys.length; a++) {
+              if(importedObjects[i]["nk_notation_object.nk_name"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
+                importedObjects[i].nk_notation_object = $scope.notation_keys[a];
+              }
+            }
+          }
+
+          if(importedObjects[i]["region_object.re_region_name"] !== '' && importedObjects[i]["region_object.re_region_name"] !== undefined) {
+            for(var a=0; a < $scope.regions.length; a++) {
+              if(importedObjects[i]["region_object.re_region_name"].toLowerCase() == $scope.regions[a].re_region_name.toLowerCase()) {
+                importedObjects[i].region_object = $scope.regions[a];
+              }
+            }
+          }
+          if(!hasProperty(importedObjects[i].region_object, "_id")) {
+            issue_list.push(createIssue("Region",
+            "Unable to find match for " + importedObjects[i]["region_object.re_region_name"],
+            importedObjects[i]["region_object.re_region_name"], "mismatch"));
+          }
+
+          //TODO: I haven't done any association with the issue lists and the records at fault.
+          if(issue_list.length > 0) {
+            importedObjects[i].issues = issue_list;
+            issue_list = [];
+          }
+
+          importedObjects[i].isValid = false;
+
+          /*
+            if the current object being imported does not conflict with a previously stored record,
+            store it for display
+          */
+          if(!isConflictExists(importedObjects[i])) {
+            tmpImported.push(importedObjects[i]);
+          } else {
+            issue_list.push(createIssue("Record",
+                        'This new record will overwrite a previously saved record',
+                        '', 'overwrite'));
+          }
         }
-        callback(importedObjects);
+        callback(tmpImported);
       };
+
+      function isDataValid(data) {
+        data.isValid = data.ca_category!=undefined && data.ac_activity!=undefined;
+      }
+
+      /**
+       * create and issue object for adding to the row object
+       * @param {*} issue_name 
+       * @param {*} description 
+       * @param {*} problem 
+       * @param {*} type 
+       */
+      function createIssue(issue_name, description, problem, type) {
+        var issue_object = {};
+        issue_object.name = issue_name
+        issue_object.description = description; //
+        issue_object.problem = problem; //importedObjects[i]["ca_category.ca_code_name"];
+        issue_object.type = type; //"mismatch";
+        return issue_object;
+      }
+
+      /**
+       * safe check if property exists in object
+       * @param {*} object 
+       * @param {*} key 
+       */
+      function hasProperty(object, key) {
+        try {
+          if(object[key]) {
+            return true;
+          } 
+        } catch(error) {
+          return false;
+        }
+      }
+
+      /*
+        checks if imported object is overwriting a previously saved object. If an object is
+        being overwritten the new object is appending to the previously saved object.
+      */
+      function isConflictExists(data) {
+        for(var i=0; i < $scope.dataValues.length; i++) {
+            if(objPathEqual($scope.dataValues[i], data, "da_variable_type") &&
+                objPathEqual($scope.dataValues[i], data, "ac_activity._id") &&
+                objPathEqual($scope.dataValues[i], data, "ca_category._id") &&
+                new Date($scope.dataValues[i].da_date).getFullYear()===new Date(data.da_date).getFullYear()) {
+                    $scope.dataValues[i].isConflictExists = true;
+                    $scope.dataValues[i].conflict = data;
+                    return true;
+                }
+        }
+        return false;
+      }
+
+      //TODO: helper functions should be moved to an appropriate package
+      // helper function to check of the path value of two objects are the same
+      function objPathEqual(obj1, obj2, path) {
+        return objPathExists(obj1, path)===objPathExists(obj2, path);
+      }
+
+      // helper function to do a deep path check on object.
+      function objPathExists(obj, path) {
+        var paths = path.split('.'),
+            current = obj,
+            i;
+
+        for (i = 0; i < paths.length; ++i) {
+            if (current[paths[i]] == undefined) {
+                return -1;
+            } else {
+                current = current[paths[i]];
+            }
+        }
+        return current;
+      }
 
     }
   ]);
