@@ -12,6 +12,18 @@ angular.module('undp-ghg-v2')
 
       $scope.reference_issue = [];
 
+      $scope.sidebarPartial = function(type) {
+        if(type==='notes') {
+            $scope.selected_sidebar = "notes";
+            $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-notes.html";
+        } else if(type==='issues') {
+            $scope.selected_sidebar = "issues";
+            $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-issues.html";
+        }
+      }
+      $scope.sidebarPartial('notes');
+
+
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
       $scope.openSideNav = function() {
@@ -503,7 +515,7 @@ angular.module('undp-ghg-v2')
             }
           }
           if(!hasProperty(importedObjects[i].region_object, "_id")) {
-            issue_list.push(createIssue("Region", 
+            issue_list.push(createIssue("Region",
             "Unable to find match for " + importedObjects[i]["region_object.re_region_name"],
             importedObjects[i]["region_object.re_region_name"], "mismatch"));
           }
@@ -522,6 +534,10 @@ angular.module('undp-ghg-v2')
           */
           if(!isConflictExists(importedObjects[i])) {
             tmpImported.push(importedObjects[i]);
+          } else {
+            issue_list.push(createIssue("Record",
+                        'This new record will overwrite a previously saved record',
+                        '', 'overwrite'));
           }
         }
         callback(tmpImported);
