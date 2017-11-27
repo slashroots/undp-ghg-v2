@@ -16,6 +16,10 @@
             <label class="modal-field-label">Explanation</label>
             <input class="modal-fields w-input" ng-model="notationKey.nk_explanation" type="text">
           </div>
+          <div class="modal-field-wrapper">
+            <label class="modal-field-label">Enabled</label>
+            <input class="modal-fields w-input" ng-model="notationKey.nk_is_enabled" type="checkbox">
+          </div>
           <div class="action-button-group">
             <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
             <a class="modal-form-confirm w-button" ng-click="addNotationKey()">Save</a></div>

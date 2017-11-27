@@ -29,21 +29,18 @@
 
   <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-disable-backdrop md-component-id="right">
 
-      <md-toolbar class="md-theme-dark">
-        <h1 class="md-toolbar-tools">Issues and Notes</h1>
-      </md-toolbar>
+      <div id="sidebar-tabs">
+        <div class="sidebar-tab" ng-class="{'sidebar-tab-selected': selected_sidebar=='notes'}"
+             ng-click="sidebarPartial('notes')">
+          Notes
+        </div>
+        <div class="sidebar-tab" ng-class="{'sidebar-tab-selected': selected_sidebar=='issues'}"
+             ng-click="sidebarPartial('issues')">
+          Issues
+        </div>
+      </div>
       <md-content layout-padding>
-
-        <md-list class="fixedRows">
-          <md-list-item class="md-2-line contact-item" ng-repeat="(key, value) in selectedRow.entity">
-            <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
-            <div class="md-list-item-text compact">
-              <h4>{{key}}</h3>
-              <p ng-class="(value._id == null)? 'alert-mismatch':''">{{value}}</p>
-            </div>
-          </md-list-item>
-        </md-list>
-
+        <ng-include src="selected_sidebar_partial"></ng-include>
       </md-content>
 
     </md-sidenav>
