@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/data-api/router-api');
 var data = require('./routes/data/router-data');
+var app_logger = require('./routes/common/logger');
 var excel = require('./routes/export/excel-file');
 var db = require('./model/db.js');
 
@@ -49,6 +50,7 @@ app.use('/', index);
 app.use('/', users);
 app.use('/', api);
 app.use('/', data);
+app.use('/', app_logger);
 app.use('/', excel);
 
 //catch 404 and forward to error handler

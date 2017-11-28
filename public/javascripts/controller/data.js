@@ -356,6 +356,7 @@ angular.module('undp-ghg-v2')
         var dataRecord = DataFactory.edit({
           id: rowEntity._id
         }, rowEntity);
+        console.log(rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, dataRecord.$promise);
       };
 
