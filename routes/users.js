@@ -4,6 +4,7 @@ var passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
 var User = require('../model/db.js').User;
 var common = require('./common/utils.js');
+var Crypto = require('crypto');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -44,6 +45,7 @@ passport.use(new LocalStrategy({
       'us_user_first_name us_user_last_name us_email_address us_contact ' +
       'us_user_role us_state us_password',
       function(err, user) {
+        var hashed_password = Crypto.createHash('sha256').update(password).digest("hex");
         if (err) {
           return done(err);
         }
@@ -52,7 +54,7 @@ passport.use(new LocalStrategy({
             message: 'Incorrect credentials.'
           });
         }
-        if (user.us_password != password) {
+        if (user.us_password != hashed_password) {
           return done(null, false, {
             message: 'Incorrect credentials.'
           });
@@ -81,12 +83,21 @@ User Registration form submission
 **/
 router.post('/user-registration', function(req, res, next) {
   var user = new User(req.body);
+  user.us_username = req.body.us_email_address;
+  user.us_password = Crypto.createHash('sha256').update(req.body.us_password).digest("hex");
   user.us_activation_token = common.getRandomToken();
   user.save(function(err) {
     if (err) {
       next(err);
     } else {
-      res.redirect('/');
+      common.sendActivationEmail(user, function(err, info) {
+        if(err) {
+          next(err);
+        } else {
+          res.redirect('/');
+        }
+      });
+      
     }
   });
 });

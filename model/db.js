@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 
-// mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect("mongodb://heroku_l0lljssh:36543v53vonm4r1c5qqv1s9eov@ds119223.mlab.com:19223/heroku_l0lljssh");
+// mongoose.connect(process.env.MONGODB_URI);
 
 
 /**
@@ -19,6 +19,7 @@ mongoose.connect(process.env.MONGODB_URI);
 var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
+    us_username: {type: String, required: false, unique: false},
     us_password: {type: String, required: true},
     us_email_address: {type: String, unique:true, required: true},
     us_user_creation_date: {type: Date, default: Date.now()},
