@@ -383,6 +383,14 @@ angular.module('undp-ghg-v2')
         if (row.isSelected) {
           $scope.openSideNav();
           $scope.selectedRow = angular.copy(row.entity);
+          
+          //if the selected item has issues open the 
+          //tab by default.
+          if($scope.selectedRow.issues) {
+            $scope.sidebarPartial('issues');
+          } else {
+            $scope.sidebarPartial('notes');
+          }
         } else {
           $scope.selectedRow.isValid = true;
           row.entity = $scope.selectedRow;
