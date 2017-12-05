@@ -44,6 +44,9 @@ angular.module('undp-ghg-v2')
         * Used to modify or add a category in the databse.
         */
       $scope.addCategory = function() {
+        if($scope.category.ica_category == "") {
+          $scope.category.ica_category = undefined;
+        }
         if ($routeParams.id) {
           $scope.category.us_user = $scope.user["_id"];
           CategoryFactory.edit({
