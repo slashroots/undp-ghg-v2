@@ -6,7 +6,7 @@ app.config(function($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');
   $routeProvider
     .when("/", {
-      templateUrl: "../partials/inventory/empty-inventory.html"
+      templateUrl: "../partials/users/user-profile.html"
     })
     .when("/settings", {
       templateUrl: "../partials/inventory/settings.html"

@@ -60,3 +60,19 @@ md-toolbar:not(.md-menu-toolbar) {
 .sidebar-select {
     width: 272px;
 }
+
+.card-media {
+    background-image: url('/images/user.svg');
+}
+
+.card-media-file {
+    background-image: url('/images/list.svg');
+}
+
+.sector_permission {
+    list-style: none;
+    width: 100%;
+} 
+.perm {
+    display:inline;
+}

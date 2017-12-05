@@ -33,7 +33,8 @@ var log_schema = new querymen.Schema({
  */
 getLogs = function(req, res, next) {
     var query = req.querymen;
-    Logs.find(query.query, query.select)
+    Log.find(query.query, query.select)
+        .sort('-lo_date')
         .populate('us_user')
         .exec(function(err, logs) {
             if(err) {
@@ -61,7 +62,7 @@ getLogByID = function(req, res, next) {
 
 
 router.get('/logs', [Utils.isAuthenticated, querymen.middleware(log_schema)], getLogs);
-router.get('/log/:id', Utils.isAuthenticated, getLogByID);
+router.get('/logs/:id', Utils.isAuthenticated, getLogByID);
 
 module.exports = router;
 

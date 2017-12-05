@@ -1,0 +1,45 @@
+<div ng-controller="UserProfileController" class="inventory-holder">
+  <h1 class="heading">User Profile</h1>
+  <div class="horizline"></div>
+
+  <div flex layout="row">
+    <md-card flex="50">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">{{user.us_email_address}}</span>
+        </md-card-title-text>
+        <md-card-title-media>
+          <div class="md-media-lg card-media"></div>
+        </md-card-title-media>
+      </md-card-title>
+      <md-card-content>
+        {{user.us_user_first_name }} {{user.us_user_last_name}} is currently listed as a {{user.us_user_role}}.
+      </md-card-content>
+    </md-card>
+
+    <md-card flex="50">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Sector Permissions</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-lg card-media-file"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-content>
+          <md-chips ng-model="permissions" readonly="true">
+          </md-chips>
+          
+        </md-card-content>
+      </md-card>
+  </div>
+
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Administrative Platform Logs</span>
+      </md-card-title-text>
+    </md-card-title>
+    <div ui-grid="logsGridOptions" ui-grid-exporter ui-grid-selection ui-grid-cellnav class="table-grid"> </div>
+  </md-card>
+</div>
