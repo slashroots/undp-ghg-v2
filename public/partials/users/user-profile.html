@@ -18,20 +18,23 @@
     </md-card>
 
     <md-card flex="50">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Sector Permissions</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-lg card-media-file"></div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-content>
-          <md-chips ng-model="permissions" readonly="true">
-          </md-chips>
-          
-        </md-card-content>
-      </md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Sector Permissions</span>
+        </md-card-title-text>
+        <md-card-title-media>
+          <div class="md-media-lg card-media-file"></div>
+        </md-card-title-media>
+      </md-card-title>
+      <md-card-content>
+        <md-chips ng-model="user.us_sector_permissions" readonly="true">
+          <md-chip-template>
+            <span>{{$chip.se_name_short_code}}</span>
+          </md-chip-template>
+        </md-chips>
+
+      </md-card-content>
+    </md-card>
   </div>
 
   <md-card>

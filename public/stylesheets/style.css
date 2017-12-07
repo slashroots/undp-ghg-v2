@@ -68,11 +68,3 @@ md-toolbar:not(.md-menu-toolbar) {
 .card-media-file {
     background-image: url('/images/list.svg');
 }
-
-.sector_permission {
-    list-style: none;
-    width: 100%;
-} 
-.perm {
-    display:inline;
-}
