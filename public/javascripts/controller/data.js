@@ -23,6 +23,23 @@ angular.module('undp-ghg-v2')
       }
       $scope.sidebarPartial('notes');
 
+      // replace existing record with new record and remove conflict
+      $scope.saveNewRecord = function() {
+        $scope.selectedRow = $scope.selectedRow.conflict;
+      }
+
+      // keep existing record and remove conflict
+      $scope.keepOldRecord = function() {
+        delete $scope.selectedRow.conflict;
+        for(var i=0; i<$scope.selectedRow.issues.length; i++) {
+            if($scope.selectedRow.issues[i].type==='overwrite') {
+                $scope.selectedRow.isConflictExists = false;
+                $scope.selectedRow.issues.splice(i,1);
+                break;
+            }
+        }
+      }
+
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -543,10 +560,6 @@ angular.module('undp-ghg-v2')
           */
           if(!isConflictExists(importedObjects[i])) {
             tmpImported.push(importedObjects[i]);
-          } else {
-            issue_list.push(createIssue("Record",
-                        'This new record will overwrite a previously saved record',
-                        '', 'overwrite'));
           }
         }
         callback(tmpImported);
@@ -599,6 +612,11 @@ angular.module('undp-ghg-v2')
                 new Date($scope.dataValues[i].da_date).getFullYear()===new Date(data.da_date).getFullYear()) {
                     $scope.dataValues[i].isConflictExists = true;
                     $scope.dataValues[i].conflict = data;
+
+                    // add overwrite issue to the objects issue list
+                    $scope.dataValues[i].issues.push(createIssue("Record",
+                                            'This record will be overwritten by an imported record',
+                                            '', 'overwrite'));
                     return true;
                 }
         }
