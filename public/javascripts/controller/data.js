@@ -386,7 +386,7 @@ angular.module('undp-ghg-v2')
           
           //if the selected item has issues open the 
           //tab by default.
-          if($scope.selectedRow.issues) {
+          if($scope.selectedRow.issues.length > 0) {
             $scope.sidebarPartial('issues');
           } else {
             $scope.sidebarPartial('notes');
