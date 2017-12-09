@@ -57,6 +57,11 @@ md-toolbar:not(.md-menu-toolbar) {
     padding-bottom: 10px;
 }
 
+#noborder .md-list-item-text {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+}
+
 .sidebar-select {
     width: 272px;
 }

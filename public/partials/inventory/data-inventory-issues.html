@@ -1,6 +1,5 @@
 <div id="data-inventory-issues">
-    <h3 ng-if="selectedRow.issues==undefined || selectedRow.issues.length==0"
-        style="text-align: center; color: #e3e3e3;">
+    <h3 ng-if="selectedRow.issues==undefined || selectedRow.issues.length==0" style="text-align: center; color: #e3e3e3;">
         There are no issues for this record
     </h3>
     <md-list>
@@ -9,6 +8,18 @@
             <div class="md-list-item-text compact">
                 <h4>{{issue.name}} ({{issue.type | uppercase}})</h4>
                 <p style="color: red;">{{issue.description}}</p>
+
+                <div ng-if="(issue.type==='mismatch') && (issue.name==='Category')">
+                    <br>
+                    <div>Possible Matches for {{issue.problem}}:</div>
+                    <md-list-item id="noborder" ng-repeat="category in possibleCategoryMatches(issue.problem)" 
+                        ng-click="setCategory(category, selectedRow)">
+                        <div class="md-list-item-text compact" layout="column">
+                            <h3>({{category.ica_category.ica_code}})</h3>
+                            <p>{{category.ca_code_name}}</p>
+                        </div>
+                    </md-list-item>
+                </div>
 
                 <div ng-if="issue.type==='overwrite'">
                     <button style="border: 1px solid #909090; margin: 10px 0px;" ng-click="showcompare = !showcompare">

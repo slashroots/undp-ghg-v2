@@ -586,6 +586,30 @@ angular.module('undp-ghg-v2')
       }
 
       /**
+       * Search for possible category name matches.  Uses fuzzy string 
+       * search to find nearest options for displaying to the user.
+       */
+      $scope.possibleCategoryMatches = function(category_name) {
+        var options = {
+          keys: ['ca_code_name', 'ca_code'],
+        };
+        var fuse = new Fuse($scope.categories, options);
+        return fuse.search(category_name);
+      }
+
+      /**
+       * Attempt to set the category of the selected
+       * record
+       * @param {*} category 
+       * @param {*} row 
+       */
+      $scope.setCategory = function(category, row) {
+        console.log(category);
+        console.log(row);
+        row.ca_category = category;
+      }
+
+      /**
        * safe check if property exists in object
        * @param {*} object 
        * @param {*} key 
