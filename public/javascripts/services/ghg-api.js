@@ -117,6 +117,9 @@ services.factory('UserFactory', function($resource) {
   });
 });
 
+/**
+ * Gas Routes
+ */
 services.factory('GasFactory', function($resource) {
   return $resource('/api/gas/:id', {}, {
     query: {
@@ -335,6 +338,40 @@ services.factory('SupportingFilesFactory', function($resource) {
       params: {
         id: '@id'
       }
+    }
+  });
+});
+
+
+/**
+ * Administrative logs
+ */
+services.factory('LogsFactory', function($resource) {
+  return $resource('/logs/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
+
+/**
+ * Count of administrative logs
+ */
+services.factory('LogFactory', function($resource) {
+  return $resource('/logcount', {}, {
+    count: {
+      method: 'GET'
     }
   });
 });

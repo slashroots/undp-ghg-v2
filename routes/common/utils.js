@@ -1,4 +1,5 @@
 var Crypto = require('crypto');
+var nodemailer = require('nodemailer');
 
 /**
  * Generates random value based on the Node.js crypto library
@@ -12,6 +13,28 @@ exports.ADMIN = 'admin';
 exports.MANAGER = 'manager';
 exports.REPORTER = 'reporter';
 exports.SECTOR_EXPERT = 'sector';
+
+exports.USER_ACTIVE = 'active';
+exports.USER_INACTIVE = 'inactive';
+exports.USER_PENDING = 'pending';
+
+/**
+ * NODE_MAILER PARAMETERS
+ */
+exports.MAIL_HOST = process.env.MAIL_HOST || "";
+exports.MAIL_PORT = process.env.MAIL_PORT || "";
+exports.MAIL_AUTH_USER = process.env.MAIL_AUTH_USER || "";
+exports.MAIL_AUTH_PASS = process.env.MAIL_AUTH_PASS || "";
+
+var transporter = nodemailer.createTransport({
+  host: exports.MAIL_HOST,
+  port: exports.MAIL_PORT,
+  secure: true, 
+  auth: {
+      user: exports.MAIL_AUTH_USER, 
+      pass: exports.MAIL_AUTH_PASS 
+  }
+});
 
 /**
   * These are the possible Inventory states
@@ -66,3 +89,26 @@ exports.isReporter = function(req, res, next) {
 exports.isSectorExpert = function(req, res, next) {
   return hasPermissions(req, res, next, exports.SECTOR_EXPERT);
 };
+
+exports.sendActivationEmail = function(user, callback) {
+  //TODO... based on the generate the email message and send using 
+  //node mailer
+
+  var mailOptions = {
+    from: '"NOREPLY GHG" <noreply@greenhousegas.com>', // sender address
+    to: user.us_email_address,
+    subject: 'New Registration', // Subject line
+    text: 'Welcome', // plain text body
+    html: '<b>Welcome to the UNDP Greenhouse Gases Database Inventory System!</b>' // html body
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      callback(error);
+    } else {
+      console.log('Message sent: %s', info.messageId);
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      callback(null, info);
+    }
+});
+}

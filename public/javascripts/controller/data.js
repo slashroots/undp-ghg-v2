@@ -5,9 +5,41 @@
 angular.module('undp-ghg-v2')
   .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-    'DataFactory', 'NotationKeyFactory', 'RegionFactory',
+    'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
     function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
-      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory) {
+      AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
+      uiGridConstants) {
+
+      $scope.reference_issue = [];
+
+      $scope.sidebarPartial = function(type) {
+        if(type==='notes') {
+            $scope.selected_sidebar = "notes";
+            $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-notes.html";
+        } else if(type==='issues') {
+            $scope.selected_sidebar = "issues";
+            $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-issues.html";
+        }
+      }
+      $scope.sidebarPartial('notes');
+
+      // replace existing record with new record and remove conflict
+      $scope.saveNewRecord = function() {
+        $scope.selectedRow = $scope.selectedRow.conflict;
+      }
+
+      // keep existing record and remove conflict
+      $scope.keepOldRecord = function() {
+        delete $scope.selectedRow.conflict;
+        for(var i=0; i<$scope.selectedRow.issues.length; i++) {
+            if($scope.selectedRow.issues[i].type==='overwrite') {
+                $scope.selectedRow.isConflictExists = false;
+                $scope.selectedRow.issues.splice(i,1);
+                break;
+            }
+        }
+      }
+
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -64,6 +96,9 @@ angular.module('undp-ghg-v2')
       $scope.activities = ActivityFactory.query();
       $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
       $scope.regions = RegionFactory.query();
+      $scope.categories = CategoryFactory.query({
+        se_sector: $scope.selectedSector
+      });
       $scope.variable_types = [
         {
           variableType: 'EF'
@@ -100,6 +135,11 @@ angular.module('undp-ghg-v2')
         importerDataAddCallback: newDataImporter,
         data: 'dataValues',
         columnDefs: [{
+            cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                isDataValid(row.entity);
+                if(!row.entity.isValid || row.entity.isConflictExists)
+                    return 'table-error-indicator';
+            },
             field: 'da_variable_type',
             displayName: 'Variable Type',
             enableCellEdit: $scope.editable,
@@ -261,10 +301,6 @@ angular.module('undp-ghg-v2')
           //filter all the relevant factories based
           //on selected sector.
           $scope.sectors = SectorFactory.query();
-
-          $scope.categories = CategoryFactory.query({
-            se_sector: $scope.selectedSector
-          });
       }
 
 
@@ -362,8 +398,23 @@ angular.module('undp-ghg-v2')
         if (row.isSelected) {
           $scope.openSideNav();
           $scope.selectedRow = angular.copy(row.entity);
+          
+          //if the selected item has issues open the 
+          //tab by default.
+          if($scope.selectedRow.issues.length > 0) {
+            $scope.sidebarPartial('issues');
+          } else {
+            $scope.sidebarPartial('notes');
+          }
         } else {
-          row.entity = $scope.selectedRow;
+          //if there are changes, flag for persist button
+          if(!angular.equals(row.entity, $scope.selectedRow)){
+            $scope.selectedRow.isValid = true;
+            row.entity = $scope.selectedRow;
+            $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
+            $scope.dirtyRowsExist = true;
+            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+          }
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }
@@ -413,6 +464,14 @@ angular.module('undp-ghg-v2')
        * server-side.  The loop can be optimized.
        */
       runMatchProcess = function(importedObjects, callback) {
+        var issue_list = [];
+
+        /*
+            TODO: maintaining yet another list is not the most efficient way to import.
+            Values to be imported could be appended directly to dataValues.
+        */
+        var tmpImported = [];
+
         for(var i =0; i < importedObjects.length; i++) {
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
@@ -425,19 +484,46 @@ angular.module('undp-ghg-v2')
               importedObjects[i].ca_category = $scope.categories[a];
             }
           }
+          /**
+           * TODO: there must be a nice cleaner way of recording that no matches have been found.
+           * THis isn't clean enough and should be changed eventually.
+           */
+          if(!hasProperty(importedObjects[i].ca_category, "_id")) {
+            issue_list.push(createIssue("Category", 
+            "Unable to find match for '" + importedObjects[i]["ca_category.ca_code_name"] +"'",
+            importedObjects[i]["ca_category.ca_code_name"], "mismatch"));
+          }
           for(var a=0; a < $scope.activities.length; a++) {
             if(importedObjects[i]["ac_activity.ac_name"].toLowerCase().trim() == $scope.activities[a].ac_name.toLowerCase().trim()) {
               importedObjects[i].ac_activity = $scope.activities[a];
             }
+          }
+          if(!hasProperty(importedObjects[i].ac_activity, "_id")) {
+            issue_list.push(createIssue("Activity", 
+            "Unable to find match for " + importedObjects[i]["ac_activity.ac_name"],
+            importedObjects[i]["ac_activity.ac_name"], "mismatch"));
           }
           for(var a=0; a < $scope.units.length; a++) {
             if(importedObjects[i]["un_unit.un_unit_symbol"] == $scope.units[a].un_unit_symbol) {
               importedObjects[i].un_unit = $scope.units[a];
             }
           }
+          if(!hasProperty(importedObjects[i].un_unit, "_id")) {
+            issue_list.push(createIssue("Unit", 
+            "Unable to find match for " + importedObjects[i]["un_unit.un_unit_symbol"],
+            importedObjects[i]["un_unit.un_unit_symbol"], "mismatch"));
+          }
           for(var a=0; a < $scope.gases.length; a++) {
             if(importedObjects[i]["ga_gas.ga_chem_formula"] == $scope.gases[a].ga_chem_formula) {
               importedObjects[i].ga_gas = $scope.gases[a];
+            }
+          }
+          if(!hasProperty(importedObjects[i].ga_gas, "_id")) {
+            //if this is activity data - it isn't an issue!
+            if(importedObjects[i].da_variable_type == "EF") {
+              issue_list.push(createIssue("Gas", 
+              "Unable to find match for " + importedObjects[i]["ga_gas.ga_chem_formula"],
+              importedObjects[i]["ga_gas.ga_chem_formula"], "mismatch"));
             }
           }
 
@@ -457,9 +543,134 @@ angular.module('undp-ghg-v2')
               }
             }
           }
+          if(!hasProperty(importedObjects[i].region_object, "_id")) {
+            issue_list.push(createIssue("Region",
+            "Unable to find match for " + importedObjects[i]["region_object.re_region_name"],
+            importedObjects[i]["region_object.re_region_name"], "mismatch"));
+          }
+
+          //TODO: I haven't done any association with the issue lists and the records at fault.
+          if(issue_list.length > 0) {
+            importedObjects[i].issues = issue_list;
+            issue_list = [];
+          }
+
+          importedObjects[i].isValid = false;
+
+          /*
+            if the current object being imported does not conflict with a previously stored record,
+            store it for display
+          */
+          if(!isConflictExists(importedObjects[i])) {
+            tmpImported.push(importedObjects[i]);
+          }
         }
-        callback(importedObjects);
+        callback(tmpImported);
       };
+
+      function isDataValid(data) {
+        data.isValid = data.ca_category!=undefined && data.ac_activity!=undefined;
+      }
+
+      /**
+       * create and issue object for adding to the row object
+       * @param {*} issue_name 
+       * @param {*} description 
+       * @param {*} problem 
+       * @param {*} type 
+       */
+      function createIssue(issue_name, description, problem, type) {
+        var issue_object = {};
+        issue_object.name = issue_name
+        issue_object.description = description; //
+        issue_object.problem = problem; //importedObjects[i]["ca_category.ca_code_name"];
+        issue_object.type = type; //"mismatch";
+        return issue_object;
+      }
+
+      /**
+       * Search for possible category name matches.  Uses fuzzy string 
+       * search to find nearest options for displaying to the user.
+       */
+      $scope.possibleCategoryMatches = function(category_name) {
+        var options = {
+          keys: ['ca_code_name', 'ca_code'],
+        };
+        var fuse = new Fuse($scope.categories, options);
+        return fuse.search(category_name);
+      }
+
+      /**
+       * Attempt to set the category of the selected
+       * record
+       * @param {*} category 
+       * @param {*} row 
+       * @param {*} index
+       */
+      $scope.setCategory = function(category, row, index) {
+        row.ca_category = category;
+        $scope.selectedRow.issues.splice(index, 1);
+      }
+
+      /**
+       * safe check if property exists in object
+       * @param {*} object 
+       * @param {*} key 
+       */
+      function hasProperty(object, key) {
+        try {
+          if(object[key]) {
+            return true;
+          } 
+        } catch(error) {
+          return false;
+        }
+      }
+
+      /*
+        checks if imported object is overwriting a previously saved object. If an object is
+        being overwritten the new object is appending to the previously saved object.
+      */
+      function isConflictExists(data) {
+        for(var i=0; i < $scope.dataValues.length; i++) {
+            if(objPathEqual($scope.dataValues[i], data, "da_variable_type") &&
+                objPathEqual($scope.dataValues[i], data, "ac_activity._id") &&
+                objPathEqual($scope.dataValues[i], data, "ca_category._id") &&
+                new Date($scope.dataValues[i].da_date).getFullYear()===new Date(data.da_date).getFullYear()) {
+                    $scope.dataValues[i].isConflictExists = true;
+                    $scope.dataValues[i].conflict = data;
+
+                    // add overwrite issue to the objects issue list
+                    $scope.dataValues[i].issues.push(createIssue("Record",
+                                            'This record will be overwritten by an imported record',
+                                            '', 'overwrite'));
+                    return true;
+                }
+        }
+        return false;
+      }
+
+      //TODO: helper functions should be moved to an appropriate package
+      // helper function to check of the path value of two objects are the same
+      function objPathEqual(obj1, obj2, path) {
+        return objPathExists(obj1, path)===objPathExists(obj2, path);
+      }
+
+      // helper function to do a deep path check on object.
+      function objPathExists(obj, path) {
+        var paths = path.split('.'),
+            current = obj,
+            i;
+
+        for (i = 0; i < paths.length; ++i) {
+            if (current[paths[i]] == undefined) {
+                return -1;
+            } else {
+                current = current[paths[i]];
+            }
+        }
+        return current;
+      }
 
     }
   ]);

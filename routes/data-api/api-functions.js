@@ -10,6 +10,7 @@ var NotationKey = model.NotationKey;
 var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 var Data = model.Data;
+var app_logger = require('../common/logger');
 var SupportingFiles = model.SupportingFiles,
     multiparty = require('multiparty'),
     fs = require('fs'),
@@ -21,6 +22,7 @@ var SupportingFiles = model.SupportingFiles,
   * Find all categories matching search parameters
   */
 exports.getIPCCCategory = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'IPCC Category Requested', 'User Requested IPCC Category', 'IPCC CATEGORY', req.user._id);
   var query = req.querymen;
   IPCCCategory.find(query.query, query.select)
     .populate('se_sector us_user ica_parent')
@@ -34,6 +36,7 @@ exports.getIPCCCategory = function(req, res, next) {
 };
 
 exports.getIPCCCategoryByID = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'IPCC Category Requested', 'User Requested IPCC Category', 'IPCC CATEGORY', req.user._id);
   IPCCCategory.findById(req.params.id)
     .populate('se_sector us_user ica_parent')
     .exec(function(err, item) {
@@ -47,13 +50,14 @@ exports.getIPCCCategoryByID = function(req, res, next) {
 
 exports.updateIPCCCategoryByID = function(req, res, next) {
   var category = req.body;
-  category.ca_modified = Date.now();
+  category.ica_modified = Date.now();
   category.us_user = req.user._id;
   Category.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {
       if(err) {
         next(err);
       } else {
+        app_logger.log(app_logger.LOG_LEVEL_INFO, 'IPCC Category Modification', 'User Modified IPCC Category ' + category.ica_code_name, 'IPCC CATEGORY', req.user._id);
         res.send(item);
       }
     })
@@ -67,6 +71,7 @@ exports.createIPCCCategory = function(req, res, next) {
     if (err) {
       next(err);
     } else {
+      app_logger.log(app_logger.LOG_LEVEL_INFO, 'Data Modification', 'User Modified IPCC Category ' + category.ica_code_name, 'CATEGORY', req.user._id);
       res.send(category);
     }
   });
@@ -79,6 +84,7 @@ exports.createIPCCCategory = function(req, res, next) {
   */
 exports.getCategory = function(req, res, next) {
   var query = req.querymen;
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Requested', 'User Requested Category', 'CATEGORY', req.user._id);
   Category.find(query.query, query.select)
     .populate('se_sector us_user ica_category')
     .exec(function(err, docs) {
@@ -91,6 +97,7 @@ exports.getCategory = function(req, res, next) {
 };
 
 exports.getCategoryByID = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Requested', 'User Requested Category', 'CATEGORY', req.user._id);
   Category.findById(req.params.id)
     .populate('se_sector us_user ica_category')
     .exec(function(err, item) {
@@ -111,6 +118,7 @@ exports.updateCategoryByID = function(req, res, next) {
       if(err) {
         next(err);
       } else {
+        app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Modified', 'User Modified Category ' + JSON.stringify(category), 'CATEGORY', req.user._id);
         res.send(item);
       }
     })
@@ -124,6 +132,7 @@ exports.createCategory = function(req, res, next) {
     if (err) {
       next(err);
     } else {
+      app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Created', 'User Created Category ' + JSON.stringify(category), 'CATEGORY', req.user._id);
       res.send(category);
     }
   });

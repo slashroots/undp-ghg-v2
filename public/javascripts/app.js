@@ -1,12 +1,13 @@
 var app = angular.module("undp-ghg-v2", ["ngRoute", "undp-ghg-v2.services",
 "ui.grid", "ui.grid.importer", "ui.grid.edit", "ui.grid.rowEdit",
+"ui.grid.selection","ui.grid.exporter", "ui.grid.cellNav", "ngMaterial", "ui.grid.pagination"]);
 "ui.grid.selection","ui.grid.exporter", "ui.grid.cellNav", "ngMaterial", 'ngFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');
   $routeProvider
     .when("/", {
-      templateUrl: "../partials/inventory/empty-inventory.html"
+      templateUrl: "../partials/users/user-profile.html"
     })
     .when("/settings", {
       templateUrl: "../partials/inventory/settings.html"
