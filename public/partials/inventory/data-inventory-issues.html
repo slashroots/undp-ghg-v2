@@ -13,7 +13,7 @@
                     <br>
                     <div>Possible Matches for {{issue.problem}}:</div>
                     <md-list-item id="noborder" ng-repeat="category in possibleCategoryMatches(issue.problem)" 
-                        ng-click="setCategory(category, selectedRow)">
+                        ng-click="setCategory(category, selectedRow, $index)">
                         <div class="md-list-item-text compact" layout="column">
                             <h3>({{category.ica_category.ica_code}})</h3>
                             <p>{{category.ca_code_name}}</p>

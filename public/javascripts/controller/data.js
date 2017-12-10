@@ -96,6 +96,9 @@ angular.module('undp-ghg-v2')
       $scope.activities = ActivityFactory.query();
       $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
       $scope.regions = RegionFactory.query();
+      $scope.categories = CategoryFactory.query({
+        se_sector: $scope.selectedSector
+      });
       $scope.variable_types = [
         {
           variableType: 'EF'
@@ -298,10 +301,6 @@ angular.module('undp-ghg-v2')
           //filter all the relevant factories based
           //on selected sector.
           $scope.sectors = SectorFactory.query();
-
-          $scope.categories = CategoryFactory.query({
-            se_sector: $scope.selectedSector
-          });
       }
 
 
@@ -410,8 +409,13 @@ angular.module('undp-ghg-v2')
           }
         } else {
           $scope.selectedRow.isValid = true;
-          row.entity = $scope.selectedRow;
-          $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+          //if there are changes, flag for persist button
+          if(!angular.equals(row.entity, $scope.selectedRow)){
+            row.entity = $scope.selectedRow;
+            $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
+            $scope.dirtyRowsExist = true;
+          }
+          $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }
@@ -602,11 +606,11 @@ angular.module('undp-ghg-v2')
        * record
        * @param {*} category 
        * @param {*} row 
+       * @param {*} index
        */
-      $scope.setCategory = function(category, row) {
-        console.log(category);
-        console.log(row);
+      $scope.setCategory = function(category, row, index) {
         row.ca_category = category;
+        $scope.selectedRow.issues.splice(index, 1);
       }
 
       /**
