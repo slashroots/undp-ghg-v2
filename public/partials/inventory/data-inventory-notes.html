@@ -4,7 +4,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Variable Type</label>
-            <select ng-model="selectedRow.da_variable_type">
+            <select class="sidebar-select" ng-model="selectedRow.da_variable_type">
                 <option ng-repeat="v in variable_types" value="{{v.variableType}}">{{v.variableType}}</option>
             </select>
         </div>
@@ -14,7 +14,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Category Name</label>
-            <select ng-model="selectedRow.ca_category.ca_code_name">
+            <select class="sidebar-select" ng-model="selectedRow.ca_category.ca_code_name">
                 <option ng-repeat="c in categories" value="{{c.ca_code_name}}">{{c.ca_code_name}}</option>
             </select>
         </div>
@@ -24,7 +24,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Activity</label>
-            <select ng-model="selectedRow.ac_activity.ac_name">
+            <select class="sidebar-select" ng-model="selectedRow.ac_activity.ac_name">
                 <option ng-repeat="a in activities" value="{{a.ac_name}}">{{a.ac_name}}</option>
             </select>
         </div>
@@ -34,7 +34,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Variable Value</label>
-            <input type="number" ng-model="selectedRow.da_data_value"/>
+            <input class="sidebar-select" type="number" ng-model="selectedRow.da_data_value"/>
         </div>
     </md-list-item>
 
@@ -42,7 +42,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Unit</label>
-            <select ng-model="selectedRow.un_unit.un_unit_symbol">
+            <select class="sidebar-select" ng-model="selectedRow.un_unit.un_unit_symbol">
                 <option ng-repeat="u in units" value="{{u.un_unit_symbol}}">{{u.un_unit_symbol}}</option>
             </select>
         </div>
@@ -52,7 +52,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Associated Gas</label>
-            <select ng-model="selectedRow.ga_gas.ga_chem_formula">
+            <select class="sidebar-select" ng-model="selectedRow.ga_gas.ga_chem_formula">
                 <option ng-repeat="g in gases" value="{{g.ga_chem_formula}}">{{g.ga_chem_formula}}</option>
             </select>
         </div>
@@ -62,7 +62,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Uncertainty (min)</label>
-            <input type="number" ng-model="selectedRow.da_uncertainty_min"/>
+            <input class="sidebar-select" type="number" ng-model="selectedRow.da_uncertainty_min"/>
         </div>
     </md-list-item>
 
@@ -71,7 +71,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Uncertainty (max)</label>
-            <input type="number" ng-model="selectedRow.da_uncertainty_max"/>
+            <input class="sidebar-select" type="number" ng-model="selectedRow.da_uncertainty_max"/>
         </div>
     </md-list-item>
 
@@ -79,7 +79,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Notation Key</label>
-            <select ng-model="selectedRow.nk_notation_object.nk_name">
+            <select class="sidebar-select" ng-model="selectedRow.nk_notation_object.nk_name">
                 <option ng-repeat="n in notation_keys" value="{{n.nk_name}}">{{n.nk_name}}</option>
             </select>
         </div>
@@ -89,7 +89,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Region</label>
-            <select ng-model="selectedRow.region_object.re_region_name">
+            <select class="sidebar-select" ng-model="selectedRow.region_object.re_region_name">
                 <option ng-repeat="r in regions" value="{{r.re_region_name}}">{{r.re_region_name}}</option>
             </select>
         </div>
@@ -99,7 +99,7 @@
         <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
         <div class="md-list-item-text compact">
             <label>Notes</label>
-            <textarea ng-model="selectedRow.notes"></textarea>
+            <textarea class="sidebar-select" ng-model="selectedRow.notes"></textarea>
         </div>
     </md-list-item>
 

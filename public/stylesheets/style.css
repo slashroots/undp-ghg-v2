@@ -56,3 +56,20 @@ md-toolbar:not(.md-menu-toolbar) {
     border-bottom: 1px solid #909090;
     padding-bottom: 10px;
 }
+
+#noborder .md-list-item-text {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.sidebar-select {
+    width: 272px;
+}
+
+.card-media {
+    background-image: url('/images/user.svg');
+}
+
+.card-media-file {
+    background-image: url('/images/list.svg');
+}
