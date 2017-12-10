@@ -1,43 +1,66 @@
-<div ng-controller="AdminUserController" class="add-category new-inventory-modal" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
-    <div class="openinv-wrapper">
-      <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/5"><img src="../images/Close-Icon.png" width="12"></a></div>
-      <div class="dialog-header">Edit User</div>
-      <div class="w-form">
-        <form class="modal-form w-clearfix">
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">First Name</label>
-            <input class="modal-fields w-input" ng-model="user.us_user_first_name" type="text">
-          </div>
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">Last Name</label>
-            <input class="modal-fields w-input" ng-model="user.us_user_last_name" type="text">
-          </div>
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">Email</label>
-            <input class="modal-fields w-input" ng-model="user.us_email_address" type="text">
-          </div>
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">User Role</label>
-            <select ng-model="user.us_user_role" class="modal-fields w-select">
-              <option value="basic">BASIC</option>
-              <option value="admin">ADMIN</option>
-              <option value="sector">SECTOR EXPERT</option>
-              <option value="manager">MANAGER</option>
-              <option value="reporter">REPORTER</option>
-            </select>
-          </div>
-          <div class="modal-field-wrapper">
-            <label class="modal-field-label">State</label>
-            <select ng-model="user.us_state" class="modal-fields w-select">
-              <option value="pending">PENDING</option>
-              <option value="active">ACTIVE</option>
-              <option value="inactive">INACTIVE</option>
-            </select>
-          </div>
-          <div class="action-button-group">
-            <a class="modal-form-cancel w-button" href="#/settings/5">Cancel</a>
-            <a class="modal-form-confirm w-button" ng-click="save()">Save</a></div>
-        </form>
-      </div>
+<div ng-controller="AdminUserController" class="add-category" style="opacity: 1; display: block; transition: opacity 200ms;">
+  <div class="openinv-wrapper">
+    <div class="div-block">
+      <a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/5">
+        <img src="../images/Close-Icon.png" width="12">
+      </a>
+    </div>
+    <div class="dialog-header">Edit User</div>
+    <div class="w-form">
+      <form class="modal-form w-clearfix">
+        <div class="modal-field-wrapper">
+          <label class="modal-field-label">First Name</label>
+          <input class="modal-fields w-input" ng-model="user.us_user_first_name" type="text">
+        </div>
+        <div class="modal-field-wrapper">
+          <label class="modal-field-label">Last Name</label>
+          <input class="modal-fields w-input" ng-model="user.us_user_last_name" type="text">
+        </div>
+        <div class="modal-field-wrapper">
+          <label class="modal-field-label">Email</label>
+          <input class="modal-fields w-input" ng-model="user.us_email_address" type="text">
+        </div>
+        <div class="modal-field-wrapper">
+          <label class="modal-field-label">User Role</label>
+          <select ng-model="user.us_user_role" class="modal-fields w-select">
+            <option value="basic">BASIC</option>
+            <option value="admin">ADMIN</option>
+            <option value="sector">SECTOR EXPERT</option>
+            <option value="manager">MANAGER</option>
+            <option value="reporter">REPORTER</option>
+          </select>
+        </div>
+        <div class="modal-field-wrapper">
+          <label class="modal-field-label">State</label>
+          <select ng-model="user.us_state" class="modal-fields w-select">
+            <option value="pending">PENDING</option>
+            <option value="active">ACTIVE</option>
+            <option value="inactive">INACTIVE</option>
+          </select>
+        </div>
+
+        <md-chips 
+          ng-model="user.us_sector_permissions" 
+          md-autocomplete-snap 
+          md-require-match="true">
+          <md-autocomplete 
+            md-selected-item="selectedItem" 
+            md-search-text="searchText" 
+            md-items="item in sectors"
+            md-item-text="item.se_name_short_code" placeholder="+ add sector name">
+            <span md-highlight-text="searchText">{{item.se_name_short_code}}</span>
+          </md-autocomplete>
+          <md-chip-template>
+            <span>{{$chip.se_name_short_code}}</span>
+          </md-chip-template>
+        </md-chips>
+
+
+        <div class="action-button-group">
+          <a class="modal-form-cancel w-button" href="#/settings/5">Cancel</a>
+          <a class="modal-form-confirm w-button" ng-click="save()">Save</a>
+        </div>
+      </form>
     </div>
   </div>
+</div>

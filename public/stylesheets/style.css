@@ -25,3 +25,51 @@ md-toolbar:not(.md-menu-toolbar) {
     background-color: #272838;
     color: rgba(255,255,255,0.87);
 }
+
+.table-error-indicator {
+    background-image: url("/images/Ei1GaY4.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 107% -2px;
+}
+
+#sidebar-tabs {
+    height: 50px;
+    border-bottom: 1px solid #909090;
+}
+
+#sidebar-tabs .sidebar-tab {
+    float: left;
+    width: 50%;
+    text-align: center;
+    line-height: 4em;
+    font-weight: 400;
+    height: 100%;
+}
+
+.sidebar-tab-selected {
+    background: #272838;
+    color: #ffffff;
+}
+
+#data-inventory-issues .md-list-item-text {
+    border-bottom: 1px solid #909090;
+    padding-bottom: 10px;
+}
+
+#noborder .md-list-item-text {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.sidebar-select {
+    width: 272px;
+}
+
+.card-media {
+    background-image: url('/images/user.svg');
+}
+
+.card-media-file {
+    background-image: url('/images/list.svg');
+}

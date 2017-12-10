@@ -19,6 +19,7 @@ mongoose.connect(process.env.MONGODB_URI);
 var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
+    us_username: {type: String, required: false, unique: false},
     us_password: {type: String, required: true},
     us_email_address: {type: String, unique:true, required: true},
     us_user_creation_date: {type: Date, default: Date.now()},
@@ -27,7 +28,8 @@ var UserSchema = new Schema({
     us_company: {type: String, required: false},
     us_intended_use: {type: String, required: false},
     us_user_role: {type: String, default: 'basic'},
-    us_activation_token: {type: String, required: true}
+    us_activation_token: {type: String, required: true},
+    us_sector_permissions: [Schema.Types.Mixed]
 });
 
 
@@ -123,7 +125,8 @@ var DataSchema = new Schema({
   da_notes: {type: String},
   da_uncertainty_min: {type: Number, required: false},
   da_uncertainty_max: {type: Number, required: false},
-  da_data_state: {type:String, required: false}
+  da_data_state: {type:String, required: false},
+  issues: [Schema.Types.Mixed]
 });
 
 var RegionSchema = new Schema({
@@ -144,6 +147,15 @@ var NotationKeySchema = new Schema({
   nk_is_enabled: {type: Boolean, default: true},
 });
 
+var LogSchema = new Schema({
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  lo_title: {type: String, required: true},
+  lo_desc: {type: String, required: true},
+  lo_level: {type: Number, required: true},
+  lo_date: {type: Date, required: true, default: Date.now()},
+  lo_module: {type: String, required: true}
+});
+
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.IPCCCategory = mongoose.model('IPCCCategory', IPCCCategorySchema);
@@ -156,3 +168,4 @@ exports.Unit = mongoose.model('Unit', UnitSchema);
 exports.Data = mongoose.model('Data', DataSchema);
 exports.Region = mongoose.model('Region', RegionSchema);
 exports.NotationKey = mongoose.model('NotationKey', NotationKeySchema);
+exports.Log = mongoose.model('Log', LogSchema);
