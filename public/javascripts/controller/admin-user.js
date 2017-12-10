@@ -3,8 +3,8 @@
  */
 
 angular.module('undp-ghg-v2')
-  .controller('AdminUserController', ['$scope', '$location', '$routeParams', 'UserFactory', 'AdminUserFactory',
-    function($scope, $location, $routeParams, UserFactory, AdminUserFactory) {
+  .controller('AdminUserController', ['$scope', '$location', '$routeParams', 'UserFactory', 'AdminUserFactory', 'SectorFactory',
+    function($scope, $location, $routeParams, UserFactory, AdminUserFactory, SectorFactory) {
 
       /**
        * Default states
@@ -14,6 +14,10 @@ angular.module('undp-ghg-v2')
       $scope.user.us_user_last_name = "";
       $scope.user.us_email_address = "";
       $scope.user.us_state = "";
+      $scope.user.us_sector_permissions = [];
+      $scope.sectors = [];
+      $scope.selectedItem = null;
+      $scope.searchText = null;
 
       if ($routeParams.id) {
         //query and populate $scope.category
@@ -21,11 +25,25 @@ angular.module('undp-ghg-v2')
           id: $routeParams.id
         }, function(user) {
           $scope.user = user;
+          if(!user.us_sector_permissions) {
+            $scope.user.us_sector_permissions = [];
+          }
         }, function(error) {
           alert(error.statusText);
         });
       }
 
+      /**
+       * Used to map sector to users
+       */
+      SectorFactory.query({}, function(list) {
+        $scope.sectors = list;
+      });
+      
+
+      /**
+       * Action to close the dialog
+       */
       $scope.closeAndBack = function() {
         $location.path("/settings/5");
       };
@@ -45,5 +63,10 @@ angular.module('undp-ghg-v2')
           })
         }
       }
+
+      $scope.transformChip = function(chip) {
+        return chip;
+      };
+
     }
   ]);

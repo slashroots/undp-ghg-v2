@@ -23,6 +23,23 @@ angular.module('undp-ghg-v2')
       }
       $scope.sidebarPartial('notes');
 
+      // replace existing record with new record and remove conflict
+      $scope.saveNewRecord = function() {
+        $scope.selectedRow = $scope.selectedRow.conflict;
+      }
+
+      // keep existing record and remove conflict
+      $scope.keepOldRecord = function() {
+        delete $scope.selectedRow.conflict;
+        for(var i=0; i<$scope.selectedRow.issues.length; i++) {
+            if($scope.selectedRow.issues[i].type==='overwrite') {
+                $scope.selectedRow.isConflictExists = false;
+                $scope.selectedRow.issues.splice(i,1);
+                break;
+            }
+        }
+      }
+
 
       //construct modal side nav menu
       $scope.toggleRight = buildToggler('right');
@@ -79,6 +96,9 @@ angular.module('undp-ghg-v2')
       $scope.activities = ActivityFactory.query();
       $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
       $scope.regions = RegionFactory.query();
+      $scope.categories = CategoryFactory.query({
+        se_sector: $scope.selectedSector
+      });
       $scope.variable_types = [
         {
           variableType: 'EF'
@@ -281,10 +301,6 @@ angular.module('undp-ghg-v2')
           //filter all the relevant factories based
           //on selected sector.
           $scope.sectors = SectorFactory.query();
-
-          $scope.categories = CategoryFactory.query({
-            se_sector: $scope.selectedSector
-          });
       }
 
 
@@ -382,10 +398,23 @@ angular.module('undp-ghg-v2')
         if (row.isSelected) {
           $scope.openSideNav();
           $scope.selectedRow = angular.copy(row.entity);
+          
+          //if the selected item has issues open the 
+          //tab by default.
+          if($scope.selectedRow.issues.length > 0) {
+            $scope.sidebarPartial('issues');
+          } else {
+            $scope.sidebarPartial('notes');
+          }
         } else {
-          $scope.selectedRow.isValid = true;
-          row.entity = $scope.selectedRow;
-          $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+          //if there are changes, flag for persist button
+          if(!angular.equals(row.entity, $scope.selectedRow)){
+            $scope.selectedRow.isValid = true;
+            row.entity = $scope.selectedRow;
+            $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
+            $scope.dirtyRowsExist = true;
+            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
+          }
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }
@@ -534,10 +563,6 @@ angular.module('undp-ghg-v2')
           */
           if(!isConflictExists(importedObjects[i])) {
             tmpImported.push(importedObjects[i]);
-          } else {
-            issue_list.push(createIssue("Record",
-                        'This new record will overwrite a previously saved record',
-                        '', 'overwrite'));
           }
         }
         callback(tmpImported);
@@ -561,6 +586,30 @@ angular.module('undp-ghg-v2')
         issue_object.problem = problem; //importedObjects[i]["ca_category.ca_code_name"];
         issue_object.type = type; //"mismatch";
         return issue_object;
+      }
+
+      /**
+       * Search for possible category name matches.  Uses fuzzy string 
+       * search to find nearest options for displaying to the user.
+       */
+      $scope.possibleCategoryMatches = function(category_name) {
+        var options = {
+          keys: ['ca_code_name', 'ca_code'],
+        };
+        var fuse = new Fuse($scope.categories, options);
+        return fuse.search(category_name);
+      }
+
+      /**
+       * Attempt to set the category of the selected
+       * record
+       * @param {*} category 
+       * @param {*} row 
+       * @param {*} index
+       */
+      $scope.setCategory = function(category, row, index) {
+        row.ca_category = category;
+        $scope.selectedRow.issues.splice(index, 1);
       }
 
       /**
@@ -590,6 +639,11 @@ angular.module('undp-ghg-v2')
                 new Date($scope.dataValues[i].da_date).getFullYear()===new Date(data.da_date).getFullYear()) {
                     $scope.dataValues[i].isConflictExists = true;
                     $scope.dataValues[i].conflict = data;
+
+                    // add overwrite issue to the objects issue list
+                    $scope.dataValues[i].issues.push(createIssue("Record",
+                                            'This record will be overwritten by an imported record',
+                                            '', 'overwrite'));
                     return true;
                 }
         }

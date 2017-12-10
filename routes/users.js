@@ -42,8 +42,6 @@ passport.use(new LocalStrategy({
     User.findOne({
         us_email_address: username
       },
-      'us_user_first_name us_user_last_name us_email_address us_contact ' +
-      'us_user_role us_state us_password',
       function(err, user) {
         var hashed_password = Crypto.createHash('sha256').update(password).digest("hex");
         if (err) {
@@ -162,6 +160,9 @@ router.get('/users/:id', common.isAdmin, function(req, res, next) {
     })
 });
 
+/**
+ * Modify the user 
+ */
 router.put('/users/:id', common.isAdmin, function(req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {

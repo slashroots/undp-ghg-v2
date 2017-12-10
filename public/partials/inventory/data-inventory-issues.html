@@ -1,15 +1,112 @@
 <div id="data-inventory-issues">
-    <h3 ng-if="selectedRow.issues==undefined || selectedRow.issues.length==0"
-        style="text-align: center; color: #e3e3e3;">
+    <h3 ng-if="selectedRow.issues==undefined || selectedRow.issues.length==0" style="text-align: center; color: #e3e3e3;">
         There are no issues for this record
     </h3>
     <md-list>
 
         <md-list-item ng-repeat="issue in selectedRow.issues" class="md-2-line contact-item">
-            <!-- <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" /> -->
             <div class="md-list-item-text compact">
                 <h4>{{issue.name}} ({{issue.type | uppercase}})</h4>
                 <p style="color: red;">{{issue.description}}</p>
+
+                <div ng-if="(issue.type==='mismatch') && (issue.name==='Category')">
+                    <br>
+                    <div>Possible Matches for {{issue.problem}}:</div>
+                    <md-list-item id="noborder" ng-repeat="category in possibleCategoryMatches(issue.problem)" 
+                        ng-click="setCategory(category, selectedRow, $index)">
+                        <div class="md-list-item-text compact" layout="column">
+                            <h3>({{category.ica_category.ica_code}})</h3>
+                            <p>{{category.ca_code_name}}</p>
+                        </div>
+                    </md-list-item>
+                </div>
+
+                <div ng-if="issue.type==='overwrite'">
+                    <button style="border: 1px solid #909090; margin: 10px 0px;" ng-click="showcompare = !showcompare">
+                        <span ng-show="!showcompare">Show Record Comparison</span>
+                        <span ng-show="showcompare">Hide Record Comparison</span>
+                    </button>
+                    <table ng-show="showcompare" bordercolor="#e3e3e3" border="1">
+                        <tr>
+                            <th></th>
+                            <th>New Record</th>
+                            <th>Saved Record</th>
+                        </tr>
+                        <tr>
+                            <td>Variable Type</td>
+                            <td>{{selectedRow.conflict.da_variable_type}}</td>
+                            <td>{{selectedRow.da_variable_type}}</td>
+                        </tr>
+                        <tr>
+                            <td>Category Name</td>
+                            <td>{{selectedRow.conflict.ca_category.ca_code_name}}</td>
+                            <td>{{selectedRow.ca_category.ca_code_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Activity</td>
+                            <td>{{selectedRow.conflict.ac_activity.ac_name}}</td>
+                            <td>{{selectedRow.ac_activity.ac_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Variable Value</td>
+                            <td>{{selectedRow.conflict.da_data_value}}</td>
+                            <td>{{selectedRow.da_data_value}}</td>
+                        </tr>
+                        <tr>
+                            <td>Unit</td>
+                            <td>{{selectedRow.conflict.un_unit.un_unit_symbol}}</td>
+                            <td>{{selectedRow.un_unit.un_unit_symbol}}</td>
+                        </tr>
+                        <tr>
+                            <td>Category Name</td>
+                            <td>{{selectedRow.conflict.ca_category.ca_code_name}}</td>
+                            <td>{{selectedRow.ca_category.ca_code_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Associated Gas</td>
+                            <td>{{selectedRow.conflict.ga_chem_formula}}</td>
+                            <td>{{selectedRow.ga_chem_formula}}</td>
+                        </tr>
+                        <tr>
+                            <td>Uncertainty (Min)</td>
+                            <td>{{selectedRow.conflict.da_uncertainty_min}}</td>
+                            <td>{{selectedRow.da_uncertainty_min}}</td>
+                        </tr>
+                        <tr>
+                            <td>Uncertainty (Max)</td>
+                            <td>{{selectedRow.conflict.da_uncertainty_max}}</td>
+                            <td>{{selectedRow.da_uncertainty_max}}</td>
+                        </tr>
+                        <tr>
+                            <td>Notation Key</td>
+                            <td>{{selectedRow.conflict.nk_name}}</td>
+                            <td>{{selectedRow.nk_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Region</td>
+                            <td>{{selectedRow.conflict.re_region_name}}</td>
+                            <td>{{selectedRow.re_region_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Notes</td>
+                            <td>{{selectedRow.conflict.notes}}</td>
+                            <td>{{selectedRow.notes}}</td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td></td>
+                            <td>
+                                <button style="border: 1px solid #909090; font-size: 10px;" ng-click="saveNewRecord()">
+                                    Save New
+                                </button>
+                            </td>
+                            <td>
+                                <button style="border: 1px solid #909090; font-size: 10px;" ng-click="keepOldRecord()">
+                                    Keep Old
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </md-list-item>
 
