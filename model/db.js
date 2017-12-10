@@ -144,6 +144,13 @@ var NotationKeySchema = new Schema({
   nk_is_enabled: {type: Boolean, default: true},
 });
 
+var SupportingFilesSchema = new Schema({
+  in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
+  ca_category: {type: Schema.Types.ObjectId, required: false, ref: 'Category'},
+  description: {type: String, required: false},
+  file: {type: String, required: true}
+});
+
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.IPCCCategory = mongoose.model('IPCCCategory', IPCCCategorySchema);
@@ -156,3 +163,4 @@ exports.Unit = mongoose.model('Unit', UnitSchema);
 exports.Data = mongoose.model('Data', DataSchema);
 exports.Region = mongoose.model('Region', RegionSchema);
 exports.NotationKey = mongoose.model('NotationKey', NotationKeySchema);
+exports.SupportingFiles = mongoose.model('SupportingFiles', SupportingFilesSchema);

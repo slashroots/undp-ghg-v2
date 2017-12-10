@@ -10,6 +10,10 @@ var NotationKey = model.NotationKey;
 var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 var Data = model.Data;
+var SupportingFiles = model.SupportingFiles,
+    multiparty = require('multiparty'),
+    fs = require('fs'),
+    path = require('path');
 
 //############################ IPCC CATEGORY ###################################
 
@@ -607,3 +611,75 @@ exports.updateNotationKey = function(req, res, next) {
       }
     });
 };
+
+
+//############################## Supporting Files ######################################
+
+exports.getSupportingFiles = function(req, res, next) {
+  var query = req.querymen;
+  SupportingFiles.find(query.query, query.select, query.cursor)
+    .populate('in_inventory', 'ca_category')
+    .exec(function(err, result) {
+        console.log(err);
+        console.log(result);
+      if(err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getSupportFile = function(req, res, next) {
+  SupportingFiles.findById(req.params.id)
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.sendFile(path.join(process.env.UPLOAD_DIR, item.file));
+      }
+    });
+};
+
+exports.createSupportingFiles = function(req, res, next) {
+    var form = new multiparty.Form();
+    form.parse(req, function(err, fields, files) {
+        if(err)
+            next(err);
+
+        fs.rename(files['files[0]'][0]['path'],
+            path.join(process.env.UPLOAD_DIR, files['files[0]'][0]['originalFilename']), function(err) {
+                if(err)
+                    next(err);
+
+                var obj = {
+                    'in_inventory': fields['data[in_inventory]'][0],
+                    'ca_category': fields['data[ca_category]'][0],
+                    'description': fields['data[description]'][0],
+                    'file': files['files[0]'][0]['originalFilename']
+                }
+
+                var sf = new SupportingFiles(obj);
+                sf.save(function(err) {
+                    console.log(err);
+                    if(err) {
+                        next(err);
+                    } else {
+                        res.send(sf);
+                    }
+                });
+            });
+    });
+};
+
+exports.updateSupportingFiles = function(req, res, next) {
+  SupportingFiles.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+

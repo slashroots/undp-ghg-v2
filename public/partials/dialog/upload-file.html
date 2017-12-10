@@ -6,14 +6,42 @@
       <br/>
       <br/>
 
-      <input type="file" name="entity-file" style="width: 100%"/>
+      <div style="width: 100%;">
+        <div style="float: left; width: 50%;border-right: 1px solid #909090;">
+          <ul style="list-style: none; padding: 0;" ng-if="supporting_files.length>0">
+            <li ng-repeat="file in supporting_files" style="padding-top: 10px;">
+                <h5>{{file.file}}</h5>
+                <a ng-href="/api/supportingfiles/{{file._id}}"
+                   style="text-decoration: none; border: 1px solid #909090; border-radius: 3px; padding: 5px; font-size: 12px;">
+                    Download
+                </a>
+            </li>
+          </ul>
+            <h3 style="text-align: center; color: #e1e1e1;" ng-if="supporting_files.length==0">No Supporting Files Available</h3>
+        </div>
+        <div style="float: left;width: 50%; padding-left: 10px; padding-bottom: 10px;">
 
-      <br/>
-      <br/>
+          <ul style="list-style: none; padding: 0;">
+            <li ng-repeat="f in files" style="font:smaller">
+              <h5>{{f.name}}</h5>
+            </li>
+            <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+            </li>
+          </ul>
+          <textarea style="width: 100%; margin-bottom: 10px; border-radius: 2px; font-size: 14px;"
+                    ng-if="files.length > 0"
+                    placeholder="Enter Description"></textarea>
+          <button ngf-select="selectedFiles($files, $invalidFiles)"
+                  accept="text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  ngf-max-height="1000" ngf-max-size="2MB"
+                  style="width: 100%; padding: 20px; background: #e3e3e3;">
+            Select Files</button>
+        </div>
+      </div>
 
-      <div class="centered-form">
+      <div style="clear: both; text-align: center; padding: 20px;">
         <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
-        <a class="modal-form-confirm w-button" ng-click="Upload()">Upload</a>
+        <a class="modal-form-confirm w-button" ng-click="uploadFiles()">Upload</a>
       </div>
     </div>
   </div>
