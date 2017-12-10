@@ -372,7 +372,6 @@ angular.module('undp-ghg-v2')
         var dataRecord = DataFactory.edit({
           id: rowEntity._id
         }, rowEntity);
-        console.log(rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, dataRecord.$promise);
       };
 
@@ -408,14 +407,14 @@ angular.module('undp-ghg-v2')
             $scope.sidebarPartial('notes');
           }
         } else {
-          $scope.selectedRow.isValid = true;
           //if there are changes, flag for persist button
           if(!angular.equals(row.entity, $scope.selectedRow)){
+            $scope.selectedRow.isValid = true;
             row.entity = $scope.selectedRow;
             $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
             $scope.dirtyRowsExist = true;
+            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
           }
-          $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
           $scope.closeSideNav();
           $scope.selectedRow = {};
         }

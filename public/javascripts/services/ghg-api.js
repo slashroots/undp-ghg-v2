@@ -339,3 +339,14 @@ services.factory('LogsFactory', function($resource) {
     }
   });
 });
+
+/**
+ * Count of administrative logs
+ */
+services.factory('LogFactory', function($resource) {
+  return $resource('/logcount', {}, {
+    count: {
+      method: 'GET'
+    }
+  });
+});

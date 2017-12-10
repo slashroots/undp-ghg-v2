@@ -2192,3 +2192,7 @@ html.w-mod-js *[data-ix="hidden-save"] {
   color: red;
   border: 2px solid red;
 }
+
+.ui-grid-row-dirty .ui-grid-cell{
+  color: red;
+}
