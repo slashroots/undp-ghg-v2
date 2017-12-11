@@ -1,51 +1,50 @@
 <div ng-controller="UploadController" class="add-gas" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
-    <div class="bigger openinv-wrapper">
-      <div class="div-block"><a class="close-button w-inline-block" ng-click="closeAndBack()">
-        <img src="../images/Close-Icon.png" width="12"></a>
+  <div class="bigger openinv-wrapper">
+    <div class="div-block">
+      <a class="close-button w-inline-block" ng-click="closeAndBack()">
+        <img src="../images/Close-Icon.png" width="12">
+      </a>
+    </div>
+    <div class="dialog-header">{{title}} Uploader ({{sector.se_name}})</div>
+
+    <br/>
+    <br/>
+
+    <div style="width: 100%;">
+      <div style="float: left; width: 50%;border-right: 1px solid #909090;">
+        <md-list class="make-scrollable">
+          <!-- <ul style="list-style: none; padding: 0;" ng-if="supporting_files.length>0"> -->
+          <md-list-item class="md-3-line" ng-repeat="file in supporting_files" ng-href="/api/supportingfiles/{{file._id}}">
+            <img ng-src="/images/excel.svg" class="md-avatar" alt="{{file.file}}" />
+            <div class="md-list-item-text" layout="column">
+              <h3 style="color: green;">{{ file.file }}</h3>
+              <h4>{{ file.description }}</h4>
+              <p><strong>{{ file.us_user.us_user_first_name }} {{ file.us_user.us_user_last_name }} </strong>{{file.su_date| date: short}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+        <h3 style="text-align: center; color: #e1e1e1;" ng-if="supporting_files.length==0">No Supporting Files Available</h3>
       </div>
-      <div class="dialog-header">{{title}} Uploader</div>
+      <div style="float: left;width: 50%; padding-left: 10px; padding-bottom: 10px;">
 
-      <br/>
-      <br/>
-
-      <div style="width: 100%;">
-        <div style="float: left; width: 50%;border-right: 1px solid #909090;">
-          <ul style="list-style: none; padding: 0;" ng-if="supporting_files.length>0">
-            <li ng-repeat="file in supporting_files" style="padding-top: 10px;">
-                <h5 style="margin-bottom: 0px;">{{file.file}}</h5>
-                <p style="font-size: 12px; color: #909090; margin-bottom: 0px;">{{file.description}}</p>
-                <a ng-href="/api/supportingfiles/{{file._id}}"
-                   style="text-decoration: none; border: 1px solid #909090; border-radius: 3px; padding: 5px; font-size: 12px;" download="{{file.file}}">
-                    Download
-                </a>
-            </li>
-          </ul>
-            <h3 style="text-align: center; color: #e1e1e1;" ng-if="supporting_files.length==0">No Supporting Files Available</h3>
-        </div>
-        <div style="float: left;width: 50%; padding-left: 10px; padding-bottom: 10px;">
-
-          <ul style="list-style: none; padding: 0;">
-            <li ng-repeat="f in files" style="font:smaller">
-              <h5>{{f.name}}</h5>
-            </li>
-            <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
-            </li>
-          </ul>
-          <textarea style="width: 100%; margin-bottom: 10px; border-radius: 2px; font-size: 14px;"
-                    ng-if="files.length > 0"
-                    placeholder="Enter Description"
-                    ng-model="supportfile_object.description"></textarea>
-          <button ngf-select="selectedFiles($files, $invalidFiles)"
-                  accept="text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                  ngf-max-height="1000" ngf-max-size="2MB"
-                  style="width: 100%; padding: 20px; background: #e3e3e3;">
-            Select Files</button>
-        </div>
-      </div>
-
-      <div style="clear: both; text-align: center; padding: 20px;">
-        <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
-        <a class="modal-form-confirm w-button" ng-click="uploadFiles()">Upload</a>
+        <ul style="list-style: none; padding: 0;">
+          <li ng-repeat="f in files" style="font:smaller">
+            <h5>{{f.name}}</h5>
+          </li>
+          <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+          </li>
+        </ul>
+        <textarea style="width: 100%; margin-bottom: 10px; border-radius: 2px; font-size: 14px;" ng-if="files.length > 0" placeholder="Enter Description"
+          ng-model="supportfile_object.description"></textarea>
+        <button ngf-select="selectedFiles($files, $invalidFiles)" accept="text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ngf-max-height="1000" ngf-max-size="2MB" style="width: 100%; padding: 20px; background: #e3e3e3;">
+          Select Files</button>
       </div>
     </div>
+
+    <div style="clear: both; text-align: center; padding: 20px;">
+      <a class="modal-form-cancel w-button" ng-click="closeAndBack()">Cancel</a>
+      <a class="modal-form-confirm w-button" ng-click="uploadFiles()">Upload</a>
+    </div>
   </div>
+</div>

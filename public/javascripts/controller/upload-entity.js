@@ -20,6 +20,13 @@ angular.module('undp-ghg-v2')
                 "se_sector": $routeParams.se})
         });
 
+        /**
+         * Grab sector and make available for front-end
+         */
+        SectorFactory.get({id: $routeParams.se}, function(sector) {
+          $scope.sector = sector;
+        });
+
         //functions
         angular.extend($scope, {
             'selectedFiles': function($files) {
