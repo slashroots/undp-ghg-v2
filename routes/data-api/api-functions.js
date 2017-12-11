@@ -655,6 +655,7 @@ exports.createSupportingFiles = function (req, res, next) {
         if (err) {
           next(err);
         } else {
+            console.log(fields);
           var obj = {
             'in_inventory': fields['data[in_inventory]'][0],
             'se_sector': fields['data[se_sector]'][0],

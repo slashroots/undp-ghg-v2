@@ -5,10 +5,15 @@ angular.module('undp-ghg-v2')
     function($scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, SupportingFilesFactory, Upload) {
 
+        var e_supportfile_object = {
+            'in_inventory': $routeParams.id,
+            'se_sector': $routeParams.se,
+            'description': ''
+        }
+
         // models
         angular.extend($scope, {
-            'selectedInventory': $routeParams.id,
-            'selectedSector': $routeParams.se,
+            'supportfile_object': angular.copy(e_supportfile_object),
             'files': [],
             'supporting_files': SupportingFilesFactory.query({
                 "in_inventory": $routeParams.id,
@@ -25,15 +30,12 @@ angular.module('undp-ghg-v2')
                   url: '/api/supportingfiles',
                   data: {
                     files: $scope.files,
-                    data: {
-                        in_inventory: $scope.selectedInventory,
-                        se_sector: $scope.selectedSector,
-                        description: ''
-                    }
+                    data: $scope.supportfile_object
                   },
                 }).then(function (response) {
                     $scope.files = [];
                     $scope.supporting_files.push(response.data);
+                    $scope.supportfile_object = angular.copy(e_supportfile_object);
                 });
             }
         });
