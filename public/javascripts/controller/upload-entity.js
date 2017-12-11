@@ -12,7 +12,7 @@ angular.module('undp-ghg-v2')
             'files': [],
             'supporting_files': SupportingFilesFactory.query({
                 "in_inventory": $routeParams.id,
-                "ca_category": $routeParams.se})
+                "se_sector": $routeParams.se})
         });
 
         //functions
@@ -27,7 +27,7 @@ angular.module('undp-ghg-v2')
                     files: $scope.files,
                     data: {
                         in_inventory: $scope.selectedInventory,
-                        ca_category: $scope.selectedSector,
+                        se_sector: $scope.selectedSector,
                         description: ''
                     }
                   },

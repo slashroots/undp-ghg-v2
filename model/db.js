@@ -158,9 +158,11 @@ var LogSchema = new Schema({
 
 var SupportingFilesSchema = new Schema({
   in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
-  ca_category: {type: Schema.Types.ObjectId, required: false, ref: 'Category'},
+  se_sector: {type: Schema.Types.ObjectId, required: false, ref: 'Sector'},
   description: {type: String, required: false},
-  file: {type: String, required: true}
+  file: {type: String, required: true},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  su_date: {type: Date, required: true, default: Date.now()}
 });
 
 exports.User = mongoose.model('User', UserSchema);

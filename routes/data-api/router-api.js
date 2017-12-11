@@ -66,9 +66,9 @@ var supportingfiles_schema = new querymen.Schema({
       type: String,
       paths: ['in_inventory']
     },
-    ca_category: {
+    se_sector: {
       type: String,
-      paths: ['ca_category']
+      paths: ['se_sector']
     }
   }, {
     page: false, // disable default parameter `page`
