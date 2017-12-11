@@ -14,7 +14,12 @@
       <div style="float: left; width: 50%;border-right: 1px solid #909090;">
         <md-list class="make-scrollable">
           <!-- <ul style="list-style: none; padding: 0;" ng-if="supporting_files.length>0"> -->
-          <md-list-item class="md-3-line" ng-repeat="file in supporting_files" ng-href="/api/supportingfiles/{{file._id}}">
+          <md-list-item class="md-3-line" ng-repeat="file in supporting_files" href="#">
+            <a ng-href="/api/supportingfiles/{{file._id}}" download="{{file.file}}" class="md-no-style md-button md-ink-ripple" ng-transclude=""
+               style="position: absolute; top: 0; height: 100%; left: 0; padding: 0; margin: 0;" aria-label="">
+              <div class="md-ripple-container"></div>
+            </a>
+
             <img ng-src="/images/excel.svg" class="md-avatar" alt="{{file.file}}" />
             <div class="md-list-item-text" layout="column">
               <h3 style="color: green;">{{ file.file }}</h3>
