@@ -11,18 +11,22 @@ var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 var Data = model.Data;
 var app_logger = require('../common/logger');
+var SupportingFiles = model.SupportingFiles,
+  multiparty = require('multiparty'),
+  fs = require('fs'),
+  path = require('path');
 
 //############################ IPCC CATEGORY ###################################
 
 /**
   * Find all categories matching search parameters
   */
-exports.getIPCCCategory = function(req, res, next) {
+exports.getIPCCCategory = function (req, res, next) {
   app_logger.log(app_logger.LOG_LEVEL_INFO, 'IPCC Category Requested', 'User Requested IPCC Category', 'IPCC CATEGORY', req.user._id);
   var query = req.querymen;
   IPCCCategory.find(query.query, query.select)
     .populate('se_sector us_user ica_parent')
-    .exec(function(err, docs) {
+    .exec(function (err, docs) {
       if (err) {
         next(err);
       } else {
@@ -31,12 +35,12 @@ exports.getIPCCCategory = function(req, res, next) {
     });
 };
 
-exports.getIPCCCategoryByID = function(req, res, next) {
+exports.getIPCCCategoryByID = function (req, res, next) {
   app_logger.log(app_logger.LOG_LEVEL_INFO, 'IPCC Category Requested', 'User Requested IPCC Category', 'IPCC CATEGORY', req.user._id);
   IPCCCategory.findById(req.params.id)
     .populate('se_sector us_user ica_parent')
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -44,13 +48,13 @@ exports.getIPCCCategoryByID = function(req, res, next) {
     });
 };
 
-exports.updateIPCCCategoryByID = function(req, res, next) {
+exports.updateIPCCCategoryByID = function (req, res, next) {
   var category = req.body;
   category.ica_modified = Date.now();
   category.us_user = req.user._id;
-  Category.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+  Category.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         app_logger.log(app_logger.LOG_LEVEL_INFO, 'IPCC Category Modification', 'User Modified IPCC Category ' + category.ica_code_name, 'IPCC CATEGORY', req.user._id);
@@ -59,11 +63,10 @@ exports.updateIPCCCategoryByID = function(req, res, next) {
     })
 };
 
-exports.createIPCCCategory = function(req, res, next) {
+exports.createIPCCCategory = function (req, res, next) {
   var category = new IPCCCategory(req.body);
   category.us_user = req.user._id;
-  category.save(function(err) {
-    console.log(err);
+  category.save(function (err) {
     if (err) {
       next(err);
     } else {
@@ -78,12 +81,12 @@ exports.createIPCCCategory = function(req, res, next) {
 /**
   * Find all categories matching search parameters
   */
-exports.getCategory = function(req, res, next) {
+exports.getCategory = function (req, res, next) {
   var query = req.querymen;
   app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Requested', 'User Requested Category', 'CATEGORY', req.user._id);
   Category.find(query.query, query.select)
     .populate('se_sector us_user ica_category')
-    .exec(function(err, docs) {
+    .exec(function (err, docs) {
       if (err) {
         next(err);
       } else {
@@ -92,12 +95,12 @@ exports.getCategory = function(req, res, next) {
     });
 };
 
-exports.getCategoryByID = function(req, res, next) {
+exports.getCategoryByID = function (req, res, next) {
   app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Requested', 'User Requested Category', 'CATEGORY', req.user._id);
   Category.findById(req.params.id)
     .populate('se_sector us_user ica_category')
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -105,13 +108,13 @@ exports.getCategoryByID = function(req, res, next) {
     });
 };
 
-exports.updateCategoryByID = function(req, res, next) {
+exports.updateCategoryByID = function (req, res, next) {
   var category = req.body;
   category.ca_modified = Date.now();
   category.us_user = req.user._id;
-  Category.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+  Category.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Modified', 'User Modified Category ' + JSON.stringify(category), 'CATEGORY', req.user._id);
@@ -120,11 +123,10 @@ exports.updateCategoryByID = function(req, res, next) {
     })
 };
 
-exports.createCategory = function(req, res, next) {
+exports.createCategory = function (req, res, next) {
   var category = new Category(req.body);
   category.us_user = req.user._id;
-  category.save(function(err) {
-    console.log(err);
+  category.save(function (err) {
     if (err) {
       next(err);
     } else {
@@ -136,11 +138,11 @@ exports.createCategory = function(req, res, next) {
 
 //############################## SECTOR ######################################
 
-exports.getSector = function(req, res, next) {
+exports.getSector = function (req, res, next) {
   var query = req.querymen;
   Sector.find(query.query, query.select, query.cursor)
     .populate('us_user')
-    .exec(function(err, docs) {
+    .exec(function (err, docs) {
       if (err) {
         next(err);
       } else {
@@ -149,10 +151,10 @@ exports.getSector = function(req, res, next) {
     });
 };
 
-exports.createSector = function(req, res, next) {
+exports.createSector = function (req, res, next) {
   var sector = new Sector(req.body);
   sector.us_user = req.user._id;
-  sector.save(function(err) {
+  sector.save(function (err) {
     if (err) {
       next(err);
     } else {
@@ -161,9 +163,9 @@ exports.createSector = function(req, res, next) {
   });
 };
 
-exports.getSectorByID = function(req, res, next) {
-  Sector.findById(req.params.id, function(err, item) {
-    if(err) {
+exports.getSectorByID = function (req, res, next) {
+  Sector.findById(req.params.id, function (err, item) {
+    if (err) {
       next(err);
     } else {
       res.send(item);
@@ -171,13 +173,13 @@ exports.getSectorByID = function(req, res, next) {
   });
 };
 
-exports.updateSectorByID = function(req, res, next) {
+exports.updateSectorByID = function (req, res, next) {
   var sector = req.body;
   sector.se_modified = Date.now();
   sector.us_user = req.user._id;
-  Sector.findByIdAndUpdate(req.params.id, sector, {new: true},
-    function(err, item) {
-      if(err) {
+  Sector.findByIdAndUpdate(req.params.id, sector, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -190,11 +192,11 @@ exports.updateSectorByID = function(req, res, next) {
 /**
  * Retrieve all inventories
  */
-exports.getInventory = function(req, res, next) {
+exports.getInventory = function (req, res, next) {
   var query = req.querymen;
   Inventory.find(query.query, query.select, query.cursor)
     .populate('us_user')
-    .exec(function(err, docs) {
+    .exec(function (err, docs) {
       if (err) {
         next(err);
       } else {
@@ -207,13 +209,13 @@ exports.getInventory = function(req, res, next) {
 /**
  * Create inventory and tag user who performed the action
  */
-exports.createInventory = function(req, res, next) {
+exports.createInventory = function (req, res, next) {
   //check if open inventory already exists
-  Inventory.findOne({in_status: "opened"}, function(err,item) {
-    if(err) {
+  Inventory.findOne({ in_status: "opened" }, function (err, item) {
+    if (err) {
       next(err);
     } else {
-      if(item) {
+      if (item) {
         var error = new Error('An Open Inventory Already Exists!');
         error.status = 400;
         next(error);
@@ -221,24 +223,24 @@ exports.createInventory = function(req, res, next) {
         //if there is no opened inventory, find the last inventory based on 
         //in_end_date and copy data.
         Inventory.find({}).sort('-in_end_date').exec(
-          function(err, list) {
-            if(err) {
+          function (err, list) {
+            if (err) {
               next(err);
             } else {
 
-              createNewInventory(req, function(err, inventory) {
-                if(err) {
+              createNewInventory(req, function (err, inventory) {
+                if (err) {
                   next(err);
                 } else {
-                  if(list.length == 0) {
+                  if (list.length == 0) {
                     //just go ahead and report creation of new inventory
                     res.send(inventory);
-                  } else { 
+                  } else {
                     var data_new = [];
                     var new_obj = {};
-                    Data.find({in_inventory: list[0]._id}).exec(
-                      function(err1, data) {
-                        for(i in data) {
+                    Data.find({ in_inventory: list[0]._id }).exec(
+                      function (err1, data) {
+                        for (i in data) {
                           new_obj = {};
                           //I really don't like the way I did this
                           //the delete function doesn't work at all
@@ -260,8 +262,8 @@ exports.createInventory = function(req, res, next) {
                           data_new.push(new_obj);
                         }
 
-                        Data.insertMany(data_new, function(error_many, result) {
-                          if(error_many) {
+                        Data.insertMany(data_new, function (error_many, result) {
+                          if (error_many) {
                             next(error_many);
                           } else {
                             res.send(inventory);
@@ -285,20 +287,20 @@ exports.createInventory = function(req, res, next) {
  * A helper function to assist with the creation of the 
  * inventory for the main function above.
  */
-createNewInventory = function(req, callback) {
+createNewInventory = function (req, callback) {
   //create the inventory
   var inventory = new Inventory(req.body);
   inventory.us_user = req.user._id;
-  inventory.save(function(err) {
-      //finally respond with the new inventory
-      callback(err, inventory);
+  inventory.save(function (err) {
+    //finally respond with the new inventory
+    callback(err, inventory);
   });
 }
 
-exports.modifyInventory = function(req, res, next) {
-  Inventory.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.modifyInventory = function (req, res, next) {
+  Inventory.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -306,16 +308,16 @@ exports.modifyInventory = function(req, res, next) {
     });
 };
 
-exports.getInventoryByID = function(req, res, next) {
+exports.getInventoryByID = function (req, res, next) {
   Inventory.findById(req.params.id)
     .populate('us_user')
-    .exec(function(err, item){
-    if(err) {
-      next(err);
-    } else {
-      res.send(item);
-    }
-  });
+    .exec(function (err, item) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
 };
 
 //################################# GASES ######################################
@@ -323,11 +325,11 @@ exports.getInventoryByID = function(req, res, next) {
 /**
  * Retrieve all gases
  */
-exports.getGas = function(req, res, next) {
+exports.getGas = function (req, res, next) {
   var query = req.querymen;
   Gas.find(query.query, query.select, query.cursor)
     .populate('us_user')
-    .exec(function(err, docs) {
+    .exec(function (err, docs) {
       if (err) {
         next(err);
       } else {
@@ -336,9 +338,9 @@ exports.getGas = function(req, res, next) {
     });
 };
 
-exports.getGasByID = function(req, res, next) {
-  Gas.findById(req.params.id, function(err, item) {
-    if(err) {
+exports.getGasByID = function (req, res, next) {
+  Gas.findById(req.params.id, function (err, item) {
+    if (err) {
       next(err);
     } else {
       res.send(item);
@@ -346,10 +348,10 @@ exports.getGasByID = function(req, res, next) {
   });
 };
 
-exports.updateGasByID = function(req, res, next) {
-  Gas.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.updateGasByID = function (req, res, next) {
+  Gas.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -360,9 +362,9 @@ exports.updateGasByID = function(req, res, next) {
 /**
  * Create gas
  */
-exports.createGas = function(req, res, next) {
+exports.createGas = function (req, res, next) {
   var gas = new Gas(req.body);
-  gas.save(function(err) {
+  gas.save(function (err) {
     if (err) {
       next(err);
     } else {
@@ -372,12 +374,12 @@ exports.createGas = function(req, res, next) {
 };
 
 //############################## ACTIVITY ######################################
-exports.getActivities = function(req, res, next) {
+exports.getActivities = function (req, res, next) {
   var query = req.querymen;
   Activity.find(query.query, query.select, query.cursor)
     .populate('us_user iac_activity')
-    .exec(function(err, result) {
-      if(err) {
+    .exec(function (err, result) {
+      if (err) {
         next(err);
       } else {
         res.send(result);
@@ -385,11 +387,11 @@ exports.getActivities = function(req, res, next) {
     });
 };
 
-exports.getActivityById = function(req, res, next) {
+exports.getActivityById = function (req, res, next) {
   Activity.findById(req.params.id)
     .populate('us_user iac_activity')
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -397,11 +399,10 @@ exports.getActivityById = function(req, res, next) {
     });
 };
 
-exports.createActivity = function(req, res, next) {
+exports.createActivity = function (req, res, next) {
   var activity = new Activity(req.body);
-  activity.save(function(err) {
-    if(err) {
-      console.log(err);
+  activity.save(function (err) {
+    if (err) {
       next(err);
     } else {
       res.send(activity);
@@ -409,10 +410,10 @@ exports.createActivity = function(req, res, next) {
   });
 };
 
-exports.updateActivity = function(req, res, next) {
-  Activity.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.updateActivity = function (req, res, next) {
+  Activity.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -422,11 +423,11 @@ exports.updateActivity = function(req, res, next) {
 
 //################################# UNITS ######################################
 
-exports.getUnits = function(req, res, next) {
+exports.getUnits = function (req, res, next) {
   var query = req.querymen;
   Unit.find(query.query, query.select, query.cursor)
-    .exec(function(err, result) {
-      if(err) {
+    .exec(function (err, result) {
+      if (err) {
         next(err);
       } else {
         res.send(result);
@@ -434,10 +435,10 @@ exports.getUnits = function(req, res, next) {
     });
 };
 
-exports.getUnitByID = function(req, res, next) {
+exports.getUnitByID = function (req, res, next) {
   Unit.findById(req.params.id)
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -445,10 +446,10 @@ exports.getUnitByID = function(req, res, next) {
     });
 };
 
-exports.createUnit = function(req, res, next) {
+exports.createUnit = function (req, res, next) {
   var unit = new Unit(req.body);
-  unit.save(function(err) {
-    if(err) {
+  unit.save(function (err) {
+    if (err) {
       next(err);
     } else {
       res.send(unit);
@@ -456,10 +457,10 @@ exports.createUnit = function(req, res, next) {
   });
 };
 
-exports.updateUnit = function(req, res, next) {
-  Unit.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.updateUnit = function (req, res, next) {
+  Unit.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -468,12 +469,12 @@ exports.updateUnit = function(req, res, next) {
 };
 
 //############################ IPCC ACTIVITY ###################################
-exports.getIPCCActivities = function(req, res, next) {
+exports.getIPCCActivities = function (req, res, next) {
   var query = req.querymen;
   IPCCActivity.find(query.query, query.select, query.cursor)
     .populate('us_user')
-    .exec(function(err, result) {
-      if(err) {
+    .exec(function (err, result) {
+      if (err) {
         next(err);
       } else {
         res.send(result);
@@ -481,11 +482,11 @@ exports.getIPCCActivities = function(req, res, next) {
     });
 };
 
-exports.getIPCCActivityById = function(req, res, next) {
+exports.getIPCCActivityById = function (req, res, next) {
   Activity.findById(req.params.id)
     .populate('us_user')
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -493,11 +494,10 @@ exports.getIPCCActivityById = function(req, res, next) {
     });
 };
 
-exports.createIPCCActivity = function(req, res, next) {
+exports.createIPCCActivity = function (req, res, next) {
   var activity = new Activity(req.body);
-  activity.save(function(err) {
-    if(err) {
-      console.log(err);
+  activity.save(function (err) {
+    if (err) {
       next(err);
     } else {
       res.send(activity);
@@ -505,10 +505,10 @@ exports.createIPCCActivity = function(req, res, next) {
   });
 };
 
-exports.updateIPCCActivity = function(req, res, next) {
-  Activity.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.updateIPCCActivity = function (req, res, next) {
+  Activity.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -518,12 +518,12 @@ exports.updateIPCCActivity = function(req, res, next) {
 
 //################################ REGION ######################################
 
-exports.getRegion = function(req, res, next) {
+exports.getRegion = function (req, res, next) {
   var query = req.querymen;
   Region.find(query.query, query.select, query.cursor)
     .populate('us_user')
-    .exec(function(err, result) {
-      if(err) {
+    .exec(function (err, result) {
+      if (err) {
         next(err);
       } else {
         res.send(result);
@@ -531,11 +531,11 @@ exports.getRegion = function(req, res, next) {
     });
 };
 
-exports.getRegionByID = function(req, res, next) {
+exports.getRegionByID = function (req, res, next) {
   Region.findById(req.params.id)
     .populate('us_user')
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -543,11 +543,11 @@ exports.getRegionByID = function(req, res, next) {
     });
 };
 
-exports.createRegion = function(req, res, next) {
+exports.createRegion = function (req, res, next) {
   var region = new Region(req.body);
   region.us_user = req.user._id;
-  region.save(function(err) {
-    if(err) {
+  region.save(function (err) {
+    if (err) {
       next(err);
     } else {
       res.send(region);
@@ -555,10 +555,10 @@ exports.createRegion = function(req, res, next) {
   });
 };
 
-exports.updateRegion = function(req, res, next) {
-  Region.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.updateRegion = function (req, res, next) {
+  Region.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -569,12 +569,12 @@ exports.updateRegion = function(req, res, next) {
 
 //############################## Notation ######################################
 
-exports.getNotation = function(req, res, next) {
+exports.getNotation = function (req, res, next) {
   var query = req.querymen;
   NotationKey.find(query.query, query.select, query.cursor)
     .populate('us_user')
-    .exec(function(err, result) {
-      if(err) {
+    .exec(function (err, result) {
+      if (err) {
         next(err);
       } else {
         res.send(result);
@@ -582,11 +582,11 @@ exports.getNotation = function(req, res, next) {
     });
 };
 
-exports.getNotationByID = function(req, res, next) {
+exports.getNotationByID = function (req, res, next) {
   NotationKey.findById(req.params.id)
     .populate('us_user')
-    .exec(function(err, item) {
-      if(err) {
+    .exec(function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
@@ -594,11 +594,11 @@ exports.getNotationByID = function(req, res, next) {
     });
 };
 
-exports.createNotationKey = function(req, res, next) {
+exports.createNotationKey = function (req, res, next) {
   var nk = new NotationKey(req.body);
   nk.us_user = req.user._id;
-  nk.save(function(err) {
-    if(err) {
+  nk.save(function (err) {
+    if (err) {
       next(err);
     } else {
       res.send(nk);
@@ -606,13 +606,85 @@ exports.createNotationKey = function(req, res, next) {
   });
 };
 
-exports.updateNotationKey = function(req, res, next) {
-  NotationKey.findByIdAndUpdate(req.params.id, req.body, {new: true},
-    function(err, item) {
-      if(err) {
+exports.updateNotationKey = function (req, res, next) {
+  NotationKey.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
         next(err);
       } else {
         res.send(item);
       }
     });
 };
+
+
+//############################## Supporting Files ######################################
+
+exports.getSupportingFiles = function (req, res, next) {
+  var query = req.querymen;
+  SupportingFiles.find(query.query, query.select, query.cursor)
+    .populate('in_inventory se_sector us_user')
+    .exec(function (err, result) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+};
+
+exports.getSupportFile = function (req, res, next) {
+  SupportingFiles.findById(req.params.id)
+    .exec(function (err, item) {
+      if (err) {
+        next(err);
+      } else {
+        res.sendFile(path.join(process.env.UPLOAD_DIR, item.file));
+      }
+    });
+};
+
+exports.createSupportingFiles = function (req, res, next) {
+  var form = new multiparty.Form();
+  form.parse(req, function (err, fields, files) {
+    if (err)
+      next(err);
+
+    fs.rename(files['files[0]'][0]['path'],
+      path.join(process.env.UPLOAD_DIR, files['files[0]'][0]['originalFilename']), function (err) {
+        if (err) {
+          next(err);
+        } else {
+            console.log(fields);
+          var obj = {
+            'in_inventory': fields['data[in_inventory]'][0],
+            'se_sector': fields['data[se_sector]'][0],
+            'description': fields['data[description]'][0],
+            'us_user': req.user._id,
+            'file': files['files[0]'][0]['originalFilename']
+          }
+
+          var sf = new SupportingFiles(obj);
+          sf.save(function (err) {
+            if (err) {
+              next(err);
+            } else {
+              res.send(sf);
+            }
+          });
+        }
+      });
+  });
+};
+
+exports.updateSupportingFiles = function (req, res, next) {
+  SupportingFiles.findByIdAndUpdate(req.params.id, req.body, { new: true },
+    function (err, item) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
