@@ -1,6 +1,6 @@
 var app = angular.module("undp-ghg-v2", ["ngRoute", "undp-ghg-v2.services",
 "ui.grid", "ui.grid.importer", "ui.grid.edit", "ui.grid.rowEdit",
-"ui.grid.selection","ui.grid.exporter", "ui.grid.cellNav", "ngMaterial", "ui.grid.pagination"]);
+"ui.grid.selection","ui.grid.exporter", "ui.grid.cellNav", "ngMaterial", "ui.grid.pagination", 'ngFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');
@@ -71,7 +71,7 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/data/:id/:se", {
       templateUrl: "../partials/inventory/data-inventory.html"
     })
-    .when("/uploadbatch/:entity/:id", {
+    .when("/uploadbatch/:entity/:id/:se", {
       templateUrl: "../partials/dialog/upload-file.html"
     })
 });

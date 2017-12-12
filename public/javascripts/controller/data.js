@@ -427,7 +427,7 @@ angular.module('undp-ghg-v2')
        * present on the grid.
        */
       $scope.startUploader = function() {
-        $location.path("/uploadbatch/inventory/" + $scope.selectedInventory);
+        $location.path("/uploadbatch/inventory/" + $scope.selectedInventory + "/" + $scope.selectedSector);
       }
 
       /**

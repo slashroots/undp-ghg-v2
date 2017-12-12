@@ -317,6 +317,31 @@ services.factory('DataFactory', function($resource) {
   });
 });
 
+services.factory('SupportingFilesFactory', function($resource) {
+  return $resource('/api/supportingfiles/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
+
 
 /**
  * Administrative logs
