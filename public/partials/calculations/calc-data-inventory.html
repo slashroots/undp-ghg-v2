@@ -1,40 +1,25 @@
 <div ng-controller="CalcController" class="inventory-holder">
-        <h1 class="heading">Manage Calculations</h1>
-        <select ng-change="inventoryChanged()" ng-model="selectedInventory">
-          <option ng-repeat="inventory in inventories" value="{{inventory._id}}">{{inventory.in_inventory_desc}} ({{inventory.in_start_date | date:'longDate'}} - {{inventory.in_end_date | date: 'longDate'}})</option>
-        </select>
-        <select ng-model="selectedSector">
-          <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name}}</option>
-        </select>
-        <div class="horizline"></div>
-      
-        <div ng-show="isAvailable">
-          <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="startUploader()">
-            <div>Add Calculations</div>
-          </a>
-        </div>
-        <br />
-      
-        <!-- <div class="ftux-alert">No inventories have been created yet.<br><br> Create the first version of the inventory to start collecting and reporting data.</div> -->
-        <div ui-grid="dataGridOptions" ui-grid-importer ui-grid-edit ui-grid-exporter ui-grid-selection ui-grid-row-edit ui-grid-cellnav class="table-grid">
-        </div>
-      
-        <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-disable-backdrop md-component-id="right">
-      
-            <div id="sidebar-tabs">
-              <div class="sidebar-tab" ng-class="{'sidebar-tab-selected': selected_sidebar=='notes'}"
-                   ng-click="sidebarPartial('notes')">
-                Notes
-              </div>
-              <div class="sidebar-tab" ng-class="{'sidebar-tab-selected': selected_sidebar=='issues'}"
-                   ng-click="sidebarPartial('issues')">
-                Issues
-              </div>
-            </div>
-            <md-content layout-padding>
-              <ng-include src="selected_sidebar_partial"></ng-include>
-            </md-content>
-      
-          </md-sidenav>
-      </div>
-      
+  <h1 class="heading">Manage Calculations</h1>
+  <select ng-change="inventoryChanged()" ng-model="selectedInventory">
+    <option ng-repeat="inventory in inventories" value="{{inventory._id}}">{{inventory.in_inventory_desc}} ({{inventory.in_start_date | date:'longDate'}} - {{inventory.in_end_date | date: 'longDate'}})</option>
+  </select>
+  <select ng-change="sectorChanged()" ng-model="selectedSector">
+    <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name}}</option>
+  </select>
+  <div class="horizline"></div>
+
+  <div ng-show="isAvailable">
+    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="startUploader()">
+      <div>Add Calculations</div>
+    </a>
+  </div>
+  <br />
+  <md-card ng-show="isAvailable" flex>
+    
+  </md-card>
+
+  <md-card flex>
+    <div ui-grid="dataGridOptions" ui-grid-edit ui-grid-exporter ui-grid-selection ui-grid-row-edit ui-grid-cellnav class="table-grid">
+    </div>
+  </md-card>
+</div>

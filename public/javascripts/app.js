@@ -68,6 +68,9 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/calculations", {
       templateUrl: "../partials/calculations/calc-data-inventory.html"
     })
+    .when("/calculations/:id/:se", {
+      templateUrl: "../partials/calculations/calc-data-inventory.html"
+    })
     .when("/data/:id/:se", {
       templateUrl: "../partials/inventory/data-inventory.html"
     })

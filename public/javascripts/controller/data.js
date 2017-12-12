@@ -257,22 +257,6 @@ angular.module('undp-ghg-v2')
       };
 
 
-
-      /*
-        Setup the tabs for viewing
-      */
-      $scope.tab = 1;
-      if ($routeParams.id) {
-        $scope.tab = $routeParams.id;
-      }
-
-      $scope.setTab = function(newTab) {
-        $location.path("settings/" + newTab);
-      };
-      $scope.isSet = function(tabNum) {
-        return $scope.tab == tabNum;
-      };
-
       $scope.filtered = function() {
         InventoryFactory.get({
           id: $scope.selectedInventory
