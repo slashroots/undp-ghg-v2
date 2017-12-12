@@ -8,6 +8,10 @@ var schema = new querymen.Schema({
   in_inventory: {
     type: String,
     paths: ['in_inventory']
+  },
+  se_sector: {
+    type: String,
+    paths: ['se_sector']
   }
 }, {
   page: false, // disable default parameter `page`
