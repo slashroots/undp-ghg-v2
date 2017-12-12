@@ -12,6 +12,10 @@ var schema = new querymen.Schema({
   da_variable_type :{
     type: String,
     paths: ['da_variable_type']
+  },
+  se_sector: {
+    type: String,
+    paths: ['se_sector']
   }
 }, {
   page: false, // disable default parameter `page`
