@@ -112,6 +112,7 @@ var UnitSchema = new Schema({
 
 var DataSchema = new Schema({
   in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
+  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
   ca_category: {type: Schema.Types.ObjectId, required: false, ref: 'Category'},
   ac_activity: {type: Schema.Types.ObjectId, ref: 'Activity'},
   da_variable_type: {type: String, required: true},
@@ -156,6 +157,15 @@ var LogSchema = new Schema({
   lo_module: {type: String, required: true}
 });
 
+var SupportingFilesSchema = new Schema({
+  in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
+  se_sector: {type: Schema.Types.ObjectId, required: false, ref: 'Sector'},
+  description: {type: String, required: false},
+  file: {type: String, required: true},
+  us_user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
+  su_date: {type: Date, required: true, default: Date.now()}
+});
+
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.IPCCCategory = mongoose.model('IPCCCategory', IPCCCategorySchema);
@@ -169,3 +179,4 @@ exports.Data = mongoose.model('Data', DataSchema);
 exports.Region = mongoose.model('Region', RegionSchema);
 exports.NotationKey = mongoose.model('NotationKey', NotationKeySchema);
 exports.Log = mongoose.model('Log', LogSchema);
+exports.SupportingFiles = mongoose.model('SupportingFiles', SupportingFilesSchema);

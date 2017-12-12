@@ -73,3 +73,8 @@ md-toolbar:not(.md-menu-toolbar) {
 .card-media-file {
     background-image: url('/images/list.svg');
 }
+
+md-list.make-scrollable {
+    height: 400px;
+    overflow-y: scroll;
+}
