@@ -40,7 +40,8 @@
   <md-card>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">Administrative Platform Logs</span>
+        <span ng-show="isAdmin" class="md-headline">Administrative Platform Logs</span>
+        <span ng-show="!isAdmin" class="md-headline">{{user.us_user_first_name | uppercase}} Platform Logs</span>
       </md-card-title-text>
     </md-card-title>
     <div ui-grid="logsGridOptions" ui-grid-exporter ui-grid-pagination ui-grid-selection ui-grid-cellnav class="table-grid"> </div>

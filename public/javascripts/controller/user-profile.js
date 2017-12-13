@@ -11,12 +11,17 @@ angular.module('undp-ghg-v2')
              **/
             $scope.logs = [];
             $scope.user = {};
+            $scope.isAdmin = false;
 
             /**
              * Get currently logged in user details
              */
             UserFactory.get(function (currentUser) {
                 $scope.user = currentUser;
+                if(currentUser.us_user_role == 'admin') {
+                    $scope.isAdmin = true;
+                }
+                getPage();
             });
 
             /**
@@ -31,18 +36,24 @@ angular.module('undp-ghg-v2')
               };
 
             getPage = function() {
-                LogsFactory.query({
+                var query = {
                     page: paginationOptions.pageNumber,
                     limit: paginationOptions.pageSize
-                }, function(data) {
+                };
+                /**
+                 * If the user isn't an administrator then
+                 * only request his logs
+                 */
+                if(!$scope.isAdmin) {
+                    query.us_user = $scope.user._id;
+                }
+                LogsFactory.query(query, function(data) {
                     $scope.logs = data;
                     LogFactory.count(function(value) {
                         $scope.logsGridOptions.totalItems = value.count;
                     });
                 });
             };
-
-            getPage();
 
             /**
              * grid options
