@@ -4,21 +4,61 @@
     </h3>
     <md-list>
 
-        <md-list-item ng-repeat="issue in selectedRow.issues" class="md-2-line contact-item">
+        <md-list-item ng-repeat="(index1, issue) in selectedRow.issues" class="md-2-line contact-item">
             <div class="md-list-item-text compact">
                 <h4>{{issue.name}} ({{issue.type | uppercase}})</h4>
                 <p style="color: red;">{{issue.description}}</p>
 
-                <div ng-if="(issue.type==='mismatch') && (issue.name==='Category')">
+                <div ng-if="issue.type==='mismatch'">
                     <br>
                     <div>Possible Matches for {{issue.problem}}:</div>
-                    <md-list-item id="noborder" ng-repeat="category in possibleCategoryMatches(issue.problem)" 
-                        ng-click="setCategory(category, selectedRow, $index)">
-                        <div class="md-list-item-text compact" layout="column">
-                            <h3>({{category.ica_category.ica_code}})</h3>
-                            <p>{{category.ca_code_name}}</p>
+                    <md-list-item id="noborder" ng-repeat="match in possibleMatches(issue.problem, issue.name)"
+                        ng-click="setMatch(issue.name, match, selectedRow, index1)"
+                                  ng-if="issue.problem">
+                        <div class="md-list-item-text compact" layout="column" ng-if="issue.name==='Category'">
+                            <h3>({{match.ica_category.ica_code}})</h3>
+                            <p>{{match.ca_code_name}}</p>
+                        </div>
+                        <div class="md-list-item-text compact" layout="column" ng-if="issue.name==='Activity'">
+                            <h3>({{match.ac_name}})</h3>
+                            <p>{{match.ac_description}}</p>
+                        </div>
+                        <div class="md-list-item-text compact" layout="column" ng-if="issue.name==='Unit'">
+                            <h3>({{match.un_unit_name}})</h3>
+                            <p>{{match.un_unit_symbol}}</p>
+                        </div>
+                        <div class="md-list-item-text compact" layout="column" ng-if="issue.name==='Gas'">
+                            <h3>({{match.ga_gas_name}})</h3>
+                            <p>{{match.ga_chem_formula}}</p>
+                        </div>
+                        <div class="md-list-item-text compact" layout="column" ng-if="issue.name==='Gas'">
+                            <h3>({{match.re_region_name}})</h3>
+                            <p>{{match.re_region_desc}}</p>
                         </div>
                     </md-list-item>
+
+                    <div id="noborder" ng-if="issue.problem===''">
+                        <select ng-options="cat as cat.ca_code_name for cat in categories"
+                                ng-change="setMatch(issue.name, c, selectedRow, index1)"
+                                ng-if="issue.name==='Category'"
+                                ng-model="c"></select>
+                        <select ng-options="act as act.ac_name for act in activities"
+                                ng-change="setMatch(issue.name, a, selectedRow, index1)"
+                                ng-if="issue.name==='Activity'"
+                                ng-model="a"></select>
+                        <select ng-options="unit as unit.un_unit_name for unit in units"
+                                ng-change="setMatch(issue.name, u, selectedRow, index1)"
+                                ng-if="issue.name==='Unit'"
+                                ng-model="u"></select>
+                        <select ng-options="gas as gas.ga_gas_name for gas in gases"
+                                ng-change="setMatch(issue.name, g, selectedRow, index1)"
+                                ng-if="issue.name==='Gas'"
+                                ng-model="g"></select>
+                        <select ng-options="reg as reg.re_region_name for reg in regions"
+                                ng-change="setMatch(issue.name, r, selectedRow, index1)"
+                                ng-if="issue.name==='Region'"
+                                ng-model="r"></select>
+                    </div>
                 </div>
 
                 <div ng-if="issue.type==='overwrite'">
