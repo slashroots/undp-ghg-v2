@@ -531,7 +531,7 @@ angular.module('undp-ghg-v2')
           }
           if (!hasProperty(importedObjects[i].ga_gas, "_id")) {
             //if this is activity data - it isn't an issue!
-            if (importedObjects[i].da_variable_type == "EF") {
+            if (importedObjects[i].da_variable_type === 'EF') {
               issue_list.push(createIssue("Gas",
                 "Unable to find match for " + importedObjects[i]["ga_gas.ga_chem_formula"],
                 importedObjects[i]["ga_gas.ga_chem_formula"], "mismatch"));
@@ -600,26 +600,58 @@ angular.module('undp-ghg-v2')
       }
 
       /**
-       * Search for possible category name matches.  Uses fuzzy string 
+       * Search for possible name matches for items. Uses fuzzy string
        * search to find nearest options for displaying to the user.
        */
-      $scope.possibleCategoryMatches = function (category_name) {
+       var fuseKeys = {
+        'Category': {
+            'keys': ['ca_code_name', 'ca_code'],
+            'data': $scope.categories
+        },
+        'Activity': {
+            'keys': ['ac_name', 'ac_description'],
+            'data': $scope.activities
+        },
+        'Unit': {
+            'keys': ['un_unit_name'],
+            'data': $scope.units
+        },
+        'Gas': {
+            'keys': ['ga_gas_name'],
+            'data': $scope.gases
+        },
+        'Region': {
+            'keys': ['re_region_name', 're_region_desc'],
+            'data': $scope.regions
+        }
+      };
+      $scope.possibleMatches = function (category_name, type) {
         var options = {
-          keys: ['ca_code_name', 'ca_code'],
+          keys: fuseKeys[type]['keys']
         };
-        var fuse = new Fuse($scope.categories, options);
+        var fuse = new Fuse(fuseKeys[type]['data'], options);
         return fuse.search(category_name);
       }
 
       /**
        * Attempt to set the category of the selected
        * record
-       * @param {*} category 
+       * @param {*} type
+       * @param {*} match
        * @param {*} row 
        * @param {*} index
        */
-      $scope.setCategory = function (category, row, index) {
-        row.ca_category = category;
+      $scope.setMatch = function (type, match, row, index) {
+        if(type==='Category') {
+            row.ca_category = match;
+        } else if(type==='Activity') {
+            row.ac_activity = match;
+        } else if(type==='Unit') {
+            row.un_unit = match;
+        } else if(type==='Gas') {
+            row.ga_gas = match;
+        }
+
         $scope.selectedRow.issues.splice(index, 1);
       }
 
