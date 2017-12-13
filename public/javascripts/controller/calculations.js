@@ -155,9 +155,9 @@ angular.module('undp-ghg-v2')
       match = false;
       if(element1.da_date == element2.da_date) {
         match = true;
-      } else if(element1.da_date == null) {
+      } else if(element1.da_date_all) {
         match = true;
-      } else if(element2.da_date == null) {
+      } else if(element2.da_date_all) {
         match = true;
       }
       return match;

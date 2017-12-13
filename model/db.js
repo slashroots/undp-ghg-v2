@@ -122,6 +122,7 @@ var DataSchema = new Schema({
   da_data_modified: {type: Date, default: Date.now()},
   nk_notation_key: {type: Schema.Types.ObjectId, ref: 'NotationKey'},
   da_date: {type: Date, required: false},
+  da_date_all: {type: Boolean, required: false},
   re_region: {type: Schema.Types.ObjectId, ref: 'Region'},
   da_notes: {type: String},
   da_uncertainty_min: {type: Number, required: false},

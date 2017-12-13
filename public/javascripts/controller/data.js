@@ -464,15 +464,22 @@ angular.module('undp-ghg-v2')
             Values to be imported could be appended directly to dataValues.
         */
         var tmpImported = [];
+        var temp = "";
 
         for (var i = 0; i < importedObjects.length; i++) {
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].se_sector = $scope.selectedSector;
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
-          // by default since the date is not complete - I am specifying that the date be set to the 
-          // first month first day.
-          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
+          temp = importedObjects[i]["da_date"] + "";
+          if(temp.toLowerCase().trim() == 'all') {
+            importedObjects[i].da_date_all = true;
+            importedObjects[i].da_date = "";
+          } else {
+            // by default since the date is not complete - I am specifying that the date be set to the 
+            // first month first day.
+            importedObjects[i].da_date = new Date(temp, 1, 1, 0, 0, 0, 0);
+          }
           for (var a = 0; a < $scope.categories.length; a++) {
             if (importedObjects[i]["ca_category.ca_code_name"].toLowerCase().trim() == $scope.categories[a].ca_code_name.toLowerCase().trim()) {
               importedObjects[i].ca_category = $scope.categories[a];
