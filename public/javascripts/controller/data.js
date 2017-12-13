@@ -3,10 +3,10 @@
  */
 
 angular.module('undp-ghg-v2')
-  .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
+  .controller('DataController', ['$mdSidenav', '$scope', '$route', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
     'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
-    function ($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
+    function ($mdSidenav, $scope, $route, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
       uiGridConstants) {
 
@@ -94,6 +94,15 @@ angular.module('undp-ghg-v2')
           $scope.dirtyRowsExist = false;
         } else {
           alert("Unable to save changes.  The inventory is closed!");
+        }
+      }
+
+      //triggers a save event to flush all the modified rows to the databse.
+      $scope.discard = function () {
+        if ($scope.editable) {
+          $route.reload();
+        } else {
+          alert("The inventory is closed!");
         }
       }
 
