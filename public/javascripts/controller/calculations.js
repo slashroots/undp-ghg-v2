@@ -11,11 +11,15 @@ angular.module('undp-ghg-v2')
     uiGridConstants) {
 
     $scope.reference_issue = [];
+    $scope.matches = [];
     $scope.isAvailable = false;
+    $scope.sectors = [];
 
     //when user selects the inventory to manipulate this function is run:
     $scope.inventoryChanged = function() {
-      $scope.sectors = SectorFactory.query();
+      $scope.sectors = UserFactory.get({},function(user) {
+        $scope.sectors = user.us_sector_permissions;
+      });
     }
 
     /**
@@ -31,105 +35,6 @@ angular.module('undp-ghg-v2')
      * We should probably only run this when necessary - nice to have.
      **/
     $scope.inventories = InventoryFactory.query();
-    $scope.units = UnitFactory.query();
-    $scope.gases = GasFactory.query();
-    $scope.activities = ActivityFactory.query();
-    $scope.notation_keys = NotationKeyFactory.query({nk_is_enabled: true});
-    $scope.regions = RegionFactory.query();
-    $scope.variable_types = [
-      {
-        variableType: 'EF'
-      },
-      {
-        variableType: 'AD'
-      }
-    ];
-
-    //setting up the table structure and configurations.
-    $scope.editable = true;
-    $scope.dirtyRowsExist = false;
-    $scope.dataGridOptions = {
-      enableFiltering: true,
-      enableCellEditOnFocus: true,
-      enableSelectAll: true,
-      enableRowSelection: true,
-      multiSelect: false,
-      enableSelectionBatchEvent: false,
-      enableGridMenu: true,
-      rowEditWaitInterval: -1,
-      exporterPdfDefaultStyle: {
-        fontSize: 9
-      },
-      exporterPdfTableStyle: {
-        margin: [5, 5, 5, 5]
-      },
-      exporterPdfTableHeaderStyle: {
-        fontSize: 9,
-        bold: true,
-        italics: true,
-        color: 'red'
-      },
-      data: 'dataValues',
-      columnDefs: [
-        {
-          field: 'ca_category.ca_code_name',
-          displayName: 'Category Name',
-          enableCellEdit: false,
-          cellTooltip: function(row, col) {
-            if (row.entity.ca_category) {
-              return 'Code: ' + row.entity.ca_category.ca_code +
-                ' Name: ' + row.entity.ca_category.ca_code_name;
-            } else {
-              return '';
-            }
-          },
-          width: 200
-        },
-        {
-          field: 'ac_activity.ac_name',
-          displayName: 'Activity',
-          enableCellEdit: false,
-          width: 200
-        },
-        {
-          field: 'ga_gas.ga_chem_formula',
-          displayName: 'Assoc. Gas',
-          enableCellEdit: false,
-          width: 200
-        },
-        {
-          field: 'va_value',
-          displayName: 'Value',
-          width: 200
-        },
-        {
-          field: 'un_unit.un_unit_symbol',
-          displayName: 'Unit',
-          enableCellEdit: false,
-          width: 200
-        },
-        {
-          field: 'da_uncertainty_min',
-          displayName: 'Uncertainty (min)',
-          enableCellEdit: false,
-          width: 200
-        },
-        {
-          field: 'da_uncertainty_max',
-          displayName: 'Uncertainty (max)',
-          enableCellEdit: false,
-          width: 200
-        },
-        {
-          field: 'da_date',
-          displayName: 'Year',
-          enableCellEdit: false,
-          cellFilter: "date: 'yyyy'",
-          width: 200,
-          type: 'date'
-        }
-      ]
-    };
 
     $scope.filtered = function() {
       InventoryFactory.get({
@@ -140,12 +45,12 @@ angular.module('undp-ghg-v2')
         } else {
           $scope.editable = false;
         }
-        $scope.dataGridOptions.exporterCsvFilename = item.in_name + '.csv';
       });
 
       //lookup based on filter applied
       DataFactory.query({
-          in_inventory: $scope.selectedInventory
+          in_inventory: $scope.selectedInventory,
+          se_sector: $scope.selectedSector
         }, function(dataValues) {
           if (dataValues) {
             $scope.isAvailable = true;
@@ -155,14 +60,6 @@ angular.module('undp-ghg-v2')
         function(error) {
           $scope.isAvailable = false;
         });
-
-        //filter all the relevant factories based
-        //on selected sector.
-        $scope.sectors = SectorFactory.query();
-
-        $scope.categories = CategoryFactory.query({
-          se_sector: $scope.selectedSector
-        });
     }
 
     /**
@@ -171,8 +68,52 @@ angular.module('undp-ghg-v2')
      * @param {*} sector 
      */
     $scope.getAllEF = function(inventory, sector) {
-
+      DataFactory.query({
+        in_inventory: inventory,
+        se_sector: sector,
+        da_variable_type: 'EF'
+      }, function(emission_factors) {
+        $scope.emission_factors = emission_factors;
+      });
     }
+
+    $scope.activity_data = [];
+    /**
+     * Retrieve all the Activity Data for the given parameters
+     * @param {*} inventory 
+     * @param {*} sector 
+     */
+    $scope.getAllAD = function(inventory, sector) {
+      DataFactory.query({
+        in_inventory: inventory,
+        se_sector: sector,
+        da_variable_type: 'AD'
+      }, function(ads) {
+        $scope.activity_data = ads;
+      });
+    }
+
+    /**
+     * Based on an element and a list
+     * find the element's corresponding matches in the list
+     * using category and activity
+     * @param {*} element 
+     * @param {*} list 
+     */
+    $scope.getAssociatedInfo = function (element, list) {
+      var new_list = [];
+      if (hasProperty(element, 'ac_activity')) {
+        for (i in list) {
+          if (hasProperty(list[i], 'ac_activity')) {
+            if((element.ac_activity._id == list[i].ac_activity._id) && (yearMatch(element, list[i]))) {
+              new_list.push(list[i]);
+            }
+          }
+        }
+      }
+      return new_list;
+    }
+    
     
 
     /**
@@ -180,13 +121,56 @@ angular.module('undp-ghg-v2')
     **/
     if ($routeParams.id) {
       $scope.selectedInventory = $routeParams.id;
-      $scope.filtered();
+      $scope.inventoryChanged();
     }
 
     if($routeParams.se) {
       $scope.selectedSector = $routeParams.se;
       $scope.filtered();
+      $scope.getAllAD();
     }
 
+    /**
+     * safe check if property exists in object
+     * @param {*} object 
+     * @param {*} key 
+     */
+    function hasProperty(object, key) {
+      try {
+        if (object[key]) {
+          return true;
+        }
+      } catch (error) {
+        return false;
+      }
+    }
+
+    /**
+     * TODO: Need to revisit and make sure the year 
+     * is appropriately handled.
+     * @param {*} element1 
+     * @param {*} element2 
+     */
+    function yearMatch(element1, element2) {
+      match = false;
+      if(element1.da_date == element2.da_date) {
+        match = true;
+      } else if(element1.da_date == null) {
+        match = true;
+      } else if(element2.da_date == null) {
+        match = true;
+      }
+      return match;
+    }
+
+    /**
+     * controls for the tree structure
+     */
+    $scope.collapseAll = function() {
+      $scope.$broadcast('angular-ui-tree:collapse-all');
+    };
+    $scope.expandAll = function() {
+      $scope.$broadcast('angular-ui-tree:expand-all');
+    };
   }
 ]);

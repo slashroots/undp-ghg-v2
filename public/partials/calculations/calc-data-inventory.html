@@ -9,17 +9,28 @@
   <div class="horizline"></div>
 
   <div ng-show="isAvailable">
-    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="startUploader()">
-      <div>Add Calculations</div>
+    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="getAllEF(selectedInventory, selectedSector)">
+      <div>Load Emission Factors</div>
     </a>
   </div>
   <br />
-  <md-card ng-show="isAvailable" flex>
-    
-  </md-card>
 
-  <md-card flex>
-    <div ui-grid="dataGridOptions" ui-grid-edit ui-grid-exporter ui-grid-selection ui-grid-row-edit ui-grid-cellnav class="table-grid">
-    </div>
-  </md-card>
+  <div ui-tree data-drag-enabled="false" data-nodrop-enabled="false">
+    <ol ui-tree-nodes="" ng-model="activity_data">
+      <li ng-repeat="item in activity_data" ui-tree-node>
+        <div layout="row" ui-tree-handle>
+          <span flex>AD ({{item.ca_category.ca_code_name}}) - {{item.da_date | date: 'yyyy'}}</span>
+          <span flex>{{item.da_data_value | number}} {{item.un_unit.un_unit_symbol}}</span>
+        </div>
+        <ol ui-tree-nodes="" ng-model="matches">
+          <li ng-repeat="subItem in getAssociatedInfo(item, emission_factors)" ui-tree-node>
+            <div class="subitem" ui-tree-handle>
+              {{subItem.ac_activity.ac_name}} - {{subItem.ca_category.ca_code_name}} - {{subItem.ga_gas.ga_gas_name}}
+            </div>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+
 </div>

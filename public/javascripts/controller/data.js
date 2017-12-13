@@ -268,41 +268,11 @@ angular.module('undp-ghg-v2')
       };
 
 
-<<<<<<< HEAD
-      $scope.filtered = function() {
-        InventoryFactory.get({
-          id: $scope.selectedInventory
-        }, function(item) {
-          if (item.in_status == 'opened') {
-            $scope.editable = true;
-          } else {
-            $scope.editable = false;
-          }
-          $scope.dataGridOptions.exporterCsvFilename = item.in_name + '.csv';
-=======
-
-      /*
-        Setup the tabs for viewing
-      */
-      $scope.tab = 1;
-      if ($routeParams.id) {
-        $scope.tab = $routeParams.id;
-      }
-
-      $scope.setTab = function (newTab) {
-        $location.path("settings/" + newTab);
-      };
-      $scope.isSet = function (tabNum) {
-        return $scope.tab == tabNum;
-      };
-
-
       //when user selects the inventory to 
       //manipulate this function is run:
       $scope.inventoryChanged = function () {
         UserFactory.get({}, function (user) {
           $scope.sectors = user.us_sector_permissions;
->>>>>>> master
         });
       };
 
