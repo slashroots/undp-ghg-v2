@@ -18,8 +18,12 @@
     </a>
 
     <a class="smaller add-category-button w-inline-block" ng-class="{red: dirtyRowsExist}" ng-click="persist()" data-ix="add-category-modal">
-      <div>Persist to Database</div>
+      <div>Save to Database</div>
     </a>
+
+    <a class="smaller add-category-button w-inline-block" ng-class="{red: dirtyRowsExist}" ng-click="discard()" data-ix="add-category-modal">
+        <div>Discard Changes</div>
+      </a>
   </div>
   <br />
 
