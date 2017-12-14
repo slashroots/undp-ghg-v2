@@ -49,7 +49,7 @@ angular.module('undp-ghg-v2')
                 }
                 LogsFactory.query(query, function(data) {
                     $scope.logs = data;
-                    LogFactory.count(function(value) {
+                    LogFactory.count(query, function(value) {
                         $scope.logsGridOptions.totalItems = value.count;
                     });
                 });
