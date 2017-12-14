@@ -3,10 +3,10 @@
  */
 
 angular.module('undp-ghg-v2')
-  .controller('DataController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
+  .controller('DataController', ['$mdSidenav', '$scope', '$route', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
     'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
-    function ($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
+    function ($mdSidenav, $scope, $route, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
       uiGridConstants) {
 
@@ -94,6 +94,15 @@ angular.module('undp-ghg-v2')
           $scope.dirtyRowsExist = false;
         } else {
           alert("Unable to save changes.  The inventory is closed!");
+        }
+      }
+
+      //triggers a save event to flush all the modified rows to the databse.
+      $scope.discard = function () {
+        if ($scope.editable) {
+          $route.reload();
+        } else {
+          alert("The inventory is closed!");
         }
       }
 
@@ -603,26 +612,26 @@ angular.module('undp-ghg-v2')
        * Search for possible name matches for items. Uses fuzzy string
        * search to find nearest options for displaying to the user.
        */
-       var fuseKeys = {
+      var fuseKeys = {
         'Category': {
-            'keys': ['ca_code_name', 'ca_code'],
-            'data': $scope.categories
+          'keys': ['ca_code_name', 'ca_code'],
+          'data': $scope.categories
         },
         'Activity': {
-            'keys': ['ac_name', 'ac_description'],
-            'data': $scope.activities
+          'keys': ['ac_name', 'ac_description'],
+          'data': $scope.activities
         },
         'Unit': {
-            'keys': ['un_unit_name'],
-            'data': $scope.units
+          'keys': ['un_unit_name'],
+          'data': $scope.units
         },
         'Gas': {
-            'keys': ['ga_gas_name'],
-            'data': $scope.gases
+          'keys': ['ga_gas_name'],
+          'data': $scope.gases
         },
         'Region': {
-            'keys': ['re_region_name', 're_region_desc'],
-            'data': $scope.regions
+          'keys': ['re_region_name', 're_region_desc'],
+          'data': $scope.regions
         }
       };
       $scope.possibleMatches = function (category_name, type) {
@@ -642,14 +651,14 @@ angular.module('undp-ghg-v2')
        * @param {*} index
        */
       $scope.setMatch = function (type, match, row, index) {
-        if(type==='Category') {
-            row.ca_category = match;
-        } else if(type==='Activity') {
-            row.ac_activity = match;
-        } else if(type==='Unit') {
-            row.un_unit = match;
-        } else if(type==='Gas') {
-            row.ga_gas = match;
+        if (type === 'Category') {
+          row.ca_category = match;
+        } else if (type === 'Activity') {
+          row.ac_activity = match;
+        } else if (type === 'Unit') {
+          row.un_unit = match;
+        } else if (type === 'Gas') {
+          row.ga_gas = match;
         }
 
         $scope.selectedRow.issues.splice(index, 1);
@@ -669,6 +678,19 @@ angular.module('undp-ghg-v2')
           return false;
         }
       }
+
+      /**
+       * Listener to stop user from inadvertedly leaving page.
+       */
+      $scope.$on('$locationChangeStart', function (event) {
+        if($scope.dirtyRowsExist) {
+          var answer = confirm("Are you sure you want to leave this page?")
+          if (!answer) {
+            event.preventDefault();
+          }
+        }
+      });
+
 
       /*
         checks if imported object is overwriting a previously saved object. If an object is
