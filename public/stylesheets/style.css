@@ -78,3 +78,8 @@ md-list.make-scrollable {
     height: 400px;
     overflow-y: scroll;
 }
+
+.category-help-block {
+    text-align: right;
+    font-size: 14px;
+}

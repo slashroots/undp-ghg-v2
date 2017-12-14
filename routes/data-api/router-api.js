@@ -79,7 +79,7 @@ var supportingfiles_schema = new querymen.Schema({
 /**
  * End Points relevant to Settings Management
  */
- router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
+ //router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware()], App.getIPCCCategory);
  router.get('/api/ipcc/category', [Utils.isAuthenticated, querymen.middleware(ipcc_cat_schema)], App.getIPCCCategory);
  router.post('/api/ipcc/category', Utils.isAdmin, App.createIPCCCategory);
  router.get('/api/ipcc/category/:id', Utils.isAuthenticated, App.getIPCCCategoryByID);

@@ -3,34 +3,46 @@
       <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/1"><img src="../images/Close-Icon.png" width="12"></a></div>
       <div class="dialog-header">Add Category</div>
       <div class="w-form">
-        <form class="modal-form w-clearfix">
+        <form class="modal-form w-clearfix" name="category_form">
           <div class="modal-field-wrapper">
             <label class="modal-field-label">Sector</label>
-            <select ng-model="category.se_sector" ng-change="sectorSelected()" class="modal-fields w-select">
+            <select ng-model="category.se_sector" ng-change="sectorSelected()" class="modal-fields w-select"
+                    ng-required="true" name="sector">
               <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name_short_code}}</option>
             </select>
           </div>
+          <p ng-show="category_form.sector.$error.required" class="category-help-block">Sector is required</p>
+
           <div class="modal-field-wrapper">
             <label class="modal-field-label">IPCC Category</label>
             <select ng-model="category.ica_category" ng-change="ipccSelected()" class="modal-fields w-select">
+              <option value=""></option>
               <option ng-repeat="cat in ipcc_categories" value="{{cat._id}}">{{cat.ica_code}} : {{cat.ica_code_name}}</option>
             </select>
           </div>
           <div class="modal-field-wrapper">
             <label class="modal-field-label">CATEGORY CODE</label>
-            <input class="modal-fields w-input" ng-model="category.ca_code" type="text">
+            <input class="modal-fields w-input" ng-model="category.ca_code" type="text" ng-disabled="catcode_disabled"
+                   ng-required="true" name="category_code"/>
           </div>
+          <p ng-show="category_form.category_code.$error.required" class="category-help-block">Category Code is required</p>
+          <p ng-show="category_form.category_code.$error.code_exists" class="category-help-block">Category Code already exists</p>
+
           <div class="modal-field-wrapper">
             <label class="modal-field-label">CATEGORY NAME</label>
-            <input class="modal-fields w-input" ng-model="category.ca_code_name" type="text">
+            <input class="modal-fields w-input" ng-model="category.ca_code_name" type="text"
+                   ng-required="true" name="category_name">
           </div>
+          <p ng-show="category_form.category_name.$error.required" class="category-help-block">Category Name is required</p>
+
           <div class="modal-field-wrapper">
             <label class="modal-field-label">DEFINITION</label>
             <input class="modal-fields w-input" ng-model="category.ca_code_definition" type="text">
           </div>
           <div class="action-button-group">
             <a class="modal-form-cancel w-button" href="#/settings/1">Cancel</a>
-            <a class="modal-form-confirm w-button" ng-click="addCategory()">Save</a></div>
+            <button class="modal-form-confirm w-button" ng-click="addCategory()"
+               ng-disabled="category_form.$invalid">Save</button></div>
         </form>
       </div>
     </div>
