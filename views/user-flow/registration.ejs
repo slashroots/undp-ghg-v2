@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com -->
 <!--  Last Published: Sun Jul 23 2017 17:25:00 GMT+0000 (UTC)  -->
-<html data-wf-page="595bb65503737e35022cf700" data-wf-site="58546d00fc56e7e469080828">
+<html data-wf-page="595bb65503737e35022cf700" data-wf-site="58546d00fc56e7e469080828" ng-app="undp-ghg-v2">
 
 <head>
   <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <!-- [if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif] -->
 </head>
 
-<body class="body">
+<body class="body" ng-controller="RegistrationController">
   <div class="navbar w-nav" data-animation="default" data-collapse="medium" data-duration="400">
     <div class="container w-container"><a class="brand w-nav-brand" href="/"><img class="nav_countryicon" src="/images/jm_icon.png" width="27"><div class="text-block"><strong class="important-text">JAMAICA GREENHOUSE GAS INVENTORY</strong></div></a>
       <nav class="nav-menu w-nav-menu" role="navigation"><a class="w-nav-link" href="#">Home</a><a class="w-nav-link" href="#">About</a><a class="w-nav-link" href="#">Contact</a></nav>
@@ -31,26 +31,78 @@
       </div>
       <div class="contentcol createnew w-col w-col-8">
         <div class="w-form">
-          <form data-name="Email Form" action="/user-registration" method="post" id="reg-form" name="email-form" redirect="/error-message">
+            <p style="color: red;">{{message}}</p>
+          <form id="reg-form" name="registration_form">
             <div class="createnew form-flex"><img class="field-icon" src="/images/User-Icon.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="First-Name">First Name</label><input class="text-field w-input" data-ix="showlabel" data-name="First Name" id="us_user_first_name" maxlength="256" name="us_user_first_name" placeholder="First Name" type="text"></div>
-            </div>
-            <div class="createnew form-flex"><img class="field-icon hidden" src="/images/Mail-Icon_hidden.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Last-Name">Last Name</label><input class="text-field w-input" data-ix="showlabel" data-name="Last Name" id="us_user_last_name" maxlength="256" name="us_user_last_name" placeholder="Last Name" type="text"></div>
-            </div>
-            <div class="createnew form-flex"><img class="field-icon" src="/images/Mail-Icon.png" width="20">
-              <div class="altflex"><label class="fieldlabel" data-ix="hidden" for="Email-2">Email</label><input class="text-field w-input" data-ix="showlabel" data-name="Email" id="Email-2" maxlength="256" name="us_email_address" placeholder="Email" type="us_email_address"></div>
-            </div>
-            <div class="form-flex password"><img class="field-icon" src="/images/Password-Icon.png" width="20">
               <div class="altflex">
-                <label class="fieldlabel" data-ix="hidden" for="Password">Password</label>
-                <input class="text-field w-input" data-ix="showlabel" data-name="Password" id="us_password" maxlength="256" name="us_password" placeholder="Password" type="password">
-                <!-- <div class="help-text">Passwords must be 8 characters or longer, with at least 1 capital letter.</div> -->
+                <label class="fieldlabel" for="Last-Name">First Name</label>
+                <input class="text-field w-input" id="us_user_first_name" maxlength="256" name="us_user_first_name"
+                    type="text" ng-model="user.us_user_first_name"
+                     ng-required="true" />
+                <p ng-show="registration_form.us_user_first_name.$error.required && registration_form.us_user_first_name.$dirty"
+                    class="category-help-block">First Name is required</p>
               </div>
             </div>
+            <div class="createnew form-flex"><img class="field-icon hidden" src="/images/Mail-Icon_hidden.png" width="20">
+              <div class="altflex">
+
+                <label class="fieldlabel" for="Last-Name">Last Name</label>
+                <input class="text-field w-input" id="us_user_last_name" maxlength="256" name="us_user_last_name"
+                    type="text"
+                    ng-model="user.us_user_last_name"
+                     ng-required="true"/>
+                <p ng-show="registration_form.us_user_last_name.$error.required && registration_form.us_user_last_name.$dirty"
+                    class="category-help-block">
+                    Last Name is required</p>
+              </div>
+            </div>
+
+            <div class="createnew form-flex"><img class="field-icon" src="/images/Mail-Icon.png" width="20">
+              <div class="altflex">
+                <label class="fieldlabel" for="Last-Name">Email Address</label>
+                <input class="text-field w-input" id="Email-2" maxlength="256"
+                    name="us_email_address" type="email"
+                    ng-model="user.us_email_address"
+                    ng-required="true"/>
+                <p ng-show="registration_form.us_email_address.$error.required && registration_form.us_email_address.$dirty"
+                    class="category-help-block">
+                    Email is required</p>
+                <p ng-show="registration_form.us_email_address.$invalid && registration_form.us_email_address.$dirty"
+                                    class="category-help-block">
+                                    Must be a valid email address</p>
+              </div>
+            </div>
+
+            <div class="createnew form-flex"><img class="field-icon" src="/images/Password-Icon.png" width="20">
+              <div class="altflex">
+                <label class="fieldlabel" for="Last-Name">Password</label>
+                <input class="text-field w-input" id="us_password"
+                    maxlength="256" name="us_password" type="password"
+                    ng-model="user.us_password"
+                     ng-required="true" />
+                <p ng-show="registration_form.us_password.$error.required && registration_form.us_password.$dirty"
+                    class="category-help-block">
+                    Password is required</p>
+              </div>
+            </div>
+
+            <div class="createnew form-flex"><img class="field-icon" src="/images/Password-Icon.png" width="20">
+              <div class="altflex">
+                <label class="fieldlabel" for="Last-Name">Confirm Password</label>
+                <input class="text-field w-input" id="us_password"
+                    maxlength="256" name="confirm_us_password"
+                    type="password"
+                    ng-model="confirm_us_password"
+                    ng-required="true"/>
+                <p ng-show="registration_form.confirm_us_password.$error.password_mismatch" class="category-help-block">
+                                    Passwords do not match</p>
+              </div>
+            </div>
+
             <!-- <div class="button-flex"><a class="show" href="#">Show Password</a></div> -->
             <div class="button-flex createnew w-clearfix"><a class="cancel-button w-button" href="/">Cancel</a>
-              <input class="submit-button w-button" data-wait="Sending Link..." href="javascript:{}" onclick="document.getElementById('reg-form').submit();" type="submit" value="Send Link"></div>
+              <button class="submit-button w-button" ng-click="register()"
+                ng-disabled="registration_form.$invalid">Send Link</div>
           </form>
         </div>
       </div>
@@ -61,4 +113,7 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
 
+<script src="/bower_components/angular/angular.js"></script>
+<script src="/bower_components/angular-resource/angular-resource.js"></script>
+<script src="/javascripts/controller/registration.js" type="text/javascript"></script>
 </html>
