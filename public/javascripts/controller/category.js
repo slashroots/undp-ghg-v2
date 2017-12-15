@@ -81,11 +81,9 @@ angular.module('undp-ghg-v2')
         if($scope.category.ica_category==='') {
             $scope.category.ica_category = '';
             $scope.category.ca_code = '';
-            $scope.catcode_disabled = false;
             return;
         }
 
-        $scope.catcode_disabled = true;
         for(var i=0; i<$scope.ipcc_categories.length; i++) {
             if($scope.ipcc_categories[i]._id===$scope.category.ica_category) {
                 $scope.category.ca_code = $scope.ipcc_categories[i].ica_code;
