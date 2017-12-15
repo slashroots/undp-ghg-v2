@@ -6,11 +6,17 @@
 
         <md-list-item ng-repeat="(index1, issue) in selectedRow.issues" class="md-2-line contact-item">
             <div class="md-list-item-text compact">
-                <h4>{{issue.name}} ({{issue.type | uppercase}})</h4>
-                <p style="color: red;">{{issue.description}}</p>
 
                 <div ng-if="issue.type==='mismatch'">
-                    <br>
+                    <h4>Mismatch Error Message</h4>
+                    <br/>
+                    <h4>Category Not Found</h4>
+                    <p style="color: red;">{{issue.description}}</p>
+                    <br/>
+                    <p>Please select one of the possible matches below, and then click Save to Database.
+                        If there is no appropriate match, please add the category in the Settings module, and try again.
+                    </p>
+                    <br/>
                     <div>Possible Matches for {{issue.problem}}:</div>
                     <md-list-item id="noborder" ng-repeat="match in possibleMatches(issue.problem, issue.name)"
                         ng-click="setMatch(issue.name, match, selectedRow, index1)"
@@ -62,6 +68,7 @@
                 </div>
 
                 <div ng-if="issue.type==='overwrite'">
+                    <h4>Overwrite Error Message</h4>
                     <button style="border: 1px solid #909090; margin: 10px 0px;" ng-click="showcompare = !showcompare">
                         <span ng-show="!showcompare">Show Record Comparison</span>
                         <span ng-show="showcompare">Hide Record Comparison</span>
