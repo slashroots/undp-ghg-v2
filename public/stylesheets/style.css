@@ -30,7 +30,7 @@ md-toolbar:not(.md-menu-toolbar) {
     background-image: url("/images/Ei1GaY4.png");
     background-size: 30px;
     background-repeat: no-repeat;
-    background-position: 107% -2px;
+    background-position: 160% -2px;
 }
 
 #sidebar-tabs {
@@ -90,3 +90,7 @@ md-list.make-scrollable {
   .angular-ui-tree-handle.subitem {
     color: #7578a1;
   }
+
+.ui-grid-row-dirty .ui-grid-cell {
+    color: blue !important;
+}
