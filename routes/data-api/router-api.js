@@ -135,4 +135,7 @@ router.get('/api/supportingfiles/:id', Utils.isAuthenticated, App.getSupportFile
 router.put('/api/supportingfiles/:id', Utils.isAdmin, App.updateSupportingFiles);
 router.post('/api/supportingfiles', Utils.isAdmin, App.createSupportingFiles);
 
+router.get('/api/report', [Utils.isAuthenticated, querymen.middleware()], App.getReports);
+router.get('/api/report/:id', [Utils.isAuthenticated, querymen.middleware()], App.getReport);
+
 module.exports = router;

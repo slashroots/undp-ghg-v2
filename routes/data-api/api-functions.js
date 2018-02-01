@@ -11,6 +11,7 @@ var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 var Data = model.Data;
 var app_logger = require('../common/logger');
+var widestage = require('../../services/widestage.js');
 var SupportingFiles = model.SupportingFiles,
   multiparty = require('multiparty'),
   fs = require('fs'),
@@ -688,3 +689,22 @@ exports.updateSupportingFiles = function (req, res, next) {
     });
 };
 
+
+//############################## Reports ######################################
+
+exports.getReports = function (req, res, next) {
+    widestage.getReports(function(result) {
+        res.send(result);
+    }, function(err) {
+        next(error);
+    });
+};
+
+exports.getReport = function (req, res, next) {
+    widestage.getReport(req.params.id, function(result) {
+        res.setHeader('set-cookie', result);
+        res.send(result);
+    }, function(err) {
+        next(error);
+    });
+};

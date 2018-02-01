@@ -375,3 +375,26 @@ services.factory('LogFactory', function($resource) {
     }
   });
 });
+
+
+/**
+ * Administrative logs
+ */
+services.factory('ReportFactory', function($resource) {
+  return $resource('/api/report/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
