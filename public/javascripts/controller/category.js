@@ -33,7 +33,7 @@ angular.module('undp-ghg-v2')
       });
 
       $scope.closeAndBack = function() {
-        $location.path("/settings/1")
+        $location.path("/settings/1");
       };
 
       SectorFactory.query(function(sectors) {
@@ -44,6 +44,7 @@ angular.module('undp-ghg-v2')
         * Used to modify or add a category in the databse.
         */
       $scope.addCategory = function() {
+
         if($scope.category.ica_category == "") {
           $scope.category.ica_category = undefined;
         }
@@ -77,10 +78,34 @@ angular.module('undp-ghg-v2')
       }
 
       $scope.ipccSelected = function() {
-        IPCCCategoryFactory.get({id:$scope.category.ica_category}, function(value) {
-          $scope.category.ca_code = value.ica_code;
-        });
+        if($scope.category.ica_category==='') {
+            $scope.category.ica_category = '';
+            $scope.category.ca_code = '';
+            return;
+        }
+
+        for(var i=0; i<$scope.ipcc_categories.length; i++) {
+            if($scope.ipcc_categories[i]._id===$scope.category.ica_category) {
+                $scope.category.ca_code = $scope.ipcc_categories[i].ica_code;
+                break;
+            }
+        }
       }
+
+      $scope.$watch("category.ca_code", function(n, o) {
+        if($scope.category.ica_category!=='') {
+            $scope.category_form.category_code.$setValidity("code_exists", true);
+            return;
+        }
+
+        for(var i=0; i<$scope.ipcc_categories.length; i++) {
+            if($scope.ipcc_categories[i].ica_code===$scope.category.ca_code) {
+                $scope.category_form.category_code.$setValidity("code_exists", false);
+                return;
+            }
+        }
+        $scope.category_form.category_code.$setValidity("code_exists", true);
+      });
 
     }
   ]);

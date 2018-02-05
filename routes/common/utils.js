@@ -98,8 +98,11 @@ exports.sendActivationEmail = function(user, callback) {
     from: '"NOREPLY GHG" <noreply@greenhousegas.com>', // sender address
     to: user.us_email_address,
     subject: 'New Registration', // Subject line
-    text: 'Welcome', // plain text body
-    html: '<b>Welcome to the UNDP Greenhouse Gases Database Inventory System!</b>' // html body
+    text: 'Hello ' + user.us_user_last_name, // plain text body
+    html: 'You can now log in to the Jamaica Greenhouse Gas Inventory. Please verify your email address ('+
+        user.us_email_address +') to help secure your account.<br/><br/>You’re receiving this email because '+
+        'you recently created a new account for the Jamaica Greenhouse Gas Inventory. If this wasn’t you, please '+
+        'ignore this email.' // html body
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

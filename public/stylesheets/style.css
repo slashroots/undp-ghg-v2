@@ -85,12 +85,18 @@ md-list.make-scrollable {
     border-radius: 10px;
     color: #272838;
     padding: 5px 5px;
-  }
+}
 
-  .angular-ui-tree-handle.subitem {
+.angular-ui-tree-handle.subitem {
     color: #7578a1;
-  }
+}
 
 .ui-grid-row-dirty .ui-grid-cell {
     color: blue !important;
+}
+
+.category-help-block {
+    text-align: right;
+    font-size: 14px;
+
 }
