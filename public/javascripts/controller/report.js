@@ -17,13 +17,6 @@ angular.module('undp-ghg-v2')
 
       if ($routeParams.id) {
         var url = 'http://localhost/#/reports/' + $routeParams.id;
-        /*$http.get("http://localhost:3000/api/report/" + $routeParams.id, {withCredentials : true}).
-            then(function(data) {
-                console.log(data.data);
-
-            }, function(data, error) {
-                console.log(error);
-            });*/
         ReportFactory.query({"id": $routeParams.id}, function(data) {
             for(var i = 0; i < data.length; i++) {
                 var p = data[i].split('=');
