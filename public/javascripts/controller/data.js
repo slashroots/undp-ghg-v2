@@ -204,7 +204,6 @@ angular.module('undp-ghg-v2')
           field: 'da_data_value',
           displayName: 'Variable Value',
           enableCellEdit: $scope.editable,
-          type: 'number',
           width: 200
         },
         {
@@ -494,6 +493,7 @@ angular.module('undp-ghg-v2')
         for (var i = 0; i < importedObjects.length; i++) {
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].se_sector = $scope.selectedSector;
+          importedObjects[i].da_data_value = parseFloat(importedObjects[i].da_data_value);
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
           // by default since the date is not complete - I am specifying that the date be set to the 
