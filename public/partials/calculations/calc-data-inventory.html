@@ -12,6 +12,10 @@
     <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="getAllEF(selectedInventory, selectedSector)">
       <div>Load Emission Factors</div>
     </a>
+    <button class="smaller add-category-button w-inline-block" data-ix="add-category-modal"
+            ng-click="saveCalculations()" ng-disabled="calculations.length===0">
+      <div>Save Calculations</div>
+    </button>
   </div>
   <br />
 
@@ -24,7 +28,13 @@
         </div>
         <ol ui-tree-nodes="" ng-model="matches">
           <li ng-if="subItem.issues.length == 0" ng-repeat="subItem in getAssociatedInfo(item, emission_factors)" ui-tree-node>
-            <calc-item sub-item="subItem" activity="item" selected="false"></calc-item>
+            <calc-item sub-item="subItem" activity="item" selected="false" units="units"
+                       calc-callback="calculationEntries(arg1,arg2)" ng-if="subItem.emission_factor===undefined"></calc-item>
+            <calc-item sub-item="subItem.emission_factor" activity="subItem.ac_activity" selected="true" units="units"
+                       calc-callback="calculationEntries(arg1,arg2)"
+                       selected-unit="subItem.un_unit"
+                       calculated-value="subItem.calculation_value"
+                       ng-if="subItem.emission_factor!=undefined"></calc-item>
           </li>
         </ol>
         <hr  style="margin: 10px 0px; border-top: #ffffff;" />

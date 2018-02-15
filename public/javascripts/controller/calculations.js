@@ -5,15 +5,81 @@
 angular.module('undp-ghg-v2')
 .controller('CalcController', ['$mdSidenav', '$scope', '$q', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
   'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-  'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
+  'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'CalculationFactory', 'uiGridConstants',
   function($mdSidenav, $scope, $q, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
     AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
-    uiGridConstants) {
+    CalculationFactory, uiGridConstants) {
 
     $scope.reference_issue = [];
     $scope.matches = [];
     $scope.isAvailable = false;
     $scope.sectors = [];
+    $scope.calculations = [];
+
+    // get all saved calculations
+    CalculationFactory.query({
+    }, function(results) {
+        $scope.calculations = results;
+    });
+
+    // persist calculations to the database
+    $scope.saveCalculations = function() {
+        for(var i=0; i<$scope.calculations.length; i++) {
+            var data = {
+                "_id": $scope.calculations[i]._id,
+                "in_inventory": $scope.selectedInventory,
+                "se_sector": $scope.selectedSector,
+                "ac_activity": $scope.calculations[i].ac_activity._id,
+                "emission_factor": $scope.calculations[i].emission_factor._id,
+                "calculation_value": $scope.calculations[i].calculated_value,
+                "un_unit": $scope.calculations[i].un_unit._id,
+            };
+            if($scope.calculations[i]._id) {
+                CalculationFactory.edit({id: $scope.calculations[i]._id}, $scope.calculations[i], function(result) {
+                });
+            } else {
+                CalculationFactory.create($scope.calculations[i], function(result) {
+                });
+            }
+        }
+    }
+
+    // add/remove calculation entries
+    $scope.calculationEntries = function(action, calculation) {
+        if(action==="add") {
+            calculation.in_inventory = $scope.selectedInventory;
+            calculation.se_sector = $scope.selectedSector;
+            calculation.isnew = true;
+            $scope.calculations.push(calculation);
+        } else if(action==="remove") {
+            for(var i=0; i<$scope.calculations.length; i++) {
+                if($scope.calculations[i].ac_activity === calculation.ac_activity) {
+                    $scope.calculations.splice(i, 1);
+                    break;
+                }
+            }
+        } else if(action==="update") {
+            for(var i=0; i<$scope.calculations.length; i++) {
+                if($scope.calculations[i].ac_activity === calculation.ac_activity) {
+                    angular.extend($scope.calculations[i], calculation);
+                    break;
+                }
+            }
+        }
+    }
+
+    $scope.getCalculations = function(ad) {
+        var l = [];
+        for(var i=0; i<$scope.calculations.length; i++) {
+            if($scope.calculations[i].ac_activity._id===ad._id) {
+                l.push($scope.calculations[i]);
+            }
+        }
+        return l;
+    }
+
+    // Get configured units for association with emission selection
+    $scope.units = UnitFactory.query();
 
     //when user selects the inventory to manipulate this function is run:
     $scope.inventoryChanged = function() {
@@ -101,16 +167,36 @@ angular.module('undp-ghg-v2')
      * @param {*} list 
      */
     $scope.getAssociatedInfo = function (element, list) {
+      var ids = [];
       var new_list = [];
+      if($scope.calculations.length > 0) {
+        for(var i=0; i<$scope.calculations.length; i++) {
+            if($scope.calculations[i].ac_activity._id===element._id && !$scope.calculations[i].isnew) {
+                $scope.calculations[i].issues = [];
+                $scope.calculations[i].calc = true;
+
+                ids.push($scope.calculations[i].emission_factor._id);
+
+                for(var j=0; j<list.length; j++) {
+                    if($scope.calculations[i].emission_factor._id === list[j]._id) {
+                        $scope.calculations[i].emission_factor = list[j];
+                    }
+                }
+                new_list.push($scope.calculations[i]);
+            }
+        }
+      }
+
       if (hasProperty(element, 'ac_activity')) {
         for (i in list) {
-          if (hasProperty(list[i], 'ac_activity')) {
+          if (hasProperty(list[i], 'ac_activity') && ids.indexOf(list[i]._id)<0) {
             if((element.ac_activity._id == list[i].ac_activity._id) && (yearMatch(element, list[i]))) {
               new_list.push(list[i]);
             }
           }
         }
       }
+
       return new_list;
     }
     

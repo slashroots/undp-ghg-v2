@@ -375,3 +375,28 @@ services.factory('LogFactory', function($resource) {
     }
   });
 });
+
+services.factory('CalculationFactory', function($resource) {
+  return $resource('/api/calculation/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    },
+    edit: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});

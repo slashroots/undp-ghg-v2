@@ -10,6 +10,7 @@ var NotationKey = model.NotationKey;
 var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 var Data = model.Data;
+var Calculation = model.Calculation;
 var app_logger = require('../common/logger');
 var SupportingFiles = model.SupportingFiles,
   multiparty = require('multiparty'),
@@ -688,3 +689,55 @@ exports.updateSupportingFiles = function (req, res, next) {
     });
 };
 
+//############################## Calculations ######################################
+
+exports.getCalculations = function(req, res, next) {
+  var query = req.querymen;
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Request', 'User Requested Calculation Data', 'CALCULATIONS', req.user._id);
+  Calculation.find(query.query, query.select)
+    .populate('se_sector in_inventory ac_activity un_unit emission_factor')
+    .exec(function(err, docs) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(docs);
+      }
+    });
+};
+
+exports.getCalculationByID = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Request', 'User Requested Calculation Data', 'CALCULATIONS', req.user._id);
+  Calculation.findById(req.params.id)
+    .populate('se_sector in_inventory ac_activity un_unit')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.updateCalculation = function(req, res, next) {
+  Calculation.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Modification', 'User Modified Calculation Data', 'CALCULATIONS', req.user._id);
+        res.send(item);
+      }
+    })
+};
+
+exports.addCalculationData = function(req, res, next) {
+  var calculation = new Calculation(req.body);
+  calculation.save(function(err) {
+    if (err) {
+      next(err);
+    } else {
+      app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculation Creation', 'User Created Calculation Data', 'CALCULATIONS', req.user._id);
+      res.send(calculation);
+    }
+  });
+};
