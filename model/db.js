@@ -122,6 +122,7 @@ var DataSchema = new Schema({
   da_data_modified: {type: Date, default: Date.now()},
   nk_notation_key: {type: Schema.Types.ObjectId, ref: 'NotationKey'},
   da_date: {type: Date, required: false},
+  da_date_all: {type: Boolean, required: false},
   re_region: {type: Schema.Types.ObjectId, ref: 'Region'},
   da_notes: {type: String},
   da_uncertainty_min: {type: Number, required: false},
@@ -166,6 +167,16 @@ var SupportingFilesSchema = new Schema({
   su_date: {type: Date, required: true, default: Date.now()}
 });
 
+var CalculationSchema = new Schema({
+  in_inventory: {type: Schema.Types.ObjectId, required: true, ref: 'Inventory'},
+  se_sector: {type: Schema.Types.ObjectId, required: true, ref: 'Sector'},
+  emission_factor: {type: Schema.Types.ObjectId, ref: 'Data'},
+  ac_activity: {type: Schema.Types.ObjectId, ref: 'Data'},
+  un_unit: {type: Schema.Types.ObjectId, required: false, ref: 'Unit'},
+  calculation_value: {type: Number, required: true},
+  da_data_modified: {type: Date, default: Date.now()}
+});
+
 exports.User = mongoose.model('User', UserSchema);
 exports.Category = mongoose.model('Category', CategorySchema);
 exports.IPCCCategory = mongoose.model('IPCCCategory', IPCCCategorySchema);
@@ -180,3 +191,4 @@ exports.Region = mongoose.model('Region', RegionSchema);
 exports.NotationKey = mongoose.model('NotationKey', NotationKeySchema);
 exports.Log = mongoose.model('Log', LogSchema);
 exports.SupportingFiles = mongoose.model('SupportingFiles', SupportingFilesSchema);
+exports.Calculation = mongoose.model('Calculation', CalculationSchema);
