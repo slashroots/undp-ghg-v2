@@ -158,14 +158,12 @@ angular.module('undp-ghg-v2')
             cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
                 row.rowDisplayIndex = $scope.dataValues.indexOf(row.entity);
                 isDataValid(row.entity);
-                if (!row.entity.isValid || row.entity.isConflictExists)
-                    return 'table-error-indicator';
             },
             name: 'ID',
             field: '',
-            displayName: '',
+            displayName: 'ID',
             enableCellEdit: false,
-            cellTemplate: '<span style="padding: 3px;">{{row.rowDisplayIndex+1}}</span>',
+            cellTemplate: '<p style="padding: 3px; width: 100%;" ng-class="{\'table-error-indicator\': !row.entity.isValid || row.entity.isConflictExists}">{{row.rowDisplayIndex+1}}</p>',
             width: 75
         },
         {

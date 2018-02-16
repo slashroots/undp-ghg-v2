@@ -28,9 +28,9 @@ md-toolbar:not(.md-menu-toolbar) {
 
 .table-error-indicator {
     background-image: url("/images/Ei1GaY4.png");
-    background-size: 30px;
+    background-size: 10px;
     background-repeat: no-repeat;
-    background-position: 160% -2px;
+    background-position: 100% 0px;
 }
 
 #sidebar-tabs {
