@@ -15,6 +15,7 @@ angular.module('undp-ghg-v2')
     $scope.isAvailable = false;
     $scope.sectors = [];
     $scope.calculations = [];
+    $scope.changesAvailable = false;
 
     // get all saved calculations
     CalculationFactory.query({
@@ -42,10 +43,12 @@ angular.module('undp-ghg-v2')
                 });
             }
         }
+        $scope.changesAvailable = false;
     }
 
     // add/remove calculation entries
     $scope.calculationEntries = function(action, calculation) {
+        $scope.changesAvailable = true;
         if(action==="add") {
             calculation.in_inventory = $scope.selectedInventory;
             calculation.se_sector = $scope.selectedSector;

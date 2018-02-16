@@ -12,14 +12,14 @@
     <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="getAllEF(selectedInventory, selectedSector)">
       <div>Load Emission Factors</div>
     </a>
-    <button class="smaller add-category-button w-inline-block" data-ix="add-category-modal"
-            ng-click="saveCalculations()" ng-disabled="calculations.length===0">
+    <button class="smaller add-category-button w-inline-block" ng-class="{red: changesAvailable}" data-ix="add-category-modal"
+            ng-click="saveCalculations()" ng-disabled="!changesAvailable">
       <div>Save Calculations</div>
     </button>
   </div>
   <br />
 
-  <div ui-tree data-drag-enabled="false" data-nodrop-enabled="false">
+  <div ui-tree data-drag-enabled="false" data-nodrop-enabled="false" ng-if="activity_data.length>0">
     <ol ui-tree-nodes="" ng-model="activity_data">
       <li ng-repeat="item in activity_data" ng-if="item.issues.length == 0" ui-tree-node>
         <div layout="row" ui-tree-handle>
