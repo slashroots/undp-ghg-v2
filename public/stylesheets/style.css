@@ -30,7 +30,7 @@ md-toolbar:not(.md-menu-toolbar) {
     background-image: url("/images/Ei1GaY4.png");
     background-size: 30px;
     background-repeat: no-repeat;
-    background-position: 107% -2px;
+    background-position: 160% -2px;
 }
 
 #sidebar-tabs {
@@ -79,7 +79,24 @@ md-list.make-scrollable {
     overflow-y: scroll;
 }
 
+.angular-ui-tree-handle {
+    background: #f8faff;
+    border: 1px solid #dae2ea;
+    border-radius: 10px;
+    color: #272838;
+    padding: 5px 5px;
+}
+
+.angular-ui-tree-handle.subitem {
+    color: #7578a1;
+}
+
+.ui-grid-row-dirty .ui-grid-cell {
+    color: blue !important;
+}
+
 .category-help-block {
     text-align: right;
     font-size: 14px;
+
 }

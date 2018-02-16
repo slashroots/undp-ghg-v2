@@ -155,11 +155,20 @@ angular.module('undp-ghg-v2')
         importerDataAddCallback: newDataImporter,
         data: 'dataValues',
         columnDefs: [{
-          cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-            isDataValid(row.entity);
-            if (!row.entity.isValid || row.entity.isConflictExists)
-              return 'table-error-indicator';
-          },
+            cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                row.rowDisplayIndex = $scope.dataValues.indexOf(row.entity);
+                isDataValid(row.entity);
+                if (!row.entity.isValid || row.entity.isConflictExists)
+                    return 'table-error-indicator';
+            },
+            name: 'ID',
+            field: '',
+            displayName: '',
+            enableCellEdit: false,
+            cellTemplate: '<span style="padding: 3px;">{{row.rowDisplayIndex+1}}</span>',
+            width: 75
+        },
+        {
           field: 'da_variable_type',
           displayName: 'Variable Type',
           enableCellEdit: $scope.editable,
@@ -204,7 +213,6 @@ angular.module('undp-ghg-v2')
           field: 'da_data_value',
           displayName: 'Variable Value',
           enableCellEdit: $scope.editable,
-          type: 'number',
           width: 200
         },
         {
@@ -274,23 +282,6 @@ angular.module('undp-ghg-v2')
           width: 200
         }
         ]
-      };
-
-
-
-      /*
-        Setup the tabs for viewing
-      */
-      $scope.tab = 1;
-      if ($routeParams.id) {
-        $scope.tab = $routeParams.id;
-      }
-
-      $scope.setTab = function (newTab) {
-        $location.path("settings/" + newTab);
-      };
-      $scope.isSet = function (tabNum) {
-        return $scope.tab == tabNum;
       };
 
 
@@ -490,15 +481,23 @@ angular.module('undp-ghg-v2')
             Values to be imported could be appended directly to dataValues.
         */
         var tmpImported = [];
+        var temp = "";
 
         for (var i = 0; i < importedObjects.length; i++) {
           importedObjects[i].in_inventory = $scope.selectedInventory;
           importedObjects[i].se_sector = $scope.selectedSector;
+          importedObjects[i].da_data_value = parseFloat(importedObjects[i].da_data_value);
           importedObjects[i].da_uncertainty_min = parseFloat(importedObjects[i].da_uncertainty_min);
           importedObjects[i].da_uncertainty_max = parseFloat(importedObjects[i].da_uncertainty_max);
-          // by default since the date is not complete - I am specifying that the date be set to the 
-          // first month first day.
-          importedObjects[i].da_date = new Date(importedObjects[i].da_date, 1, 1, 0, 0, 0, 0);
+          temp = importedObjects[i]["da_date"] + "";
+          if(temp.toLowerCase().trim() == 'all') {
+            importedObjects[i].da_date_all = true;
+            importedObjects[i].da_date = "";
+          } else {
+            // by default since the date is not complete - I am specifying that the date be set to the 
+            // first month first day.
+            importedObjects[i].da_date = new Date(temp, 1, 1, 0, 0, 0, 0);
+          }
           for (var a = 0; a < $scope.categories.length; a++) {
             if (importedObjects[i]["ca_category.ca_code_name"].toLowerCase().trim() == $scope.categories[a].ca_code_name.toLowerCase().trim()) {
               importedObjects[i].ca_category = $scope.categories[a];

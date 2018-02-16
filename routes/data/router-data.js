@@ -9,6 +9,10 @@ var schema = new querymen.Schema({
     type: String,
     paths: ['in_inventory']
   },
+  da_variable_type :{
+    type: String,
+    paths: ['da_variable_type']
+  },
   se_sector: {
     type: String,
     paths: ['se_sector']

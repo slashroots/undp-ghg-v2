@@ -1,0 +1,286 @@
+﻿Variable Type,Category Name,Activity,Variable Value,Unit,Year,Assoc. Gas,Uncertainty (Max),Uncertainty (Min),NK,Uncertainty Type,Region,Notes
+EF,Cement,Clinker Production,0.52,Tonne/Tonne,All,CO2,,,,,Jamaica,2006 IPCC Guidelines for National Greenhouse Gas Inventories
+AD,Cement,Clinker Production,528134,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,511598,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,532140,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,600980,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,605814,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,542114,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,604174,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,519598,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,578067,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,742208,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,629444,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,628287,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,652579,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Cement,Clinker Production,696077,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Lime,Lime Production,0.75,Tonne/Tonne,All,CO2,,,,,Jamaica,2006 IPCC Guidelines for National Greenhouse Gas Inventories
+AD,Lime,Lime Production,267215,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,281853,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,255266,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,275763,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,269139,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,269743,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,303795,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,276800,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,312669,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,128384.38,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,115140.67,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,141845.2,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,127226.46,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Lime,Lime Production,134246.35,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Shortening,10,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Shortening,0,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Shortening,0,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Margarine,10,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Margarine,6239,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6763,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6656,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6798,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,7435,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6995,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,7581,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,7676,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,7967,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6417,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6517,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,7047,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6903,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Margarine,6458,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Animal feeds,1,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Animal feeds,350140,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,382457,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,361220,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,363718,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,345874,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,367581,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,378165,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,377029,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,390929,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,390221,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,381432,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,402201,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,408139,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Animal feeds,401241,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Biscuits,1,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Biscuits,0,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Biscuits,0,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Milk products,10,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Milk products,6789,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,5746,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,5601,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,4920,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,5374,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,6028,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,5021,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,5704,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,4525,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,3868,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,4386,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,3864,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,3648,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Milk products,3832,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Flour,8,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Flour,129313,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,129836,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,126895,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,129987,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,128817,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,135373,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,129322,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,124928,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,132397,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,136782,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,136798,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,134510,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,136132,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Flour,136702,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Sugar,10,kg/Tonne,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Sugar,216387,Tonne,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,204478,Tonne,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,174640,Tonne,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,152536,Tonne,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,183672,Tonne,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,124206,Tonne,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,146882,Tonne,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,164387,Tonne,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,140872,Tonne,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,125818,Tonne,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,121806,Tonne,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,139594,Tonne,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,136645,Tonne,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Sugar,121138,Tonne,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Rum,4,kg/thousand litres,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Rum,17804,Thousands of litres,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,22291,Thousands of litres,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,22808,Thousands of litres,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,23686,Thousands of litres,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,26623,Thousands of litres,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,26233,Thousands of litres,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,22940,Thousands of litres,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,21850,Thousands of litres,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,22620,Thousands of litres,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,22636,Thousands of litres,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,18494,Thousands of litres,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,19367,Thousands of litres,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,22747,Thousands of litres,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Rum,25239,Thousands of litres,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Beer,0.35,kg/thousand litres,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Beer,69856,Thousands of litres,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,78566,Thousands of litres,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,78162,Thousands of litres,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,75230,Thousands of litres,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,80636,Thousands of litres,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,83657,Thousands of litres,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,86955,Thousands of litres,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,86946,Thousands of litres,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,85985,Thousands of litres,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,69204,Thousands of litres,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,65516,Thousands of litres,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,58343,Thousands of litres,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,50226,Thousands of litres,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Beer,41868,Thousands of litres,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Malt beverages,150,kg/thousand litres,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Malt beverages,0,Thousands of litres,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Food&Drink,Non-alcoholic carbonated beverages,0.35,kg/thousand litres,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, Chapter: 2.H.2 Food and beverages industry, Efs for Tier 2"
+AD,Food&Drink,Non-alcoholic carbonated beverages,1519460,Thousands of litres,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,123891,Thousands of litres,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,123962,Thousands of litres,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,136193,Thousands of litres,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,133317,Thousands of litres,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,123457,Thousands of litres,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,8500,Thousands of litres,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,9159,Thousands of litres,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,9243,Thousands of litres,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,8716,Thousands of litres,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,9337,Thousands of litres,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,11101,Thousands of litres,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,11461,Thousands of litres,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Food&Drink,Non-alcoholic carbonated beverages,11837,Thousands of litres,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Non-Energy Products,Lubricating Oil,3.153333333,Mg,All,CO2,,,,,Jamaica,2006 IPCC Guidelines for National Greenhouse Gas Inventories
+AD,Non-Energy Products,Lubricating Oil,0,Mg,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,0,Mg,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,0,Mg,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,0,Mg,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,0,Mg,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,0,Mg,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,597.468083,Mg,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,597.468083,Mg,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,597.468083,Mg,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,597.468083,Mg,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,597.468083,Mg,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,927.44376,Mg,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,554.7911834,Mg,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Lubricating Oil,310.1693057,Mg,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Non-Energy Products,Grease,3.153333333,Mg,All,CO2,,,,,Jamaica,2006 IPCC Guidelines for National Greenhouse Gas Inventories
+AD,Non-Energy Products,Grease,0,Mg,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,0,Mg,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,0,Mg,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,0,Mg,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,0,Mg,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,0,Mg,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,16.59633564,Mg,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,16.59633564,Mg,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,16.59633564,Mg,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,16.59633564,Mg,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,16.59633564,Mg,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,25.76232667,Mg,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,15.41086621,Mg,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Grease,8.615814047,Mg,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Non-Energy Products,Asphalt,16,g/Mg,All,NMVOC,,,,,Jamaica,"EMEP/EEA Emissions Inventory Guidebook 2013, 2D3b Table 3-1"
+AD,Non-Energy Products,Asphalt,0,Mg,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,0,Mg,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,0,Mg,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,0,Mg,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,0,Mg,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,0,Mg,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,18178.01761,Mg,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,18178.01761,Mg,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,18178.01761,Mg,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,18178.01761,Mg,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,18178.01761,Mg,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,19331.42688,Mg,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,19419.23768,Mg,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Non-Energy Products,Asphalt,15783.38827,Mg,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Domestic Solvent Use,Domestic solvent use including fungicides,2700,g/person,All,Domestic solvent use including fungicides,,,,,Jamaica,"EMEP/EEA Guidebook 2013, 2.D.3.a Domestic solvent use including fungicides, Table 3-1"
+AD,Domestic Solvent Use,Population,2597100,people,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2610500,people,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2620000,people,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2629400,people,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2638900,people,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2648300,people,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2657800,people,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2667200,people,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2676700,people,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2686100,people,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2695500,people,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2704100,people,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2711500,people,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Domestic Solvent Use,Population,2717900,people,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Coating Applications,Decorative coating application,150,g/kg paint applied,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, 2.D.3.d Coating Applications, Table 3-1"
+AD,Coating Applications,Decorative coating application,14436000,kg,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,14045000,kg,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,15506000,kg,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,16824000,kg,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,16925000,kg,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,18110000,kg,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,17397000,kg,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,18092000,kg,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,17034000,kg,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,16151000,kg,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,13874000,kg,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,14648000,kg,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,14219000,kg,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Coating Applications,Decorative coating application,14102000,kg,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+EF,Dry Cleaning,Textile treated,40,g/kg textile treated,All,NMVOC,,,,,Jamaica,"EMEP/EEA Guidebook 2013, 2.D.3.f Dry Cleaning, Table 3-1"
+AD,Dry Cleaning,Textile treated,109078200,kg,2000,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,109641000,kg,2001,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,110040000,kg,2002,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,110434800,kg,2003,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,110833800,kg,2004,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,111228600,kg,2005,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,111627600,kg,2006,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,112022400,kg,2007,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,112421400,kg,2008,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,112816200,kg,2009,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,113211000,kg,2010,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,113572200,kg,2011,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,113883000,kg,2012,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
+AD,Dry Cleaning,Textile treated,114151800,kg,2013,NA,,,,,Jamaica,0_Master_Summary_v5.xlsx
