@@ -1,11 +1,15 @@
 <div layout="row" class="subitem" ui-tree-handle>
     <input style="margin-top: 4px; margin-right: 10px;" type="checkbox" ng-model="iselected.item" ng-change="calculate()" />
-    <span flex>{{subItem.ac_activity.ac_name}} - {{subItem.ca_category.ca_code_name}} - {{subItem.ga_gas.ga_gas_name}}</span>
+    <span flex>
+        {{subItem.ac_activity.ac_name}} - {{subItem.ca_category.ca_code_name}} - {{subItem.ga_gas.ga_gas_name}}
+        <span style="font-size: 12px; margin-left: 10px;">(EF: {{subItem.da_data_value}} {{subItem.un_unit.un_unit_symbol}})</span>
+    </span>
     <span flex ng-show="iselected.item" style="color: #000000;">
-        <span style="width: 150px; margin-right: 10px; overflow: hidden;">{{calculatedValue}}</span>
+        <span style="width: 150px; overflow: hidden;">{{calculatedValue}}</span>
         <select ng-model="unit.unit" ng-change="unitChange()">
             <option ng-repeat="unit in units" value="{{unit._id}}">
                 {{unit.un_unit_symbol}}</option>
         </select>
+        <span style="font-size: 12px; margin-left: 30px;">({{subItem.da_uncertainty_max}} / {{subItem.da_uncertainty_min}} uncertainty)</span>
     </span>
 </div>

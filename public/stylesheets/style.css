@@ -100,3 +100,9 @@ md-list.make-scrollable {
     font-size: 14px;
 
 }
+
+.angular-ui-tree-handle {
+    cursor: auto;
+    margin-top: 3px;
+    border-radius: 0px;
+}
