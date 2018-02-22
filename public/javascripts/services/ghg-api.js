@@ -400,3 +400,36 @@ services.factory('CalculationFactory', function($resource) {
     }
   });
 });
+
+
+/**
+ * Administrative logs
+ */
+services.factory('ReportFactory', function($resource) {
+  return $resource('/api/report/:id', {}, {
+    query: {
+      method: 'GET',
+      isArray: true
+    },
+    create: {
+      method: 'POST',
+      isArray: false
+    },
+    get: {
+      method: 'GET',
+      params: {
+        id: '@id'
+      }
+    }
+  });
+});
+
+
+/**
+ * Widestage reports
+ */
+services.factory('WidestageFactory', function($resource) {
+  return {
+    "domain": "https://widestage-staging.herokuapp.com"
+  }
+});

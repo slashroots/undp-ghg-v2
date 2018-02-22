@@ -158,4 +158,7 @@ router.post('/api/calculation', Utils.isAdmin, App.addCalculationData);
 router.get('/api/calculation/:id', Utils.isAuthenticated, App.getCalculationByID);
 router.put('/api/calculation/:id', Utils.isAuthenticated, App.updateCalculation);
 
+router.get('/api/report', [Utils.isAuthenticated, querymen.middleware()], App.getReports);
+router.get('/api/report/:id', [Utils.isAuthenticated, querymen.middleware()], App.getReport);
+
 module.exports = router;
