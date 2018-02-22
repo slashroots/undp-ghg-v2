@@ -4,7 +4,8 @@
 
 angular.module('undp-ghg-v2')
   .controller('ReportController', ['$scope', '$location', '$routeParams','ReportFactory', '$sce', '$http', '$cookies',
-    function($scope, $location, $routeParams, ReportFactory, $sce, $http, $cookies) {
+    'WidestageFactory',
+    function($scope, $location, $routeParams, ReportFactory, $sce, $http, $cookies, WidestageFactory) {
 
       //model
       angular.extend($scope, {
@@ -16,7 +17,7 @@ angular.module('undp-ghg-v2')
       angular.extend($scope, {});
 
       if ($routeParams.id) {
-        var url = 'http://localhost/#/reports/' + $routeParams.id;
+        var url = WidestageFactory.domain + '/#/reports/' + $routeParams.id;
         ReportFactory.query({"id": $routeParams.id}, function(data) {
             for(var i = 0; i < data.length; i++) {
                 var p = data[i].split('=');

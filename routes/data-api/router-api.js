@@ -75,6 +75,23 @@ var supportingfiles_schema = new querymen.Schema({
     limit: 'max_items' // change name of default parameter `limit` to `max_items`
   });
 
+/**
+ * Calculations Schema
+ */
+var calculations_schema = new querymen.Schema({
+    in_inventory: {
+      type: String,
+      paths: ['in_inventory']
+    },
+    se_sector: {
+      type: String,
+      paths: ['se_sector']
+    }
+  }, {
+    page: false, // disable default parameter `page`
+    limit: 'max_items' // change name of default parameter `limit` to `max_items`
+  });
+
 
 /**
  * End Points relevant to Settings Management
@@ -97,6 +114,7 @@ router.put('/api/sector/:id', Utils.isAuthenticated, App.updateSectorByID);
 
 router.get('/api/inventory', [Utils.isAuthenticated, querymen.middleware()], App.getInventory);
 router.post('/api/inventory', Utils.isAdmin, App.createInventory);
+router.post('/api/inventory/close', [Utils.isAuthenticated, querymen.middleware()], App.closeInventory);
 router.get('/api/inventory/:id', Utils.isAdmin, App.getInventoryByID);
 router.put('/api/inventory/:id', Utils.isAdmin, App.modifyInventory);
 
@@ -134,6 +152,11 @@ router.get('/api/supportingfiles', [Utils.isAuthenticated, querymen.middleware(s
 router.get('/api/supportingfiles/:id', Utils.isAuthenticated, App.getSupportFile);
 router.put('/api/supportingfiles/:id', Utils.isAdmin, App.updateSupportingFiles);
 router.post('/api/supportingfiles', Utils.isAdmin, App.createSupportingFiles);
+
+router.get('/api/calculation', [Utils.isAuthenticated, querymen.middleware(calculations_schema)], App.getCalculations);
+router.post('/api/calculation', Utils.isAdmin, App.addCalculationData);
+router.get('/api/calculation/:id', Utils.isAuthenticated, App.getCalculationByID);
+router.put('/api/calculation/:id', Utils.isAuthenticated, App.updateCalculation);
 
 router.get('/api/report', [Utils.isAuthenticated, querymen.middleware()], App.getReports);
 router.get('/api/report/:id', [Utils.isAuthenticated, querymen.middleware()], App.getReport);

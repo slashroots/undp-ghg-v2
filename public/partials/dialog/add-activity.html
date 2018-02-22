@@ -1,7 +1,8 @@
 <div ng-controller="ActivityController" class="add-activity" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
     <div class="openinv-wrapper">
       <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-act" href="#/settings/2"><img src="../images/Close-Icon.png" width="12"></a></div>
-      <div class="dialog-header">Add Activity</div>
+      <div class="dialog-header" ng-if="!activity._id">Add Local Activity</div>
+      <div class="dialog-header" ng-if="activity._id">Edit Local Activity</div>
       <div class="w-form">
         <form class="modal-form w-clearfix">
           <div class="modal-field-wrapper">

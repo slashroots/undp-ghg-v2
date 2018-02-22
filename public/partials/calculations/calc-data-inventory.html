@@ -1,0 +1,44 @@
+<div ng-controller="CalcController" class="inventory-holder">
+  <h1 class="heading">Manage Calculations</h1>
+  <select ng-change="inventoryChanged()" ng-model="selectedInventory">
+    <option ng-repeat="inventory in inventories" value="{{inventory._id}}">{{inventory.in_inventory_desc}} ({{inventory.in_start_date | date:'longDate'}} - {{inventory.in_end_date | date: 'longDate'}})</option>
+  </select>
+  <select ng-change="sectorChanged()" ng-model="selectedSector">
+    <option ng-repeat="sector in sectors" value="{{sector._id}}">{{sector.se_name}}</option>
+  </select>
+  <div class="horizline"></div>
+
+  <div ng-show="isAvailable">
+    <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="getAllEF(selectedInventory, selectedSector)">
+      <div>Load Emission Factors</div>
+    </a>
+    <button class="smaller add-category-button w-inline-block" ng-class="{red: changesAvailable}" data-ix="add-category-modal"
+            ng-click="saveCalculations()" ng-disabled="!changesAvailable">
+      <div>Save Calculations</div>
+    </button>
+  </div>
+  <br />
+
+  <div ui-tree data-drag-enabled="false" data-nodrop-enabled="false" ng-if="activity_data.length>0">
+    <ol ui-tree-nodes="" ng-model="activity_data">
+      <li ng-repeat="item in activity_data" ng-if="item.issues.length == 0" ui-tree-node>
+        <div layout="row" ui-tree-handle>
+          <span flex>AD ({{item.ca_category.ca_code_name}})</span>
+          <span flex>{{item.da_data_value | number}} {{item.un_unit.un_unit_symbol}}</span>
+        </div>
+        <ol ui-tree-nodes="" ng-model="matches">
+          <li ng-if="subItem.issues.length == 0" ng-repeat="subItem in getAssociatedInfo(item, emission_factors)" ui-tree-node>
+            <calc-item sub-item="subItem" activity="item" selected="false" units="units"
+                       calc-callback="calculationEntries(arg1,arg2)" ng-if="subItem.emission_factor===undefined"></calc-item>
+            <calc-item sub-item="subItem.emission_factor" activity="subItem.ac_activity" selected="true" units="units"
+                       calc-callback="calculationEntries(arg1,arg2)"
+                       selected-unit="subItem.un_unit"
+                       calculated-value="subItem.calculation_value"
+                       ng-if="subItem.emission_factor!=undefined"></calc-item>
+          </li>
+        </ol>
+        <hr  style="margin: 10px 0px; border-top: #ffffff;" />
+      </li>
+    </ol>
+  </div>
+</div>

@@ -12,10 +12,14 @@ if(process.env.WIDESTAGE) {
     }
 }
 
-function auth(cb) {
+function auth(scb, ecb) {
     request.post({'url': credentials.domain+'/api/login', 'json': {"userName": "administrator","password": "widestage",
         "remember_me": false}}, function (error, response, body) {
-            cb(response.headers['set-cookie'].join(';'));
+            if(error) {
+                ecb(error);
+                return;
+            }
+            scb(response.headers['set-cookie'].join(';'));
     });
 }
 
@@ -33,7 +37,7 @@ exports.getReports = function(scb, ecb) {
             var r = JSON.parse(body.split(',')[1]);
             scb((CryptoJS.AES.decrypt(r.data, 'SecretPassphrase').toString(CryptoJS.enc.Utf8)));
         })
-    });
+    }, ecb);
 }
 
 exports.getReport = function(id, scb, ecb) {

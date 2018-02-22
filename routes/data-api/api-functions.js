@@ -10,6 +10,7 @@ var NotationKey = model.NotationKey;
 var Activity = model.Activity;
 var IPCCActivity = model.IPCCActivity;
 var Data = model.Data;
+var Calculation = model.Calculation;
 var app_logger = require('../common/logger');
 var widestage = require('../../services/widestage.js');
 var SupportingFiles = model.SupportingFiles,
@@ -205,6 +206,60 @@ exports.getInventory = function (req, res, next) {
       }
     });
 };
+
+// close an open inventory
+exports.closeInventory = function(req, res, next) {
+    Inventory.findOne({ _id: req.body.in_inventory }, function (err, inv) {
+        if(err) {
+            next(err);
+            return;
+        }
+
+        if(!inv) {
+            var error = new Error('Inventory does not exist!');
+            error.status = 400;
+            next(error);
+            return;
+        }
+
+        Data.find({ in_inventory: inv._id }).exec(
+            function(err, data) {
+                /*
+                    check all data values if errors exists
+                    inventory cannot be closed with errors
+                */
+                for (i in data) {
+                    if(data[i].issues.length>0) {
+                        /*
+                            error code 418 - errors exist in data
+                            until proper json errors are being propagated back to the client
+                            we will use custom error to identify errors
+                        */
+                        var error = new Error('Errors exist in the data.');
+                        error.status = 418;
+                        next(error);
+                        return;
+                    }
+                }
+
+                // no errors have been found in data. proceed with update
+                Inventory.update(inv, {'status': 'closed'}, function(err) {
+                    if(err) {
+                        // something strange has happened
+                        var error = new Error('An Error has occurred');
+                        error.status = 500;
+                        next(error);
+                        return;
+                    }
+
+                    // no errors, return success response
+                    res.send();
+                });
+            }
+        );
+
+    });
+}
 
 
 /**
@@ -689,14 +744,65 @@ exports.updateSupportingFiles = function (req, res, next) {
     });
 };
 
+//############################## Calculations ######################################
 
+exports.getCalculations = function(req, res, next) {
+  var query = req.querymen;
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Request', 'User Requested Calculation Data', 'CALCULATIONS', req.user._id);
+  Calculation.find(query.query, query.select)
+    .populate('se_sector in_inventory ac_activity un_unit emission_factor')
+    .exec(function(err, docs) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(docs);
+      }
+    });
+};
+
+exports.getCalculationByID = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Request', 'User Requested Calculation Data', 'CALCULATIONS', req.user._id);
+  Calculation.findById(req.params.id)
+    .populate('se_sector in_inventory ac_activity un_unit')
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
+
+exports.updateCalculation = function(req, res, next) {
+  Calculation.findByIdAndUpdate(req.params.id, req.body, {new: true},
+    function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Modification', 'User Modified Calculation Data', 'CALCULATIONS', req.user._id);
+        res.send(item);
+      }
+    })
+};
+
+exports.addCalculationData = function(req, res, next) {
+  var calculation = new Calculation(req.body);
+  calculation.save(function(err) {
+    if (err) {
+      next(err);
+    } else {
+      app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculation Creation', 'User Created Calculation Data', 'CALCULATIONS', req.user._id);
+      res.send(calculation);
+    }
+  });
+};
 //############################## Reports ######################################
 
 exports.getReports = function (req, res, next) {
     widestage.getReports(function(result) {
         res.send(result);
     }, function(err) {
-        next(error);
+        next(err);
     });
 };
 
