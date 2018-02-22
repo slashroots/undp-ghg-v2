@@ -114,6 +114,7 @@ router.put('/api/sector/:id', Utils.isAuthenticated, App.updateSectorByID);
 
 router.get('/api/inventory', [Utils.isAuthenticated, querymen.middleware()], App.getInventory);
 router.post('/api/inventory', Utils.isAdmin, App.createInventory);
+router.post('/api/inventory/close', [Utils.isAuthenticated, querymen.middleware()], App.closeInventory);
 router.get('/api/inventory/:id', Utils.isAdmin, App.getInventoryByID);
 router.put('/api/inventory/:id', Utils.isAdmin, App.modifyInventory);
 
