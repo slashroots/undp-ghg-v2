@@ -20,7 +20,7 @@
 5. Environment Variables
 
 Widestage Credentials
-WIDESTAGE=<domain>::<username>::<password>
+`WIDESTAGE=<domain>::<username>::<password>`
 
 Upload Directory
-UPLOAD_DIR=/path/to/upload/directory
+`UPLOAD_DIR=/path/to/upload/directory`
