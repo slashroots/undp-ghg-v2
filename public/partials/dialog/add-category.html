@@ -1,7 +1,8 @@
 <div ng-controller="CategoryController" class="add-category new-inventory-modal" data-ix="hidden" style="opacity: 1; display: block; transition: opacity 200ms;">
     <div class="openinv-wrapper">
       <div class="div-block"><a class="close-button w-inline-block" data-ix="close-add-category" href="#/settings/1"><img src="../images/Close-Icon.png" width="12"></a></div>
-      <div class="dialog-header">Add Category</div>
+      <div class="dialog-header" ng-if="!category._id">Add Local Category</div>
+      <div class="dialog-header" ng-if="category._id">Edit Local Category</div>
       <div class="w-form">
         <form class="modal-form w-clearfix" name="category_form">
           <div class="modal-field-wrapper">
@@ -21,7 +22,7 @@
             </select>
           </div>
           <div class="modal-field-wrapper">
-            <label class="modal-field-label">CATEGORY CODE</label>
+            <label class="modal-field-label">LOCAL CATEGORY CODE</label>
             <input class="modal-fields w-input" ng-model="category.ca_code" type="text"
                    ng-required="true" name="category_code"/>
           </div>

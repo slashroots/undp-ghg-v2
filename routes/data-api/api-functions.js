@@ -206,6 +206,60 @@ exports.getInventory = function (req, res, next) {
     });
 };
 
+// close an open inventory
+exports.closeInventory = function(req, res, next) {
+    Inventory.findOne({ _id: req.body.in_inventory }, function (err, inv) {
+        if(err) {
+            next(err);
+            return;
+        }
+
+        if(!inv) {
+            var error = new Error('Inventory does not exist!');
+            error.status = 400;
+            next(error);
+            return;
+        }
+
+        Data.find({ in_inventory: inv._id }).exec(
+            function(err, data) {
+                /*
+                    check all data values if errors exists
+                    inventory cannot be closed with errors
+                */
+                for (i in data) {
+                    if(data[i].issues.length>0) {
+                        /*
+                            error code 418 - errors exist in data
+                            until proper json errors are being propagated back to the client
+                            we will use custom error to identify errors
+                        */
+                        var error = new Error('Errors exist in the data.');
+                        error.status = 418;
+                        next(error);
+                        return;
+                    }
+                }
+
+                // no errors have been found in data. proceed with update
+                Inventory.update(inv, {'status': 'closed'}, function(err) {
+                    if(err) {
+                        // something strange has happened
+                        var error = new Error('An Error has occurred');
+                        error.status = 500;
+                        next(error);
+                        return;
+                    }
+
+                    // no errors, return success response
+                    res.send();
+                });
+            }
+        );
+
+    });
+}
+
 
 /**
  * Create inventory and tag user who performed the action

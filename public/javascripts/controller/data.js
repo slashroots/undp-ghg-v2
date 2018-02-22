@@ -5,13 +5,14 @@
 angular.module('undp-ghg-v2')
   .controller('DataController', ['$mdSidenav', '$scope', '$route', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory', 'UnitFactory',
-    'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants',
+    'DataFactory', 'NotationKeyFactory', 'RegionFactory', 'uiGridConstants', '$timeout',
     function ($mdSidenav, $scope, $route, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, UnitFactory, DataFactory, NotationKeyFactory, RegionFactory,
-      uiGridConstants) {
+      uiGridConstants, $timeout) {
 
       $scope.reference_issue = [];
       $scope.sectors = [];
+      $scope.notifications = [];
 
       /**
        * Run this function if there exists an ID within the URL for Inventory
@@ -323,6 +324,22 @@ angular.module('undp-ghg-v2')
         }
       }
       $scope.filtered();
+
+      $scope.closeInventory = function() {
+        InventoryFactory.create({id: 'close'}, {in_inventory: $scope.selectedInventory}, function(result) {
+        }, function(err) {
+            if(err.status === 418) {
+                $scope.notifications.push({
+                    'message': 'Inventory cannot be closed until all errors have been resolved.',
+                    'type': 'error'
+                });
+
+                $timeout( function() {
+                    $scope.notifications = [];
+                }, 5000);
+            }
+        });
+      }
 
 
       /*
