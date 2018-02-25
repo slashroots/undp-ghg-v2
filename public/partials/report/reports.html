@@ -1,0 +1,13 @@
+<div ng-controller="ReportController" class="inventory-holder">
+  <h1 class="heading">Reports</h1>
+  <table border="1" style="border: solid 1px #e3e3e3; width: 100%;">
+    <tr>
+      <td>Report Name</td>
+      <td>Report Description</td>
+    </tr>
+    <tr ng-repeat="report in reports">
+      <td><a ng-href="#/reports/{{report._id}}">{{report.reportName}}</a></td>
+      <td></td>
+    </tr>
+  </table>
+</div>
