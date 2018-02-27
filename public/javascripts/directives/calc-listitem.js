@@ -1,7 +1,8 @@
 angular.module('undp-ghg-v2')
     .directive('calcItem', ['UnitFactory', function(UnitFactory) {
         return {
-            restrict: 'E',
+            restrict: 'EA',
+            replace: true,
             scope: {
                 subItem: "=",
                 activity: "=",
@@ -14,8 +15,16 @@ angular.module('undp-ghg-v2')
             templateUrl: '/javascripts/directives/calc-listitem-template.html',
             link: function(scope, element, attrs, ctrl) {
 
-                scope.iselected = {"item": scope.selected}
+                scope.iselected = {"item": scope.selected};
                 scope.unit = scope.selectedUnit? {"unit": scope.selectedUnit._id}:{"unit": {}};
+
+                if(scope.subItem.emission_factor) {
+                    scope.calculatedValue = scope.subItem.calculation_value;
+                    scope.activity = scope.subItem.ac_activity;
+                    scope.unit = {"unit": scope.subItem.un_unit._id};
+                    scope.iselected = {"item": true};
+                    scope.subItem = scope.subItem.emission_factor;
+                }
 
                 scope.unitChange = function() {
                     var unit = {};
