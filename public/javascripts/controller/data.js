@@ -38,7 +38,7 @@ angular.module('undp-ghg-v2')
           $scope.selected_sidebar_partial = "/partials/inventory/data-inventory-issues.html";
         }
       }
-      $scope.sidebarPartial('notes');
+      $scope.sidebarPartial('issues');
 
       // replace existing record with new record and remove conflict
       $scope.saveNewRecord = function () {
@@ -439,11 +439,8 @@ angular.module('undp-ghg-v2')
 
           //if the selected item has issues open the 
           //tab by default.
-          if ($scope.selectedRow.issues.length > 0) {
-            $scope.sidebarPartial('issues');
-          } else {
-            $scope.sidebarPartial('notes');
-          }
+          $scope.sidebarPartial('issues');
+          
         } else {
           //if there are changes, flag for persist button
           if (!angular.equals(row.entity, $scope.selectedRow)) {
