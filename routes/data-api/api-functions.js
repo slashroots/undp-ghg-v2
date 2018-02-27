@@ -796,6 +796,18 @@ exports.addCalculationData = function(req, res, next) {
     }
   });
 };
+
+exports.removeCalculationByID = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Request', 'Delete Requested Calculation Data', 'CALCULATIONS', req.user._id);
+  Calculation.remove({'_id': req.params.id})
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
+};
 //############################## Reports ######################################
 
 exports.getReports = function (req, res, next) {
