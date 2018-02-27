@@ -38,7 +38,7 @@ angular.module('undp-ghg-v2')
                         return false;
                     }
 
-                    scope.calculatedValue = parseFloat(scope.activity.da_data_value) * parseFloat(scope.subItem.da_data_value);
+                    scope.calculatedValue = (parseFloat(scope.activity.da_data_value) * parseFloat(scope.subItem.da_data_value)).toFixed(5);
                     scope.calcCallback({arg1: "add", arg2: {
                         "ac_activity": scope.activity,
                         "emission_factor": scope.subItem,

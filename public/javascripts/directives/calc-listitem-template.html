@@ -5,8 +5,8 @@
         <span style="font-size: 12px; margin-left: 10px;">(EF: {{subItem.da_data_value}} {{subItem.un_unit.un_unit_symbol}})</span>
     </span>
     <span flex ng-show="iselected.item" style="color: #000000;">
-        <span style="width: 150px; overflow: hidden;">{{calculatedValue}}</span>
-        <select ng-model="unit.unit" ng-change="unitChange()">
+        <span style="width: 150px; overflow: hidden; text-overflow: ellipsis;">{{calculatedValue}}</span>
+        <select ng-model="unit.unit" ng-change="unitChange()" style="margin-left: 5px;">
             <option ng-repeat="unit in units" value="{{unit._id}}">
                 {{unit.un_unit_symbol}}</option>
         </select>
