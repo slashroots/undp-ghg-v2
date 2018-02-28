@@ -440,7 +440,7 @@ angular.module('undp-ghg-v2')
           //if the selected item has issues open the 
           //tab by default.
           $scope.sidebarPartial('issues');
-          
+
         } else {
           //if there are changes, flag for persist button
           if (!angular.equals(row.entity, $scope.selectedRow)) {

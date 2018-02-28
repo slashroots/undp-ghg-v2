@@ -663,6 +663,7 @@ exports.createNotationKey = function (req, res, next) {
 };
 
 exports.updateNotationKey = function (req, res, next) {
+  req.body.us_user = req.user._id;
   NotationKey.findByIdAndUpdate(req.params.id, req.body, { new: true },
     function (err, item) {
       if (err) {
