@@ -420,6 +420,12 @@ services.factory('ReportFactory', function($resource) {
       params: {
         id: '@id'
       }
+    },
+    remove: {
+        method: 'DELETE',
+        params: {
+            id: '@id'
+        }
     }
   });
 });
