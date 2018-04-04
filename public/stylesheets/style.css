@@ -114,3 +114,17 @@ md-list.make-scrollable {
 .notification-message {
     color: blue;
 }
+
+.calculation-table {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+    margin-top: 20px;
+}
+
+.calculation-table th {
+    padding: 5px;
+}
+
+.calculation-table td {
+    padding: 10px;
+}

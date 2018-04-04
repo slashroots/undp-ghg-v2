@@ -44,7 +44,11 @@ angular.module('undp-ghg-v2')
             alert("Added " + $scope.notationKey.nk_name + "!");
             $location.path("/settings/8");
           }, function(error) {
-            alert("Error: " + error.statusText);
+            if(error.status === 418) {
+                alert("Error: Notation Key Already Exists.");
+            } else {
+                alert("Error: " + error.statusText);
+            }
           });
         }
       }

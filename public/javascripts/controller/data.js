@@ -353,6 +353,7 @@ angular.module('undp-ghg-v2')
           $scope.dirtyRowsExist = true;
         }
         if (newValue != oldValue) {
+            $scope.dirtyRowsExist = true;
           if (columnDef.field == 'ca_category.ca_code_name') {
             CategoryFactory.get({
               id: rowEntity.ca_category.ca_code_name

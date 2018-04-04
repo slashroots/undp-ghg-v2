@@ -57,7 +57,9 @@ angular.module('undp-ghg-v2')
         } else if(action==="remove") {
             for(var i=0; i<$scope.calculations.length; i++) {
                 if($scope.calculations[i].ac_activity === calculation.ac_activity) {
-                    $scope.calculations.splice(i, 1);
+                    CalculationFactory.remove({id: $scope.calculations[i]._id}, function(result) {
+                        $scope.calculations.splice(i, 1);
+                    });
                     break;
                 }
             }

@@ -126,16 +126,28 @@ exports.updateCategoryByID = function (req, res, next) {
 };
 
 exports.createCategory = function (req, res, next) {
-  var category = new Category(req.body);
-  category.us_user = req.user._id;
-  category.save(function (err) {
-    if (err) {
-      next(err);
-    } else {
-      app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Created', 'User Created Category ' + JSON.stringify(category), 'CATEGORY', req.user._id);
-      res.send(category);
-    }
-  });
+    Category.find({'ca_code': req.body.ca_code})
+    .exec(function (err, docs) {
+        // if ca_code is not unique return an error to client
+        if(docs.length > 0) {
+            var error = new Error('Category Code Already Exists');
+            error.status = 418;
+            next(error);
+            return;
+        } else {
+            var category = new Category(req.body);
+              category.us_user = req.user._id;
+              category.save(function (err) {
+                if (err) {
+                  next(err);
+                } else {
+                  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Category Created', 'User Created Category ' + JSON.stringify(category), 'CATEGORY', req.user._id);
+                  res.send(category);
+                }
+              });
+        }
+    });
+
 };
 
 //############################## SECTOR ######################################
@@ -651,15 +663,31 @@ exports.getNotationByID = function (req, res, next) {
 };
 
 exports.createNotationKey = function (req, res, next) {
-  var nk = new NotationKey(req.body);
-  nk.us_user = req.user._id;
-  nk.save(function (err) {
-    if (err) {
-      next(err);
-    } else {
-      res.send(nk);
-    }
-  });
+    NotationKey.find({'nk_name': req.body.nk_name})
+    .exec(function (err, result) {
+        // if notation key name is not unique return error
+      if (result.length > 0) {
+
+        var error = new Error('Notation Key Name Already Exists');
+        error.status = 418;
+        next(error);
+        return;
+
+      } else {
+
+        var nk = new NotationKey(req.body);
+          nk.us_user = req.user._id;
+          nk.save(function (err) {
+            if (err) {
+              next(err);
+            } else {
+              res.send(nk);
+            }
+          });
+
+      }
+    });
+
 };
 
 exports.updateNotationKey = function (req, res, next) {
@@ -796,6 +824,18 @@ exports.addCalculationData = function(req, res, next) {
       res.send(calculation);
     }
   });
+};
+
+exports.removeCalculationByID = function(req, res, next) {
+  app_logger.log(app_logger.LOG_LEVEL_INFO, 'Calculations Request', 'Delete Requested Calculation Data', 'CALCULATIONS', req.user._id);
+  Calculation.remove({'_id': req.params.id})
+    .exec(function(err, item) {
+      if(err) {
+        next(err);
+      } else {
+        res.send(item);
+      }
+    });
 };
 //############################## Reports ######################################
 

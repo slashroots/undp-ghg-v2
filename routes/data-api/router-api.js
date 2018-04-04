@@ -157,6 +157,7 @@ router.get('/api/calculation', [Utils.isAuthenticated, querymen.middleware(calcu
 router.post('/api/calculation', Utils.isAdmin, App.addCalculationData);
 router.get('/api/calculation/:id', Utils.isAuthenticated, App.getCalculationByID);
 router.put('/api/calculation/:id', Utils.isAuthenticated, App.updateCalculation);
+router.delete('/api/calculation/:id', Utils.isAuthenticated, App.removeCalculationByID);
 
 router.get('/api/report', [Utils.isAuthenticated, querymen.middleware()], App.getReports);
 router.get('/api/report/:id', [Utils.isAuthenticated, querymen.middleware()], App.getReport);

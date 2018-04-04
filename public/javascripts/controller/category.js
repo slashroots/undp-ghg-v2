@@ -64,7 +64,11 @@ angular.module('undp-ghg-v2')
             alert("Added " + $scope.category.ca_code_name + " !");
             $location.path("/settings/1");
           }, function(error) {
-            alert("Error: " + error.statusText);
+            if(error.status === 418) {
+                alert("Error: Category Code Already Exists.");
+            } else {
+                alert("Error: " + error.statusText);
+            }
           });
         }
       }

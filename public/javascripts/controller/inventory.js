@@ -347,6 +347,7 @@ angular.module('undp-ghg-v2')
             field: 'ca_modified',
             displayName: 'Last Modified',
             cellFilter: "date: 'medium'",
+            filterCellFiltered: true,
             width: 200
           },
           {
