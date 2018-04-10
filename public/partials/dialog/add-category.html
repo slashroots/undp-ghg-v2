@@ -16,7 +16,7 @@
 
           <div class="modal-field-wrapper">
             <label class="modal-field-label">IPCC Category</label>
-            <select ng-model="category.ica_category" ng-change="ipccSelected()" class="modal-fields w-select">
+            <select ng-model="category.ica_category" class="modal-fields w-select">
               <option value=""></option>
               <option ng-repeat="cat in ipcc_categories" value="{{cat._id}}">{{cat.ica_code}} : {{cat.ica_code_name}}</option>
             </select>
