@@ -30,11 +30,19 @@
                 <col width="10%">
                 <tr>
                     <th></th>
-                    <th>AD ({{item.ca_category.ca_code_name}})</th>
-                    <th>Emission Factor</th>
+                    <th>Activity Data / Emission Factors</th>
+                    <th>Variable Value</th>
                     <th>Emission Estimate</th>
                     <th>Unit</th>
                     <th>Uncertainty</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>AD - {{item.ca_category.ca_code_name}} - {{item.ac_activity.ac_name}}</th>
+                    <th><b>{{item.da_data_value}}</b></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <tr calc-item ng-if="subItem.issues.length==0"
                     ng-repeat="subItem in getAssociatedInfo(item, emission_factors)"
