@@ -219,6 +219,8 @@ angular.module('undp-ghg-v2')
       $scope.selectedSector = $routeParams.se;
       $scope.filtered();
       $scope.getAllAD();
+
+      $scope.getAllEF($scope.selectedInventory, $scope.selectedSector);
     }
 
     /**

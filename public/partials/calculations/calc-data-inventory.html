@@ -9,9 +9,9 @@
     <div class="horizline"></div>
 
     <div ng-show="isAvailable">
-        <a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="getAllEF(selectedInventory, selectedSector)">
+        <!--<a class="smaller add-category-button w-inline-block" data-ix="add-category-modal" ng-click="getAllEF(selectedInventory, selectedSector)">
             <div>Load Emission Factors</div>
-        </a>
+        </a>-->
         <button class="smaller add-category-button w-inline-block" ng-class="{red: changesAvailable}" data-ix="add-category-modal"
                 ng-click="saveCalculations()" ng-disabled="!changesAvailable">
             <div>Save Calculations</div>
@@ -21,7 +21,7 @@
 
     <div ng-if="activity_data.length>0 && emission_factors">
         <div ng-model="activity_data">
-            <table ng-repeat="item in activity_data" ng-if="item.issues.length == 0" class="calculation-table" border="1">
+            <table ng-repeat="item in activity_data" ng-if="item.issues.length == 0" class="calculation-table">
                 <col width="5%">
                 <col width="45%">
                 <col width="10%">
