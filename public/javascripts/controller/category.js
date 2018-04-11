@@ -24,6 +24,9 @@ angular.module('undp-ghg-v2')
           id: $routeParams.id
         }, function(category) {
           $scope.category = category;
+          $scope.category.se_sector = $scope.category.se_sector._id;
+          $scope.category.ica_category = $scope.category.ica_category._id;
+          $scope.sectorSelected();
         }, function(error) {
           alert(error.statusText);
         });
@@ -79,21 +82,6 @@ angular.module('undp-ghg-v2')
         }, function(ipcc_categories) {
           $scope.ipcc_categories = ipcc_categories;
         });
-      }
-
-      $scope.ipccSelected = function() {
-        if($scope.category.ica_category==='') {
-            $scope.category.ica_category = '';
-            $scope.category.ca_code = '';
-            return;
-        }
-
-        for(var i=0; i<$scope.ipcc_categories.length; i++) {
-            if($scope.ipcc_categories[i]._id===$scope.category.ica_category) {
-                $scope.category.ca_code = $scope.ipcc_categories[i].ica_code;
-                break;
-            }
-        }
       }
 
       $scope.$watch("category.ca_code", function(n, o) {

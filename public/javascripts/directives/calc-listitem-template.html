@@ -1,8 +1,8 @@
 <tr>
     <td><input type="checkbox" ng-model="iselected.item" ng-change="calculate()" /></td>
-    <td>{{subItem.ac_activity.ac_name}} - {{subItem.ca_category.ca_code_name}} - {{subItem.ga_gas.ga_gas_name}}</td>
+    <td><b>EF -</b> {{subItem.ac_activity.ac_name}} - {{subItem.ca_category.ca_code_name}} - {{subItem.ga_gas.ga_gas_name}}</td>
     <td>
-        <span>(EF: {{subItem.da_data_value}} {{subItem.un_unit.un_unit_symbol}})</span>
+        <span> {{subItem.da_data_value}} {{subItem.un_unit.un_unit_symbol}}</span>
     </td>
     <td><span ng-show="iselected.item">{{calculatedValue}}</span></td>
     <td>
@@ -12,6 +12,6 @@
         </select>
     </td>
     <td>
-        <span>({{subItem.da_uncertainty_max}} / {{subItem.da_uncertainty_min}} uncertainty)</span>
+        <span>{{subItem.da_uncertainty_max}} / {{subItem.da_uncertainty_min}}</span>
     </td>
 </tr>
