@@ -297,6 +297,7 @@ angular.module('undp-ghg-v2')
           InventoryFactory.get({
             id: $scope.selectedInventory
           }, function (item) {
+          $scope.inventory = item;
             if (item.in_status == 'opened') {
               $scope.editable = true;
             } else {
@@ -327,6 +328,7 @@ angular.module('undp-ghg-v2')
 
       $scope.closeInventory = function() {
         InventoryFactory.create({id: 'close'}, {in_inventory: $scope.selectedInventory}, function(result) {
+            alert("Inventory " + $scope.inventory.in_name + " is now closed.");
         }, function(err) {
             if(err.status === 418) {
                 $scope.notifications.push({
