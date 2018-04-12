@@ -469,8 +469,10 @@ exports.getActivityById = function (req, res, next) {
 
 exports.createActivity = function (req, res, next) {
   var activity = new Activity(req.body);
+  activity.us_user = req.user._id;
   activity.save(function (err) {
     if (err) {
+        console.log(err);
       next(err);
     } else {
       res.send(activity);

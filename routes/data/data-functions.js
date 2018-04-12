@@ -40,7 +40,6 @@ exports.updateData = function(req, res, next) {
   Data.findByIdAndUpdate(req.params.id, req.body, {new: true},
     function(err, item) {
       if(err) {
-        console.log(err);
         next(err);
       } else {
         app_logger.log(app_logger.LOG_LEVEL_INFO, 'Data Modification', 'User Modified Inventory Data', 'DATA', req.user._id);
