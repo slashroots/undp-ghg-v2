@@ -24,10 +24,6 @@
     <a class="smaller add-category-button w-inline-block" ng-class="{red: dirtyRowsExist}" ng-click="discard()" data-ix="add-category-modal">
         <div>Discard Changes</div>
       </a>
-    <a class="smaller add-category-button w-inline-block" ng-class="{red: dirtyRowsExist}"
-       confirmed-click="closeInventory()" ng-confirm-click="Closing inventory {{inventory.in_inventory_desc}} prevents further changes. This action cannot be undone." data-ix="add-category-modal">
-      <div>Close Inventory</div>
-    </a>
     <p style="border: solid 1px #e3e3e3;margin-top: 20px;text-align: center;padding: 10px;"
        ng-if="notifications.length>0">
       <span style="display: block;" ng-class="{'notification-error': not.type=='error', 'notification-message': not.type=='message'}"

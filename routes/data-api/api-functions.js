@@ -221,6 +221,13 @@ exports.getInventory = function (req, res, next) {
 
 // close an open inventory
 exports.closeInventory = function(req, res, next) {
+    if(req.user.us_user_role!='admin') {
+        var error = new Error('Unauthorized');
+        error.status = 401;
+        next(error);
+        return;
+    }
+
     Inventory.findOne({ _id: req.body.in_inventory }, function (err, inv) {
         if(err) {
             next(err);
