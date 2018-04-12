@@ -255,27 +255,27 @@ angular.module('undp-ghg-v2')
           width: 200
         },
         {
-          field: 'nk_notation_object.nk_name',
+          field: 'nk_notation_key.nk_name',
           displayName: 'NK',
           enableCellEdit: $scope.editable,
           editableCellTemplate: 'ui-grid/dropdownEditor',
           editDropdownValueLabel: 'nk_name',
-          editDropdownIdLabel: 'nk_name',
+          editDropdownIdLabel: '_id',
           editDropdownOptionsArray: $scope.notation_keys,
           width: 200
         },
         {
-          field: 'region_object.re_region_name',
+          field: 're_region.re_region_name',
           displayName: 'Region',
           enableCellEdit: $scope.editable,
           editableCellTemplate: 'ui-grid/dropdownEditor',
           editDropdownValueLabel: 're_region_name',
-          editDropdownIdLabel: 're_region_name',
+          editDropdownIdLabel: '_id',
           editDropdownOptionsArray: $scope.regions,
           width: 200
         },
         {
-          field: 'notes',
+          field: 'da_notes',
           displayName: 'Notes',
           enableCellEdit: $scope.editable,
           width: 200
@@ -382,21 +382,19 @@ angular.module('undp-ghg-v2')
               function (item) {
                 rowEntity.ga_gas = item;
               });
-          } else if (columnDef.field == 'nk_notation_object.nk_name') {
-            NotationKeyFactory.query({
-              nk_name: rowEntity.nk_notation_object.nk_name
+          } else if (columnDef.field == 'nk_notation_key.nk_name') {
+            NotationKeyFactory.get({
+              id: rowEntity.nk_notation_key.nk_name
             },
-              function (items) {
-                if (items.length > 0)
-                  rowEntity.nk_notation_object = items[0];
+              function (item) {
+                rowEntity.nk_notation_key = item;
               });
-          } else if (columnDef.field == 'region_object.re_region_name') {
-            RegionFactory.query({
-              nk_name: rowEntity.region_object.re_region_name
+          } else if (columnDef.field == 're_region.re_region_name') {
+            RegionFactory.get({
+              id: rowEntity.re_region.re_region_name
             },
-              function (items) {
-                if (items.length > 0)
-                  rowEntity.region_object = items[0];
+              function (item) {
+                  rowEntity.re_region = item;
               });
           }
         }
@@ -560,25 +558,25 @@ angular.module('undp-ghg-v2')
           }
 
           //TODO: should abstract check to an isEmpty like function
-          if (importedObjects[i]["nk_notation_object.nk_name"] !== '' && importedObjects[i]["nk_notation_object.nk_name"] !== undefined) {
+          if (importedObjects[i]["nk_notation_key.nk_name"] !== '' && importedObjects[i]["nk_notation_key.nk_name"] !== undefined) {
             for (var a = 0; a < $scope.notation_keys.length; a++) {
-              if (importedObjects[i]["nk_notation_object.nk_name"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
-                importedObjects[i].nk_notation_object = $scope.notation_keys[a];
+              if (importedObjects[i]["nk_notation_key.nk_name"].toLowerCase() == $scope.notation_keys[a].nk_name.toLowerCase()) {
+                importedObjects[i].nk_notation_key = $scope.notation_keys[a];
               }
             }
           }
 
-          if (importedObjects[i]["region_object.re_region_name"] !== '' && importedObjects[i]["region_object.re_region_name"] !== undefined) {
+          if (importedObjects[i]["re_region.re_region_name"] !== '' && importedObjects[i]["re_region.re_region_name"] !== undefined) {
             for (var a = 0; a < $scope.regions.length; a++) {
-              if (importedObjects[i]["region_object.re_region_name"].toLowerCase() == $scope.regions[a].re_region_name.toLowerCase()) {
-                importedObjects[i].region_object = $scope.regions[a];
+              if (importedObjects[i]["re_region.re_region_name"].toLowerCase() == $scope.regions[a].re_region_name.toLowerCase()) {
+                importedObjects[i].re_region = $scope.regions[a];
               }
             }
           }
-          if (!hasProperty(importedObjects[i].region_object, "_id")) {
+          if (!hasProperty(importedObjects[i].re_region, "_id")) {
             issue_list.push(createIssue("Region",
-              "Unable to find match for " + importedObjects[i]["region_object.re_region_name"],
-              importedObjects[i]["region_object.re_region_name"], "mismatch"));
+              "Unable to find match for " + importedObjects[i]["re_region.re_region_name"],
+              importedObjects[i]["re_region.re_region_name"], "mismatch"));
           }
 
           //TODO: I haven't done any association with the issue lists and the records at fault.
