@@ -1,5 +1,6 @@
 <div ng-controller="InventoryController" class="inventory-holder">
   <h1 class="heading">Inventory Control</h1>
+
   <div class="horizline"></div>
   <div class="w-tabs" data-duration-in="300" data-duration-out="100">
     <div class="w-tab-menu">
@@ -31,6 +32,12 @@
         <div>Users</div>
       </a>
     </div>
+
+    <p style="border: solid 1px #e3e3e3;margin-top: 20px;text-align: center;padding: 10px;"
+       ng-if="notifications.length>0">
+      <span style="display: block;" ng-class="{'notification-error': not.type=='error', 'notification-message': not.type=='message'}"
+            ng-repeat="not in notifications">{{not.message}}</span>
+    </p>
     <!-- Category Information -->
     <div class="tabs-content w-tab-content">
       <div class="setting-tab-pane w--tab-active w-tab-pane" ng-class="{ 'w--tab-active': isSet(1) }" ng-show="isSet(1)">

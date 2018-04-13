@@ -6,10 +6,12 @@ angular.module('undp-ghg-v2')
   .controller('InventoryController', ['$scope', '$location', '$routeParams', 'UserFactory', 'SectorFactory',
     'CategoryFactory', 'GasFactory', 'AdminUserFactory', 'InventoryFactory', 'ActivityFactory',
     'IPCCActivityFactory', 'UnitFactory', 'RegionFactory', 'NotationKeyFactory',
-    'IPCCCategoryFactory',
+    'IPCCCategoryFactory', '$timeout',
     function($scope, $location, $routeParams, UserFactory, SectorFactory, CategoryFactory, GasFactory,
       AdminUserFactory, InventoryFactory, ActivityFactory, IPCCActivityFactory, UnitFactory,
-      RegionFactory, NotationKeyFactory, IPCCCategoryFactory) {
+      RegionFactory, NotationKeyFactory, IPCCCategoryFactory, $timeout) {
+
+      $scope.notifications = [];
 
       /*
         Setup the tabs for viewing
@@ -81,18 +83,26 @@ angular.module('undp-ghg-v2')
           {
             field: 'in_start_date',
             displayName: 'Start Date',
-            cellFilter: "date: 'longDate'"
+            cellFilter: "date: 'longDate'",
+            width: 200
           },
           {
             field: 'in_end_date',
             displayName: 'End Date',
-            cellFilter: "date: 'longDate'"
+            cellFilter: "date: 'longDate'",
+            width: 200
           },
           {
             field: 'in_status',
             displayName: 'Inventory Status',
-            cellFilter: 'uppercase'
-          }
+            cellFilter: 'uppercase',
+            width: 200
+          },
+         {
+           field: '_id',
+           displayName: '',
+           cellTemplate: "/partials/components/close-inventory-button.html"
+         }
         ]
       };
 
@@ -385,6 +395,7 @@ angular.module('undp-ghg-v2')
             field: 'ica_modified',
             displayName: 'Last Modified',
             cellFilter: "date: 'medium'",
+            filterCellFiltered: true,
             width: 200
           },
           {
@@ -464,6 +475,45 @@ angular.module('undp-ghg-v2')
           }
         },function(failure) {
           alert("Action failed: " + failure);
+        });
+      }
+
+      $scope.closeInventory = function(id) {
+        var inventory = undefined;
+
+        for(var i=0; i<$scope.inventories.length; i++) {
+            if($scope.inventories[i]._id===id) {
+                inventory = $scope.inventories[i];
+                break;
+            }
+        }
+
+        if(inventory===undefined) {
+            return;
+        }
+
+        InventoryFactory.create({id: 'close'}, {in_inventory: inventory._id}, function(result) {
+            alert("Inventory " + inventory.in_name + " is now closed.");
+        }, function(err) {
+            if(err.status === 418) {
+                $scope.notifications.push({
+                    'message': 'Inventory cannot be closed until all errors have been resolved.',
+                    'type': 'error'
+                });
+
+                $timeout( function() {
+                    $scope.notifications = [];
+                }, 5000);
+            } else if(err.status === 401) {
+               $scope.notifications.push({
+                   'message': 'You do not have permissions to close this inventory.',
+                   'type': 'error'
+               });
+
+               $timeout( function() {
+                   $scope.notifications = [];
+               }, 5000);
+           }
         });
       }
     }
