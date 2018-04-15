@@ -314,6 +314,12 @@ angular.module('undp-ghg-v2')
             width: 100
           },
           {
+            field: 'nk_date_modified',
+            displayName: 'Last Modified',
+            cellFilter: "date: 'medium'",
+            width: 200
+          },
+          {
             field: 'nk_is_enabled',
             displayName: 'Enabled',
             width: 100
