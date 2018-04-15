@@ -25,6 +25,21 @@ angular.module('undp-ghg-v2')
 
     // persist calculations to the database
     $scope.saveCalculations = function() {
+        //TODO: update to do bulk updates instead of single objects
+        // check that no errors exist
+        var errorsExist = false;
+        for(var i=0; i<$scope.calculations.length; i++) {
+            if($scope.calculations[i].un_unit._id===undefined) {
+                errorsExist = true;
+                break;
+            }
+        }
+
+        if(errorsExist) {
+            alert("Some rows have missing units. Please ensure units are selected for all rows and try again.");
+            return;
+        }
+
         for(var i=0; i<$scope.calculations.length; i++) {
             var data = {
                 "_id": $scope.calculations[i]._id,
@@ -265,5 +280,14 @@ angular.module('undp-ghg-v2')
     $scope.expandAll = function() {
       $scope.$broadcast('angular-ui-tree:expand-all');
     };
+
+    $scope.$on('$locationChangeStart', function (event) {
+        if($scope.changesAvailable) {
+            var answer = confirm("Unsaved changes will be lost. Would you like to continue?");
+            if (!answer) {
+                event.preventDefault();
+            }
+        }
+    });
   }
 ]);
