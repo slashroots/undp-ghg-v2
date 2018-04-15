@@ -24,6 +24,18 @@ angular.module('undp-ghg-v2', ['ngResource'])
                 }, function(err) {
                     $scope.message = "There was an error creating your account. Please try again later."
                 });
+            },
+            'resetPassword': function() {
+                $resource('/password-reset', {}, {
+                    create: {
+                        method: 'POST',
+                        isArray: false
+                    }
+                }).create($scope.user, function(result) {
+                    $window.location = '/';
+                }, function(err) {
+                    $scope.message = "There was an error please try again later."
+                });
             }
         });
 

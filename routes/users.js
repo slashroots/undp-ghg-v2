@@ -115,7 +115,6 @@ router.get('/user', function(req, res, next) {
 **/
 router.post('/user', function(req, res, next) {
   var user = new User(req.body);
-  console.log(req.body);
   user.us_activation_token = common.getRandomToken();
   user.save(function(err) {
     if (err) {
@@ -172,6 +171,35 @@ router.put('/users/:id', common.isAdmin, function(req, res, next) {
         res.send(item);
       }
     })
+});
+
+
+
+/**
+User Registration form submission
+**/
+router.post('/password-reset', function(req, res, next) {
+    User.find({ us_email_address: req.body.us_email_address }).exec(function(err, user) {
+        if(err) {
+          next(err);
+        } else {
+          res.redirect('/');
+        }
+    });
+  /*var user = new User(req.body);
+  user.us_username = req.body.us_email_address;
+  user.us_password = Crypto.createHash('sha256').update(req.body.us_password).digest("hex");
+  user.us_activation_token = common.getRandomToken();
+  user.save(function(err) {
+    if (err) {
+      next(err);
+    } else {
+      common.sendActivationEmail(user, function(err, info) {
+
+      });
+
+    }
+  });*/
 });
 
 

@@ -24,4 +24,9 @@ router.get('/user-flow/registration', function(req, res, next) {
   res.render('user-flow/registration', { title: 'Greenhouse Gas Database' });
 });
 
+/*forgot password page*/
+router.get('/user-flow/password', function(req, res, next) {
+  res.render('user-flow/password', { title: 'Greenhouse Gas Database' });
+});
+
 module.exports = router;
