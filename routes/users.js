@@ -5,6 +5,11 @@ var passport = require('passport'),
 var User = require('../model/db.js').User;
 var common = require('./common/utils.js');
 var Crypto = require('crypto');
+var jwt = require('jsonwebtoken'),
+    fs = require('fs');
+
+var cert = fs.readFileSync('password_token.key');
+var cert_public = fs.readFileSync('password_token.pem');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -115,7 +120,6 @@ router.get('/user', function(req, res, next) {
 **/
 router.post('/user', function(req, res, next) {
   var user = new User(req.body);
-  console.log(req.body);
   user.us_activation_token = common.getRandomToken();
   user.save(function(err) {
     if (err) {
@@ -172,6 +176,65 @@ router.put('/users/:id', common.isAdmin, function(req, res, next) {
         res.send(item);
       }
     })
+});
+
+/**
+User Password Reset Request
+**/
+router.post('/password-request', function(req, res, next) {
+    User.find({ us_email_address: req.body.us_email_address }).select('us_user_first_name us_user_last_name us_email_address').exec(function(err, users) {
+        if(err || users.length==0) {
+          next(err);
+        } else {
+
+            var user = users[0];
+            jwt.sign(user.toJSON(), cert, { algorithm: 'RS256', 'expiresIn': Math.floor(Date.now() / 1000) + (60 * 60)}, function(err, token) {
+                console.log(token);
+                console.log(err);
+
+                if(err===null) {
+                    common.sendPasswordResetEmail(user, token, function(err, info) {
+                        if(err) {
+                          next(err);
+                        } else {
+                          res.redirect('/');
+                        }
+                      });
+                } else {
+                    next(err);
+                }
+
+            });
+        }
+    });
+});
+
+/**
+User Password Reset
+**/
+router.post('/password-reset', function(req, res, next) {
+    var decoded = jwt.decode(req.body.token);
+    User.find({ us_email_address: decoded.us_email_address }).exec(function(err, users) {
+        if(err || users.length==0) {
+          next(err);
+        } else {
+            var user = users[0];
+            jwt.verify(req.body.token, cert_public, { algorithms: ['RS256'] }, function(err, decoded) {
+                if(err===null) {
+                    user.us_password = Crypto.createHash('sha256').update(req.body.us_password).digest("hex");
+                    User.findByIdAndUpdate(user._id, user, {}, function (err, item) {
+                        if (err) {
+                            next(err);
+                        } else {
+                            res.send(item);
+                        }
+                    });
+                } else {
+                    next(err);
+                }
+            });
+        }
+    });
 });
 
 

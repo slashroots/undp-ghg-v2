@@ -115,3 +115,31 @@ exports.sendActivationEmail = function(user, callback) {
     }
 });
 }
+
+exports.sendPasswordResetEmail = function(user, token, callback) {
+  //TODO... based on the generate the email message and send using
+  //node mailer
+
+  var mailOptions = {
+    from: '"NOREPLY GHG" <noreply@greenhousegas.com>', // sender address
+    to: user.us_email_address,
+    subject: 'GHG Password Reset', // Subject line
+    text: 'Hello ' + user.us_user_last_name, // plain text body
+    html: '<h1>Reset your password</h1>'+
+        'You told us you forgot your password. If you really did, click here to choose a new one:<br/>'+
+        '<a href="http://undp-ghg-staging.herokuapp.com/user-flow/password-reset?token='+ token + '"> Choose a New Password</a><br/>'+
+        'This link will expire in an hour.<br/>'+
+        'If you didn\'t mean to reset your password, then you can just ignore this email; your password will not change.'
+        // html body
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      callback(error);
+    } else {
+      console.log('Message sent: %s', info.messageId);
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      callback(null, info);
+    }
+});
+}
