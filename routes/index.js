@@ -29,4 +29,9 @@ router.get('/user-flow/password', function(req, res, next) {
   res.render('user-flow/password', { title: 'Greenhouse Gas Database' });
 });
 
+/*password reset page*/
+router.get('/user-flow/password-reset', function(req, res, next) {
+  res.render('user-flow/password-reset', { title: 'Greenhouse Gas Database' });
+});
+
 module.exports = router;
