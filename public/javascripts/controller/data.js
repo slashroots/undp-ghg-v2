@@ -157,14 +157,15 @@ angular.module('undp-ghg-v2')
         data: 'dataValues',
         columnDefs: [{
             cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                row.rowDisplayIndex = $scope.dataValues.indexOf(row.entity);
+                if(!row.entity.rowDisplayIndex)
+                    row.entity.rowDisplayIndex = $scope.dataValues.indexOf(row.entity);
                 isDataValid(row.entity);
             },
             name: 'ID',
             field: '',
             displayName: 'ID',
             enableCellEdit: false,
-            cellTemplate: '<p style="padding: 3px; width: 100%;" ng-class="{\'table-error-indicator\': !row.entity.isValid || row.entity.isConflictExists}">{{row.rowDisplayIndex+1}}</p>',
+            cellTemplate: '<p style="padding: 3px; width: 100%;" ng-class="{\'table-error-indicator\': !row.entity.isValid || row.entity.isConflictExists}">{{row.entity.rowDisplayIndex+1}}</p>',
             width: 75
         },
         {
@@ -416,10 +417,12 @@ angular.module('undp-ghg-v2')
        * information about the selected record.
        */
       $scope.selectedRow = {};
+      $scope.selectedRowIndex = -99;
       $scope.rowSelected = function (row) {
         if (row.isSelected) {
           $scope.openSideNav();
           $scope.selectedRow = angular.copy(row.entity);
+          $scope.selectedRowIndex = row.entity.rowDisplayIndex;
 
           //if the selected item has issues open the 
           //tab by default.
@@ -430,6 +433,8 @@ angular.module('undp-ghg-v2')
           if (!angular.equals(row.entity, $scope.selectedRow)) {
             $scope.selectedRow.isValid = true;
             row.entity = $scope.selectedRow;
+            row.entity.rowDisplayIndex = $scope.selectedRowIndex;
+
             $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
             $scope.dirtyRowsExist = true;
             $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.ALL);
