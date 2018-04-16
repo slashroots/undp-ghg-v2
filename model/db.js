@@ -29,6 +29,7 @@ var UserSchema = new Schema({
     us_intended_use: {type: String, required: false},
     us_user_role: {type: String, default: 'basic'},
     us_activation_token: {type: String, required: true},
+    us_activation_token: {type: String, required: true},
     us_sector_permissions: [Schema.Types.Mixed]
 });
 
