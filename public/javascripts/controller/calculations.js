@@ -71,19 +71,29 @@ angular.module('undp-ghg-v2')
             $scope.calculations.push(calculation);
         } else if(action==="remove") {
             for(var i=0; i<$scope.calculations.length; i++) {
-                if($scope.calculations[i].ac_activity === calculation.ac_activity) {
+                if($scope.calculations[i].emission_factor._id === calculation.emission_factor._id) {
                     CalculationFactory.remove({id: $scope.calculations[i]._id}, function(result) {
-                        $scope.calculations.splice(i, 1);
                     });
+                    $scope.calculations.splice(i, 1);
                     break;
                 }
             }
         } else if(action==="update") {
             for(var i=0; i<$scope.calculations.length; i++) {
-                if($scope.calculations[i].ac_activity === calculation.ac_activity) {
+                if($scope.calculations[i].emission_factor._id === calculation.emission_factor._id) {
                     angular.extend($scope.calculations[i], calculation);
                     break;
                 }
+            }
+        }
+    }
+
+    $scope.getUnitSymbol = function(id) {
+        console.log(id);
+        for(var i=0; i<$scope.units.length; i++) {
+            if($scope.units[i]._id==id) {
+                console.log($scope.units[i]);
+                return $scope.units[i].un_unit_symbol;
             }
         }
     }
