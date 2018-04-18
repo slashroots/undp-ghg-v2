@@ -38,10 +38,10 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <th>AD - {{item.ca_category.ca_code_name}} - {{item.ac_activity.ac_name}}</th>
+                    <th>AD - {{item.ca_category.ca_code_name}} - {{item.ac_activity.ac_name}} - {{getYear(item.da_date)}}</th>
                     <th><b>{{item.da_data_value}}</b></th>
                     <th></th>
-                    <th></th>
+                    <th><b>{{item.un_unit.un_unit_symbol}}</b></th>
                     <th></th>
                 </tr>
                 <tr calc-item ng-if="subItem.issues.length==0"

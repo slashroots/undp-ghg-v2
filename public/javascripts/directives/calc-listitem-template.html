@@ -1,5 +1,5 @@
 <tr>
-    <td><input type="checkbox" ng-model="iselected.item" ng-change="calculate()" /></td>
+    <td><input type="checkbox" ng-model="iselected.item" ng-change="calculate()" ng-disabled="activity.da_data_value==null || subItem.da_data_value==null" /></td>
     <td><b>EF -</b> {{subItem.ac_activity.ac_name}} - {{subItem.ca_category.ca_code_name}} - {{subItem.ga_gas.ga_gas_name}}</td>
     <td>
         <span> {{subItem.da_data_value}} {{subItem.un_unit.un_unit_symbol}}</span>

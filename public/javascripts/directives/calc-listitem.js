@@ -36,14 +36,14 @@ angular.module('undp-ghg-v2')
                         }
                     }
                     scope.calcCallback({arg1: "update", arg2: {
-                        "ac_activity": scope.activity,
+                        "emission_factor": scope.subItem,
                         "un_unit": unit
                         }});
                 }
 
                 scope.calculate = function() {
                     if(!scope.iselected.item) {
-                        scope.calcCallback({arg1: "remove", arg2: {"ac_activity": scope.activity}});
+                        scope.calcCallback({arg1: "remove", arg2: {"emission_factor": scope.subItem}});
                         return false;
                     }
 
