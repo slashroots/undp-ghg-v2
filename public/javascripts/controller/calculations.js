@@ -23,6 +23,10 @@ angular.module('undp-ghg-v2')
         $scope.calculations = results;
     });
 
+    $scope.getYear = function(date) {
+        return new Date(date).getFullYear();
+    }
+
     // persist calculations to the database
     $scope.saveCalculations = function() {
         //TODO: update to do bulk updates instead of single objects
