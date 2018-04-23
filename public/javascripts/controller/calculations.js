@@ -45,21 +45,27 @@ angular.module('undp-ghg-v2')
         }
 
         for(var i=0; i<$scope.calculations.length; i++) {
-            var data = {
-                "_id": $scope.calculations[i]._id,
-                "in_inventory": $scope.selectedInventory,
-                "se_sector": $scope.selectedSector,
-                "ac_activity": $scope.calculations[i].ac_activity._id,
-                "emission_factor": $scope.calculations[i].emission_factor._id,
-                "calculation_value": $scope.calculations[i].calculated_value,
-                "un_unit": $scope.calculations[i].un_unit._id,
-            };
-            if($scope.calculations[i]._id) {
-                CalculationFactory.edit({id: $scope.calculations[i]._id}, $scope.calculations[i], function(result) {
+            if($scope.calculations[i].removed ) {
+                console.log("removing from database");
+                CalculationFactory.remove({id: $scope.calculations[i]._id}, function(result) {
                 });
             } else {
-                CalculationFactory.create($scope.calculations[i], function(result) {
-                });
+                var data = {
+                    "_id": $scope.calculations[i]._id,
+                    "in_inventory": $scope.selectedInventory,
+                    "se_sector": $scope.selectedSector,
+                    "ac_activity": $scope.calculations[i].ac_activity._id,
+                    "emission_factor": $scope.calculations[i].emission_factor._id,
+                    "calculation_value": $scope.calculations[i].calculated_value,
+                    "un_unit": $scope.calculations[i].un_unit._id,
+                };
+                if($scope.calculations[i]._id) {
+                    CalculationFactory.edit({id: $scope.calculations[i]._id}, $scope.calculations[i], function(result) {
+                    });
+                } else {
+                    CalculationFactory.create($scope.calculations[i], function(result) {
+                    });
+                }
             }
         }
         $scope.changesAvailable = false;
@@ -69,23 +75,50 @@ angular.module('undp-ghg-v2')
     $scope.calculationEntries = function(action, calculation) {
         $scope.changesAvailable = true;
         if(action==="add") {
-            calculation.in_inventory = $scope.selectedInventory;
-            calculation.se_sector = $scope.selectedSector;
-            calculation.isnew = true;
-            $scope.calculations.push(calculation);
+
+            /*
+                check if an object was previously added and tagged to be deleted
+                if such an object exists, untag it
+            */
+            var replaced = false;
+            for(var i=0; i<$scope.calculations.length; i++) {
+                if($scope.calculations[i].emission_factor._id === calculation.emission_factor._id) {
+                    $scope.calculations[i].removed = false;
+                    console.log("un-tagging to be removed");
+                    replaced = true;
+                    break;
+                }
+            }
+
+            if(!replaced) {
+                console.log("adding new object");
+                calculation.in_inventory = $scope.selectedInventory;
+                calculation.se_sector = $scope.selectedSector;
+                calculation.isnew = true;
+                $scope.calculations.push(calculation);
+            }
+
         } else if(action==="remove") {
             for(var i=0; i<$scope.calculations.length; i++) {
                 if($scope.calculations[i].emission_factor._id === calculation.emission_factor._id) {
-                    CalculationFactory.remove({id: $scope.calculations[i]._id}, function(result) {
-                    });
-                    $scope.calculations.splice(i, 1);
+                    if($scope.calculations[i]._id!==undefined){
+                        $scope.calculations[i].removed = true;
+                        console.log("tagging to be removed");
+                    } else {
+                        $scope.calculations.splice(i, 1);
+                        console.log("removeing from list");
+                        console.log($scope.calculations);
+                    }
                     break;
                 }
             }
         } else if(action==="update") {
             for(var i=0; i<$scope.calculations.length; i++) {
+
+                console.log($scope.calculations[i]);
                 if($scope.calculations[i].emission_factor._id === calculation.emission_factor._id) {
                     angular.extend($scope.calculations[i], calculation);
+                console.log($scope.calculations);
                     break;
                 }
             }
